@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="style.css">
 </head>
-<body lang="bn" data-theme="dark">
+<body lang="bn" data-theme="dark"> <!-- data-theme অ্যাট্রিবিউট ডিফল্ট ডার্ক -->
     <canvas id="fireworksCanvas"></canvas>
     <audio id="backgroundMusic" src="eidmubarak.mp3" loop preload="metadata"></audio>
 
@@ -39,7 +39,7 @@
 
     <div class="container">
         <div id="greetingMessage" class="greeting-message"></div>
-        <video id="eidVideo" src="eidmubarak.mp4" autoplay loop muted playsinline preload="metadata">
+        <video id="eidVideo" src="eidmubarak.mp4" poster="poster_image.jpg" autoplay loop muted playsinline preload="metadata">
             Your browser does not support the video tag.
         </video>
         <div class="input-group">
@@ -57,7 +57,7 @@
             <button id="copyButton" onclick="copyLink()" data-lang-key="copyButtonText">কপি করুন</button>
 
             <div class="social-share-buttons">
-                <p data-lang-key="shareViaText" style="margin-top: 15px; margin-bottom: 5px;">অন্যান্য মাধ্যমে শেয়ার করুন:</p>
+                <p data-lang-key="shareViaText">অন্যান্য মাধ্যমে শেয়ার করুন:</p>
                 <button id="shareFacebook" class="social-button facebook" aria-label="Share on Facebook">
                     <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2.04C6.48 2.04 2 6.52 2 12.04s4.48 10 10 10 10-4.48 10-10S17.52 2.04 12 2.04zm2.75 10.58h-1.6V18h-2.73v-5.38H9.14V10.3h1.28V8.91c0-1.2.54-2.37 2.37-2.37h1.75v2.2H13.4c-.23 0-.44.13-.44.45v1.11h1.78l-.23 2.28z"/></svg>
                     <span data-lang-key="shareFacebookText">Facebook</span>
@@ -68,8 +68,9 @@
                 </button>
             </div>
         </div>
-    </div>
-    <footer>
+    </div> <!-- .container এর ক্লোজিং div -->
+
+    <footer id="mainFooter"> <!-- এখানে id="mainFooter" যোগ করা হয়েছে -->
         <p data-lang-key="eidWishesFooter">সবাইকে ঈদের আন্তরিক শুভেচ্ছা!</p>
         <div id="dateTimeDisplay">
             <div class="dateTimeEntry">
@@ -81,8 +82,8 @@
         </div>
     </footer>
 
-    <script src="hijri-date.js"></script>
-    <script src="fireworks.js"></script>
-    <script src="script.js"></script>
+    <script src="hijri-date.js" defer></script>
+    <script src="fireworks.js" defer></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
