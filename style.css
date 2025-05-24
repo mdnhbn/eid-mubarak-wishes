@@ -215,105 +215,115 @@ body[lang="ar"] .controls-top-right { right: auto; left: 15px; }
     border-color: #DAA520; background-color: #003f00;
 }
 
-/* Light Theme Styles */
+/* ... (আগের সব CSS কোড অপরিবর্তিত থাকবে, শুধুমাত্র নিচের অংশটুকু পরিবর্তন হবে) ... */
+
+/* Light Theme Styles - কোরবানির ঈদের জন্য নতুন থিম */
 body[data-theme="light"] {
-    background: #f4f4f4; /* Very light gray or off-white */
-    color: #333333;    /* Default dark gray text for light theme */
+    background: #fdf5e6; /* খুব হালকা সোনালী/ক্রিম কালার */
+    color: #5a3a22;    /* গাঢ় বাদামী টেক্সট */
 }
 body[data-theme="light"] .container {
-    background-color: #ffffff; /* White container */
-    border-color: #cccccc;     /* Light gray border */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    background-color: #fffaf0; /* ফ্লোরাল হোয়াইট / হালকা ক্রিম */
+    border-color: #8B4513;     /* স্যাডল ব্রাউন (গাঢ় বাদামী) বর্ডার */
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.15); /* বাদামী রঙের হালকা শ্যাডো */
 }
 body[data-theme="light"] #eidVideo {
-    border-color: #cccccc;
-    background-color: #f0f0f0;
+    border-color: #8B4513;
+    background-color: #f5f5dc; /* বেইজ কালার */
 }
 body[data-theme="light"] .greeting-message {
-    color: #007bff; /* A pleasant blue */
-    text-shadow: none;
+    color: #D2691E; /* চকলেট বা পোড়ামাটির রং */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
 }
 
-body[data-theme="light"] label {
-     color: #333333; /* Dark gray for labels */
-}
-body[data-theme="light"] #generatedLinkContainer p {
-    color: #333333; /* Dark gray for text in generated link area */
+body[data-theme="light"] label,
+body[data-theme="light"] #generatedLinkContainer p,
+body[data-theme="light"] .social-share-buttons p {
+     color: #5a3a22; /* গাঢ় বাদামী */
 }
 
-
-/* --- ফুটারের টেক্সট কালার লাইট থিমের জন্য মূল পরিবর্তন এখানে --- */
+/* --- ফুটারের টেক্সট কালার লাইট থিমের জন্য --- */
 body[data-theme="light"] #mainFooter {
-    color: #000000 !important; /* BLACK color for footer text in light mode */
+    color: #4a2c1a !important; /* আরও গাঢ় বাদামী, প্রায় কালো */
 }
-/* It's better to target specific elements if the above is not enough */
 body[data-theme="light"] #mainFooter p,
 body[data-theme="light"] #mainFooter .dateTimeEntry,
 body[data-theme="light"] #mainFooter .dateTimeEntry span {
-    color: #000000 !important; /* Ensure all text within footer is black */
+    color: #4a2c1a !important;
 }
-/* --- উপরের অংশে পরিবর্তন শেষ --- */
+/* --- ফুটারের পরিবর্তন শেষ --- */
 
 
 body[data-theme="light"] input[type="text"] {
     background-color: #ffffff;
-    color: #333333;
-    border-color: #cccccc;
+    color: #5a3a22;
+    border-color: #c3a995; /* হালকা বাদামী বর্ডার */
 }
 body[data-theme="light"] input[type="text"]::placeholder {
-    color: #777777;
+    color: #8c7869; /* মাঝারি বাদামী */
 }
-body[data-theme="light"] #statusMessage.success { background-color: #28a745; color:white;}
+
+/* স্ট্যাটাস মেসেজের রং অপরিবর্তিত রাখা যেতে পারে, অথবা থিমের সাথে মিলিয়ে পরিবর্তন করা যেতে পারে */
+body[data-theme="light"] #statusMessage.success { background-color: #2E8B57; color:white;} /* সি গ্রীন */
 body[data-theme="light"] #statusMessage.error { background-color: #dc3545; color:white;}
-body[data-theme="light"] #statusMessage.info { background-color: #17a2b8; color:white;}
+body[data-theme="light"] #statusMessage.info { background-color: #4682B4; color:white;} /* স্টিল ব্লু */
 
 body[data-theme="light"] #generatedLinkContainer {
-    background-color: #f9f9f9;
-    border-color: #dddddd;
+    background-color: #fdf5e6; /* খুব হালকা সোনালী/ক্রিম */
+    border-color: #D2691E; /* চকলেট */
 }
 body[data-theme="light"] #sharableLink {
     background-color: #ffffff;
-    color: #333333;
-    border-color: #cccccc;
+    color: #5a3a22;
+    border-color: #c3a995;
 }
+
+/* বাটনগুলোর রং থিমের সাথে সামঞ্জস্যপূর্ণ করা */
 body[data-theme="light"] button#copyButton {
-    background-color: #007bff;
+    background-color: #8B4513; /* স্যাডল ব্রাউন */
     color: white;
 }
 body[data-theme="light"] button#copyButton:hover {
-    background-color: #0056b3;
+    background-color: #A0522D; /* সিয়েনা */
 }
-body[data-theme="light"] button#generateButton {
-    background-color: #25D366;
+body[data-theme="light"] button#generateButton { /* WhatsApp বাটন */
+    background-color: #25D366; /* WhatsApp সবুজ (এটি পরিবর্তন না করাই ভালো) */
     color: white;
 }
 body[data-theme="light"] button#generateButton:hover {
     background-color: #1DAE54;
 }
+body[data-theme="light"] .social-button.facebook {
+    background-color: #1877F2; /* অপরিবর্তিত */
+}
+body[data-theme="light"] .social-button.twitter {
+    background-color: #000000; /* অপরিবর্তিত */
+}
 
 
 body[data-theme="light"] .controls-top-right {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(253, 245, 230, 0.9); /* খুব হালকা সোনালী, সামান্য স্বচ্ছ */
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 body[data-theme="light"] .controls-top-right label {
-    color: #333333;
+    color: #5a3a22;
 }
 body[data-theme="light"] .controls-top-right select,
 body[data-theme="light"] .controls-top-right button {
     background-color: #ffffff;
-    color: #333333;
-    border-color: #cccccc;
+    color: #5a3a22;
+    border-color: #c3a995;
 }
 body[data-theme="light"] .controls-top-right button svg {
-    fill: #333333;
+    fill: #5a3a22;
 }
 body[data-theme="light"] .controls-top-right select:hover,
 body[data-theme="light"] .controls-top-right button:hover {
-    border-color: #bbbbbb;
-    background-color: #f0f0f0;
+    border-color: #8B4513;
+    background-color: #fffaf0;
 }
 
+/* ... (বাকি Responsive Media Queries অপরিবর্তিত থাকবে) ... */
 /* Responsive Media Queries */
 @media (max-width: 600px) {
     .controls-top-right {
