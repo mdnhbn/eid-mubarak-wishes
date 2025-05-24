@@ -3,7 +3,7 @@ async function fetchWithTimeout(resource, options = {}, timeout = 8000) {
     const controller = new AbortController();
     const id = setTimeout(() => {
         controller.abort();
-        console.warn(`Fetch to ${resource} timed out after ${timeout}ms`);
+        // console.warn(`Fetch to ${resource} timed out after ${timeout}ms`);
     }, timeout);
 
     try {
@@ -12,7 +12,7 @@ async function fetchWithTimeout(resource, options = {}, timeout = 8000) {
         return response;
     } catch (error) {
         clearTimeout(id);
-        console.error(`Fetch error for ${resource}:`, error.name, error.message);
+        // console.error(`Fetch error for ${resource}:`, error.name, error.message);
         throw error;
     }
 }
@@ -152,7 +152,7 @@ const themeIconDark = document.getElementById('themeIconDark');
 const themeIconLight = document.getElementById('themeIconLight');
 const shareFacebookButton = document.getElementById('shareFacebook');
 const shareTwitterButton = document.getElementById('shareTwitter');
-
+const mainFooterElement = document.getElementById('mainFooter'); // ফুটার এলিমেন্ট সিলেক্ট করা
 
 // --- Core Application Functions ---
 
@@ -231,7 +231,7 @@ async function determineLanguageAndLocation() {
                 if (data.timezone) userTimeZone = data.timezone;
             }
         }
-    } catch (error) { /* Error handled in fetchWithTimeout */ }
+    } catch (error) { /* Handled by fetchWithTimeout */ }
 
     if (languageSelector && languageSelector.value !== currentLang) languageSelector.value = currentLang;
     document.documentElement.lang = currentLang;
@@ -251,7 +251,7 @@ async function fetchCorrectTime() {
             initialTimeSynced = true;
             success = true;
         }
-    } catch (error) { /* Error handled in fetchWithTimeout */ }
+    } catch (error) { /* Handled by fetchWithTimeout */ }
     if (!success) {
         timeOffset = 0;
         initialTimeSynced = false;
@@ -468,6 +468,7 @@ function setTheme(themeName) {
     localStorage.setItem('preferredTheme', themeName);
     if (document.body) document.body.setAttribute('data-theme', themeName);
     currentTheme = themeName;
+
     if (themeIconDark && themeIconLight && themeToggleButton) {
         if (themeName === 'dark') {
             themeIconDark.style.display = 'inline';
@@ -478,6 +479,23 @@ function setTheme(themeName) {
             themeIconLight.style.display = 'inline';
             themeToggleButton.setAttribute('aria-label', getTranslation('themeDark'));
         }
+    }
+
+    // Force footer text color via JavaScript for better control
+    if (mainFooterElement) {
+        const colorToSet = themeName === 'light' ? '#000000' : '#f0e68c'; // Black for light, default for dark
+        mainFooterElement.style.color = colorToSet;
+        const footerParagraphs = mainFooterElement.getElementsByTagName('p');
+        for (let p of footerParagraphs) {
+            p.style.color = colorToSet;
+        }
+        const footerSpans = mainFooterElement.getElementsByTagName('span');
+        for (let span of footerSpans) {
+            span.style.color = colorToSet;
+        }
+        // console.log(`Footer text color set to ${colorToSet} for ${themeName} theme via JS.`);
+    } else {
+        // console.error("#mainFooter element not found for JS theming.");
     }
 }
 
@@ -551,7 +569,6 @@ function shareOnSocialMedia(platform) {
     }
 }
 
-
 async function generateAndShareLink() {
     if (!userNameInput || !generateButton) return;
     const userNameRaw = userNameInput.value.trim();
@@ -573,10 +590,8 @@ async function generateAndShareLink() {
     currentUrl.searchParams.set('name', userNameRaw);
     const newLink = currentUrl.toString();
     
-    // Update sharableLink input field value when a link is generated
     const sharableLinkInput = document.getElementById('sharableLink');
     if (sharableLinkInput) sharableLinkInput.value = newLink;
-
 
     const correctedNow = new Date(new Date().getTime() + timeOffset);
     const currentGregorianYear = correctedNow.getFullYear();
@@ -603,13 +618,13 @@ async function generateAndShareLink() {
             await navigator.share({ title: document.title, text: shareText, url: newLink });
             showStatusMessage('statusShareOptions', 'success', 1000);
             const linkContainer = document.getElementById('generatedLinkContainer');
-            if(linkContainer) linkContainer.style.display = 'none'; // Hide manual link if native share works
+            if(linkContainer) linkContainer.style.display = 'none';
         } catch (error) {
-            showManualLink(newLink); // Show manual link if native share fails
+            showManualLink(newLink);
             showStatusMessage('statusShareError', 'info', 4000);
         }
     } else {
-        showManualLink(newLink); // Show manual link if navigator.share is not supported
+        showManualLink(newLink);
         showStatusMessage('statusNoAutoShare', 'info', 4000);
     }
     userNameInput.value = '';
@@ -620,7 +635,7 @@ function showManualLink(link) {
     const linkContainer = document.getElementById('generatedLinkContainer');
     const sharableLinkInput = document.getElementById('sharableLink');
     if (!linkContainer || !sharableLinkInput) return;
-    sharableLinkInput.value = link; // Ensure the link is set here as well
+    sharableLinkInput.value = link;
     linkContainer.style.display = 'block';
 }
 
@@ -657,8 +672,8 @@ window.onload = async function() {
 
     await determineLanguageAndLocation();
     await fetchCorrectTime();
-    initializeDateTimeDisplay();
-    updateGreetingMessageWithEid();
+    initializeDateTimeDisplay(); // This calls updateTimeDate internally
+    updateGreetingMessageWithEid(); // Call after translations and time are set up
 
     if (eidVideoEl) {
         eidVideoEl.muted = true;
@@ -701,7 +716,6 @@ window.onload = async function() {
     if (shareTwitterButton) {
         shareTwitterButton.addEventListener('click', () => shareOnSocialMedia('twitter'));
     }
-
 
     if (generateButton && userNameInput) {
         generateButton.disabled = true;
