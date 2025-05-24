@@ -231,11 +231,11 @@ body[data-theme="light"] .greeting-message {
     text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
 }
 body[data-theme="light"] label {
-     color: #5a3a22; /* গাঢ় বাদামী */
+     color: #5a3a22;
 }
 body[data-theme="light"] #generatedLinkContainer p,
-body[data-theme="light"] .social-share-buttons p {
-     color: #5a3a22; /* গাঢ় বাদামী */
+body[data-theme="light"] .social-share-buttons p { /* "অন্যান্য মাধ্যমে শেয়ার করুন" লেখার রং */
+     color: #5a3a22;
 }
 
 body[data-theme="light"] input[type="text"] {
@@ -281,7 +281,7 @@ body[data-theme="light"] button#generateButton:hover {
 body[data-theme="light"] button#generateButton:hover svg {
     fill: #000000 !important; /* হোভারেও SVG আইকনের রং কালো */
 }
-/* --- উপরের অংশে পরিবর্তন শেষ --- */
+/* --- উপরের অংশে "WhatsApp এ শেয়ার করুন" বাটনের পরিবর্তন শেষ --- */
 
 
 body[data-theme="light"] .controls-top-right {
@@ -306,12 +306,12 @@ body[data-theme="light"] .controls-top-right button:hover {
     background-color: #fffaf0;
 }
 
-/* --- ফুটারের টেক্সট কালার লাইট থিমের জন্য কালো করা হচ্ছে --- */
+/* --- ফুটারের টেক্সট কালার লাইট থিমের জন্য সাদা করা হচ্ছে --- */
 body[data-theme="light"] #mainFooter,
 body[data-theme="light"] #mainFooter p,
 body[data-theme="light"] #mainFooter .dateTimeEntry,
 body[data-theme="light"] #mainFooter .dateTimeEntry span {
-    color: #000000 !important; /* কালো রং */
+    color: #ffffff !important; /* সাদা রং */
 }
 
 /* Responsive Media Queries */
