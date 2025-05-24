@@ -32,6 +32,11 @@ const translations = {
         'eidAlFitr': 'ঈদুল ফিতর',
         'eidAlAdha': 'ঈদুল আযহা',
         'eidMubarakGeneric': 'ঈদ মোবারক',
+        'languageLabel': 'ভাষা', // নতুন অনুবাদ
+        'themeDark': 'ডার্ক থিম', // নতুন অনুবাদ
+        'themeLight': 'লাইট থিম', // নতুন অনুবাদ
+        'toggleMusicPlay': 'মিউজিক প্লে করুন', // নতুন অনুবাদ
+        'toggleMusicPause': 'মিউজিক বন্ধ করুন' // নতুন অনুবাদ
     },
     'en': {
         'pageTitle': 'Eid Mubarak!',
@@ -65,6 +70,11 @@ const translations = {
         'eidAlFitr': 'Eid al-Fitr',
         'eidAlAdha': 'Eid al-Adha',
         'eidMubarakGeneric': 'Eid Mubarak',
+        'languageLabel': 'Language', // New translation
+        'themeDark': 'Dark Theme', // New translation
+        'themeLight': 'Light Theme', // New translation
+        'toggleMusicPlay': 'Play Music', // New translation
+        'toggleMusicPause': 'Pause Music' // New translation
     },
     'ar': {
         'pageTitle': 'عيد مبارك!',
@@ -89,6 +99,11 @@ const translations = {
         'eidAlFitr': 'عيد الفطر',
         'eidAlAdha': 'عيد الأضحى',
         'eidMubarakGeneric': 'عيد مبارك',
+        'languageLabel': 'اللغة', // New translation
+        'themeDark': 'الوضع الداكن', // New translation
+        'themeLight': 'الوضع الفاتح', // New translation
+        'toggleMusicPlay': 'تشغيل الموسيقى', // New translation
+        'toggleMusicPause': 'إيقاف الموسيقى' // New translation
     },
     'es': {
         'pageTitle': '¡Eid Mubarak!',
@@ -109,6 +124,11 @@ const translations = {
         'eidAlFitr': 'Eid al-Fitr',
         'eidAlAdha': 'Eid al-Adha',
         'eidMubarakGeneric': 'Eid Mubarak',
+        'languageLabel': 'Idioma', // New translation
+        'themeDark': 'Tema Oscuro', // New translation
+        'themeLight': 'Tema Claro', // New translation
+        'toggleMusicPlay': 'Reproducir Música', // New translation
+        'toggleMusicPause': 'Pausar Música' // New translation
     }
 };
 
@@ -119,6 +139,7 @@ const supportedLanguages = Object.keys(translations);
 let currentLang = 'bn';
 let userTimeZone = 'Etc/UTC';
 let userLocale = 'bn-BD';
+let currentTheme = 'dark'; // ডিফল্ট থিম
 
 const backgroundMusic = document.getElementById('backgroundMusic');
 const userNameInput = document.getElementById('userNameInput');
@@ -132,14 +153,41 @@ const currentHijriDateEl = document.getElementById('currentHijriDate');
 const greetingMessageEl = document.getElementById('greetingMessage');
 const eidVideoEl = document.getElementById('eidVideo');
 
+// নতুন এলিমেন্ট সিলেকশন
+const languageSelector = document.getElementById('languageSelector');
+const musicToggleButton = document.getElementById('musicToggleButton');
+const musicIconPlay = document.getElementById('musicIconPlay');
+const musicIconPause = document.getElementById('musicIconPause');
+const themeToggleButton = document.getElementById('themeToggleButton');
+const themeIconDark = document.getElementById('themeIconDark');
+const themeIconLight = document.getElementById('themeIconLight');
+
+
 let timeOffset = 0;
 let initialTimeSynced = false;
 let musicPlayAttemptedOnInteraction = false;
 
 const hijriMonthsData = { 'bn': ["মহররম", "সফর", "রবিউল আউয়াল", "রবিউস সানি", "জমাদিউল আউয়াল", "জমাদিউস সানি", "রজব", "শাবান", "রমজান", "শাওয়াল", "জ্বিলকদ", "জ্বিলহজ্জ"], 'en': ["Muharram", "Safar", "Rabi' al-awwal", "Rabi' al-thani", "Jumada al-awwal", "Jumada al-thani", "Rajab", "Sha'ban", "Ramadan", "Shawwal", "Dhu al-Qi'dah", "Dhu al-Hijjah"], 'ar': ["محرم", "صفر", "ربيع الأول", "ربيع الثاني", "جمادى الأولى", "جمادى الآخرة", "رجب", "شعبان", "رمضان", "شوال", "ذو القعدة", "ذو الحجة"], 'es': ["Muharram", "Safar", "Rabi' al-awwal", "Rabi' al-thani", "Jumada al-awwal", "Jumada al-thani", "Rajab", "Sha'ban", "Ramadán", "Shawwal", "Dhu ul-Qi'dah", "Dhu ul-Hiyya"] };
 
-function getTranslation(key, params = {}) { let text = (translations[currentLang] && translations[currentLang][key]) || (translations['en'] && translations['en'][key]) || key; for (const param in params) { text = text.replace(`{${param}}`, params[param]); } return text; }
-function applyTranslations() { document.querySelectorAll('[data-lang-key]').forEach(element => { const key = element.getAttribute('data-lang-key'); if (element.tagName === 'INPUT' && element.hasAttribute('placeholder')) { element.placeholder = getTranslation(key); } else { element.textContent = getTranslation(key); } }); document.title = getTranslation('pageTitle'); } /* updateGreetingMessageWithEid() will set specific Eid title */
+function getTranslation(key, params = {}) { let text = (translations[currentLang] && translations[currentLang][key]) || (translations['en'] && translations['en][key]) || key; for (const param in params) { text = text.replace(`{${param}}`, params[param]); } return text; }
+function applyTranslations() {
+    document.querySelectorAll('[data-lang-key]').forEach(element => {
+        const key = element.getAttribute('data-lang-key');
+        if (element.tagName === 'INPUT' && element.hasAttribute('placeholder')) {
+            element.placeholder = getTranslation(key);
+        } else if (element.tagName === 'LABEL' && element.getAttribute('for') === 'languageSelector') {
+             element.textContent = getTranslation(key); // ভাষা লেবেলের জন্য
+        }
+        else {
+            element.textContent = getTranslation(key);
+        }
+    });
+    document.title = getTranslation('pageTitle');
+    // aria-label আপডেট করা
+    if (musicToggleButton) musicToggleButton.setAttribute('aria-label', backgroundMusic.paused ? getTranslation('toggleMusicPlay') : getTranslation('toggleMusicPause'));
+    if (themeToggleButton) themeToggleButton.setAttribute('aria-label', currentTheme === 'dark' ? getTranslation('themeLight') : getTranslation('themeDark'));
+}
+
 function toNativeNumeral(numStr, lang) { if (lang === 'bn') { const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯']; return String(numStr).split('').map(digit => /\d/.test(digit) ? bengaliDigits[parseInt(digit)] : digit).join(''); } else if (lang === 'ar') { const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩']; return String(numStr).split('').map(digit => /\d/.test(digit) ? arabicDigits[parseInt(digit)] : digit).join(''); } return String(numStr); }
 async function fetchWithTimeout(resource, options = {}, timeout = 8000) { const controller = new AbortController(); const id = setTimeout(() => controller.abort(), timeout); try { const response = await fetch(resource, { ...options, signal: controller.signal }); clearTimeout(id); return response; } catch (error) { clearTimeout(id); throw error; } }
 
@@ -178,8 +226,9 @@ async function determineLanguageAndLocation() {
     currentLang = detectedLang || 'bn';
     userLocale = langToLocaleMap[currentLang] || (currentLang === 'bn' ? 'bn-BD' : 'en-US');
     document.documentElement.lang = currentLang; document.body.lang = currentLang;
+    if (languageSelector) languageSelector.value = currentLang; // ভাষা সিলেক্টরে সেট করা
     console.log(`Final App language: ${currentLang}, Locale: ${userLocale}, Timezone: ${userTimeZone}`);
-    applyTranslations(); // Call applyTranslations before updateGreetingMessageWithEid
+    applyTranslations();
 }
 
 async function fetchCorrectTime() {
@@ -201,14 +250,8 @@ async function fetchCorrectTime() {
 function initializeDateTimeDisplay() { if(!currentTimeEl||!currentDateEl||!currentHijriDateEl){console.error("Date/Time elements not found"); return;}updateTimeDate();setInterval(updateTimeDate,1000); }
 
 function determineEidName(hijriMonth, hijriDay) {
-    // শাওয়াল মাসের ১-৩ তারিখে ঈদুল ফিতর
-    if (hijriMonth === 10 && hijriDay >= 1 && hijriDay <= 3) { // Shawwal is the 10th month
-        return getTranslation('eidAlFitr');
-    }
-    // জ্বিলহজ্জ মাসের ৯-১৩ তারিখে ঈদুল আযহা
-    if (hijriMonth === 12 && hijriDay >= 9 && hijriDay <= 13) { // Dhul Hijja is the 12th month
-        return getTranslation('eidAlAdha');
-    }
+    if (hijriMonth === 10 && hijriDay >= 1 && hijriDay <= 3) { return getTranslation('eidAlFitr'); }
+    if (hijriMonth === 12 && hijriDay >= 9 && hijriDay <= 13) { return getTranslation('eidAlAdha'); }
     return null;
 }
 
@@ -256,7 +299,6 @@ function updateGreetingMessageWithEid() {
     greetingMessageEl.style.animation = 'none'; greetingMessageEl.offsetHeight; greetingMessageEl.style.animation = null;
 }
 
-
 function updateTimeDate() {
     const clientNow = new Date(); const correctedNow = new Date(clientNow.getTime() + timeOffset);
     const timeOptions = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true }; if (userTimeZone && userTimeZone !== 'Etc/Unknown') { timeOptions.timeZone = userTimeZone; }
@@ -278,43 +320,182 @@ function updateTimeDate() {
     }
 }
 
-function attemptMusicPlay(interactionType = "unknown") { if (backgroundMusic && backgroundMusic.paused) { console.log(`Attempting music play due to ${interactionType} interaction...`); const playPromise = backgroundMusic.play(); if (playPromise !== undefined) { playPromise.then(() => { console.log(`Music started successfully via ${interactionType} interaction.`); document.body.removeEventListener('click', handleFirstUserInteractionForMedia); document.body.removeEventListener('touchstart', handleFirstUserInteractionForMedia); }).catch(error => { console.warn(`Music play failed via ${interactionType} interaction:`, error.name, error.message); }); } } else if (backgroundMusic && !backgroundMusic.paused) { console.log(`Music already playing (interaction: ${interactionType}).`); } else if (!backgroundMusic) { console.error("backgroundMusic element not found during attemptMusicPlay."); } }
-function handleFirstUserInteractionForMedia(event) { console.log(`First user media interaction (type: ${event.type}) on body detected.`); if (!musicPlayAttemptedOnInteraction) { attemptMusicPlay(`general body ${event.type}`); musicPlayAttemptedOnInteraction = true; } if (eidVideoEl && eidVideoEl.paused) { eidVideoEl.play().catch(e => console.warn("Video play failed on interaction:", e)); } }
+function updateMusicButton() {
+    if (!musicToggleButton || !musicIconPlay || !musicIconPause) return;
+    if (backgroundMusic.paused) {
+        musicIconPlay.style.display = 'inline';
+        musicIconPause.style.display = 'none';
+        musicToggleButton.setAttribute('aria-label', getTranslation('toggleMusicPlay'));
+    } else {
+        musicIconPlay.style.display = 'none';
+        musicIconPause.style.display = 'inline';
+        musicToggleButton.setAttribute('aria-label', getTranslation('toggleMusicPause'));
+    }
+}
+
+function attemptMusicPlay(interactionType = "unknown") {
+    if (backgroundMusic && backgroundMusic.paused) {
+        console.log(`Attempting music play due to ${interactionType} interaction...`);
+        const playPromise = backgroundMusic.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                console.log(`Music started successfully via ${interactionType} interaction.`);
+                updateMusicButton();
+                document.body.removeEventListener('click', handleFirstUserInteractionForMedia);
+                document.body.removeEventListener('touchstart', handleFirstUserInteractionForMedia);
+            }).catch(error => {
+                console.warn(`Music play failed via ${interactionType} interaction:`, error.name, error.message);
+                updateMusicButton();
+            });
+        }
+    } else if (backgroundMusic && !backgroundMusic.paused) {
+        console.log(`Music already playing (interaction: ${interactionType}).`);
+    } else if (!backgroundMusic) {
+        console.error("backgroundMusic element not found during attemptMusicPlay.");
+    }
+    updateMusicButton();
+}
+
+function toggleMusic() {
+    if (!backgroundMusic) return;
+    if (backgroundMusic.paused) {
+        attemptMusicPlay('music toggle button');
+    } else {
+        backgroundMusic.pause();
+        console.log("Music paused by user.");
+    }
+    updateMusicButton();
+}
+
+function handleFirstUserInteractionForMedia(event) {
+    console.log(`First user media interaction (type: ${event.type}) on body detected.`);
+    if (!musicPlayAttemptedOnInteraction) {
+        attemptMusicPlay(`general body ${event.type}`);
+        musicPlayAttemptedOnInteraction = true;
+    }
+    if (eidVideoEl && eidVideoEl.paused) {
+        eidVideoEl.play().catch(e => console.warn("Video play failed on interaction:", e));
+    }
+    updateMusicButton();
+}
 
 function setLanguage(langCode) {
     if (supportedLanguages.includes(langCode) && currentLang !== langCode) {
-        currentLang = langCode; userLocale = langToLocaleMap[currentLang] || (currentLang === 'bn' ? 'bn-BD' : 'en-US');
-        localStorage.setItem('preferredLang', currentLang); document.documentElement.lang = currentLang; document.body.lang = currentLang;
+        currentLang = langCode;
+        userLocale = langToLocaleMap[currentLang] || (currentLang === 'bn' ? 'bn-BD' : 'en-US');
+        localStorage.setItem('preferredLang', currentLang);
+        document.documentElement.lang = currentLang;
+        document.body.lang = currentLang;
+        if (languageSelector) languageSelector.value = currentLang;
         applyTranslations();
-        updateGreetingMessageWithEid(); // Greeting message আপডেট করা
-        updateTimeDate(); // সময় ও তারিখ আপডেট করা
+        updateGreetingMessageWithEid();
+        updateTimeDate();
     }
+}
+
+function setTheme(themeName) {
+    localStorage.setItem('preferredTheme', themeName);
+    document.body.setAttribute('data-theme', themeName);
+    currentTheme = themeName;
+    if (themeIconDark && themeIconLight) {
+        if (themeName === 'dark') {
+            themeIconDark.style.display = 'inline';
+            themeIconLight.style.display = 'none';
+            themeToggleButton.setAttribute('aria-label', getTranslation('themeLight'));
+        } else {
+            themeIconDark.style.display = 'none';
+            themeIconLight.style.display = 'inline';
+            themeToggleButton.setAttribute('aria-label', getTranslation('themeDark'));
+        }
+    }
+    // থিম পরিবর্তনের পর আতশবাজির রং ঠিক রাখা
+    if (typeof animateFireworks === 'function') {
+        // If fireworks need re-styling based on theme, add logic here.
+        // For now, just ensuring it continues.
+    }
+}
+
+function toggleTheme() {
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
 }
 
 window.onload = async function() {
     console.log("Window onload sequence started.");
-    await determineLanguageAndLocation(); 
-    await fetchCorrectTime(); 
 
-    updateGreetingMessageWithEid(); 
+    // থিম লোড করা
+    const savedTheme = localStorage.getItem('preferredTheme');
+    if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
+        setTheme(savedTheme);
+    } else {
+        setTheme('dark'); // ডিফল্ট ডার্ক থিম
+    }
 
-    if (backgroundMusic) { const playPromise = backgroundMusic.play(); if (playPromise !== undefined) { playPromise.then(() => { console.log("Background music autoplay successful."); }).catch(error => { console.warn("Background music autoplay prevented:", error.name, error.message); if (error.name === 'NotAllowedError') { document.body.addEventListener('click', handleFirstUserInteractionForMedia, { once: true }); document.body.addEventListener('touchstart', handleFirstUserInteractionForMedia, { once: true }); } }); } } else { console.error("backgroundMusic element not found!"); }
-    if (eidVideoEl) { const videoPlayPromise = eidVideoEl.play(); if (videoPlayPromise !== undefined) { videoPlayPromise.catch(error => { console.warn("Video autoplay was prevented:", error.name, error.message); if (!musicPlayAttemptedOnInteraction && error.name === 'NotAllowedError') { document.body.addEventListener('click', handleFirstUserInteractionForMedia, { once: true }); document.body.addEventListener('touchstart', handleFirstUserInteractionForMedia, { once: true }); } }); } eidVideoEl.onerror = function() { console.error("Error loading video."); }; }
-    
-    generateButton.disabled = true; 
-    userNameInput.addEventListener('input', function() { 
-        generateButton.disabled = userNameInput.value.trim() === ""; 
+    await determineLanguageAndLocation();
+    await fetchCorrectTime();
+    updateGreetingMessageWithEid();
+
+    if (backgroundMusic) {
+        const playPromise = backgroundMusic.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                console.log("Background music autoplay successful.");
+                musicPlayAttemptedOnInteraction = true; // যেহেতু অটো-প্লে সফল
+            }).catch(error => {
+                console.warn("Background music autoplay prevented:", error.name, error.message);
+                if (error.name === 'NotAllowedError') {
+                    document.body.addEventListener('click', handleFirstUserInteractionForMedia, { once: true });
+                    document.body.addEventListener('touchstart', handleFirstUserInteractionForMedia, { once: true });
+                }
+            }).finally(() => {
+                updateMusicButton(); // আইকন ঠিক করা
+            });
+        }
+        backgroundMusic.onplay = updateMusicButton;
+        backgroundMusic.onpause = updateMusicButton;
+    } else {
+        console.error("backgroundMusic element not found!");
+    }
+
+    if (eidVideoEl) {
+        const videoPlayPromise = eidVideoEl.play();
+        if (videoPlayPromise !== undefined) {
+            videoPlayPromise.catch(error => {
+                console.warn("Video autoplay was prevented:", error.name, error.message);
+                if (!musicPlayAttemptedOnInteraction && error.name === 'NotAllowedError') { // মিউজিক যদি আগে থেকেই ইন্টার‍্যাকশন না পায়
+                    document.body.addEventListener('click', handleFirstUserInteractionForMedia, { once: true });
+                    document.body.addEventListener('touchstart', handleFirstUserInteractionForMedia, { once: true });
+                }
+            });
+        }
+        eidVideoEl.onerror = function() { console.error("Error loading video."); };
+    }
+
+    if (languageSelector) {
+        languageSelector.addEventListener('change', (event) => {
+            setLanguage(event.target.value);
+        });
+    }
+    if (musicToggleButton) {
+        musicToggleButton.addEventListener('click', toggleMusic);
+    }
+    if (themeToggleButton) {
+        themeToggleButton.addEventListener('click', toggleTheme);
+    }
+
+    generateButton.disabled = true;
+    userNameInput.addEventListener('input', function() {
+        generateButton.disabled = userNameInput.value.trim() === "";
     });
-    
-    // Ensure fireworks functions are available (loaded from fireworks.js)
+
     if (typeof startFireworks === 'function' && typeof animateFireworks === 'function') {
         startFireworks();
         animateFireworks();
     } else {
         console.error("Fireworks functions not loaded correctly.");
     }
-    
-    initializeDateTimeDisplay(); 
+
+    initializeDateTimeDisplay();
     console.log("Window onload sequence finished.");
 };
 
@@ -329,8 +510,10 @@ async function generateAndShareLink() { const userName = userNameInput.value.tri
     } else {
         shareTextBase = getTranslation('greetingMessageFrom', {name: sharerNameForMessage});
     }
-    const shareText = `${shareTextBase} ${newLink}`; 
+    const shareText = `${shareTextBase} ${newLink}`;
 
     if (navigator.share) { try { await navigator.share({ title: document.title, text: shareText, url: newLink }); showStatusMessage('statusShareOptions', 'success', 1000); document.getElementById('generatedLinkContainer').style.display = 'none'; } catch (error) { console.error("Error during navigator.share:", error); showManualLink(newLink); showStatusMessage('statusShareError', 'info', 4000); } } else { showManualLink(newLink); showStatusMessage('statusNoAutoShare', 'info', 4000); } userNameInput.value = ''; generateButton.disabled = true; }
 function showManualLink(link) { const sharableLinkInput = document.getElementById('sharableLink'); sharableLinkInput.value = link; document.getElementById('generatedLinkContainer').style.display = 'block'; }
 function copyLink() { const sharableLinkInput = document.getElementById('sharableLink'); sharableLinkInput.select(); sharableLinkInput.setSelectionRange(0, 99999); try { navigator.clipboard.writeText(sharableLinkInput.value) .then(() => { showStatusMessage("statusLinkCopied", "success"); }) .catch(err => { console.error("Clipboard API copy failed:", err); if(document.execCommand('copy')) { showStatusMessage("statusLinkCopiedFallback", "success"); } else { showStatusMessage("statusCopyError", "error", 4000); } }); } catch (err) { console.error("Clipboard API not available or other error:", err); if(document.execCommand('copy')) { showStatusMessage("statusLinkCopiedFallback", "success"); } else { showStatusMessage("statusCopyError", "error", 4000); } } }
+
+// HijriDate.js এবং fireworks.js ফাইলগুলো আগের মতোই থাকবে।
