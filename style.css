@@ -242,17 +242,21 @@ body[data-theme="light"] .social-share-buttons p {
      color: #5a3a22; /* গাঢ় বাদামী */
 }
 
-/* --- ফুটারের টেক্সট কালার লাইট থিমের জন্য --- */
-body[data-theme="light"] #mainFooter {
-    color: #4a2c1a !important; /* আরও গাঢ় বাদামী, প্রায় কালো */
-}
-body[data-theme="light"] #mainFooter p,
-body[data-theme="light"] #mainFooter .dateTimeEntry,
-body[data-theme="light"] #mainFooter .dateTimeEntry span {
-    color: #4a2c1a !important;
-}
-/* --- ফুটারের পরিবর্তন শেষ --- */
+/* ... (আগের লাইট থিমের স্টাইল অপরিবর্তিত থাকবে, শুধুমাত্র নিচের ফুটার অংশটুকু পরিবর্তন হবে) ... */
 
+/* --- ফুটারের টেক্সট কালার লাইট থিমের জন্য সাদা করা হচ্ছে --- */
+body[data-theme="light"] #mainFooter {
+    color: #ffffff !important; /* সাদা রং এবং !important */
+}
+/* ফুটারের ভেতরের নির্দিষ্ট টেক্সট এলিমেন্টগুলোর জন্যও একই রং নিশ্চিত করা হচ্ছে */
+body[data-theme="light"] #mainFooter p, /* p ট্যাগগুলো সরাসরি ফুটারের অধীনে থাকলে */
+body[data-theme="light"] #mainFooter .dateTimeEntry, /* .dateTimeEntry div এর জন্য */
+body[data-theme="light"] #mainFooter .dateTimeEntry span { /* এর ভেতরের span গুলোর জন্য */
+    color: #ffffff !important; /* সাদা রং এবং !important */
+}
+/* --- উপরের অংশে পরিবর্তন শেষ --- */
+
+/* ... (লাইট থিমের বাকি স্টাইল অপরিবর্তিত থাকবে) ... */
 
 body[data-theme="light"] input[type="text"] {
     background-color: #ffffff;
