@@ -32,11 +32,11 @@ const translations = {
         'eidAlFitr': 'ঈদুল ফিতর',
         'eidAlAdha': 'ঈদুল আযহা',
         'eidMubarakGeneric': 'ঈদ মোবারক',
-        'languageLabel': 'ভাষা', // নতুন অনুবাদ
-        'themeDark': 'ডার্ক থিম', // নতুন অনুবাদ
-        'themeLight': 'লাইট থিম', // নতুন অনুবাদ
-        'toggleMusicPlay': 'মিউজিক প্লে করুন', // নতুন অনুবাদ
-        'toggleMusicPause': 'মিউজিক বন্ধ করুন' // নতুন অনুবাদ
+        'languageLabel': 'ভাষা',
+        'themeDark': 'ডার্ক থিম',
+        'themeLight': 'লাইট থিম',
+        'toggleMusicPlay': 'মিউজিক প্লে করুন',
+        'toggleMusicPause': 'মিউজিক বন্ধ করুন'
     },
     'en': {
         'pageTitle': 'Eid Mubarak!',
@@ -70,11 +70,11 @@ const translations = {
         'eidAlFitr': 'Eid al-Fitr',
         'eidAlAdha': 'Eid al-Adha',
         'eidMubarakGeneric': 'Eid Mubarak',
-        'languageLabel': 'Language', // New translation
-        'themeDark': 'Dark Theme', // New translation
-        'themeLight': 'Light Theme', // New translation
-        'toggleMusicPlay': 'Play Music', // New translation
-        'toggleMusicPause': 'Pause Music' // New translation
+        'languageLabel': 'Language',
+        'themeDark': 'Dark Theme',
+        'themeLight': 'Light Theme',
+        'toggleMusicPlay': 'Play Music',
+        'toggleMusicPause': 'Pause Music'
     },
     'ar': {
         'pageTitle': 'عيد مبارك!',
@@ -99,11 +99,11 @@ const translations = {
         'eidAlFitr': 'عيد الفطر',
         'eidAlAdha': 'عيد الأضحى',
         'eidMubarakGeneric': 'عيد مبارك',
-        'languageLabel': 'اللغة', // New translation
-        'themeDark': 'الوضع الداكن', // New translation
-        'themeLight': 'الوضع الفاتح', // New translation
-        'toggleMusicPlay': 'تشغيل الموسيقى', // New translation
-        'toggleMusicPause': 'إيقاف الموسيقى' // New translation
+        'languageLabel': 'اللغة',
+        'themeDark': 'الوضع الداكن',
+        'themeLight': 'الوضع الفاتح',
+        'toggleMusicPlay': 'تشغيل الموسيقى',
+        'toggleMusicPause': 'إيقاف الموسيقى'
     },
     'es': {
         'pageTitle': '¡Eid Mubarak!',
@@ -124,11 +124,11 @@ const translations = {
         'eidAlFitr': 'Eid al-Fitr',
         'eidAlAdha': 'Eid al-Adha',
         'eidMubarakGeneric': 'Eid Mubarak',
-        'languageLabel': 'Idioma', // New translation
-        'themeDark': 'Tema Oscuro', // New translation
-        'themeLight': 'Tema Claro', // New translation
-        'toggleMusicPlay': 'Reproducir Música', // New translation
-        'toggleMusicPause': 'Pausar Música' // New translation
+        'languageLabel': 'Idioma',
+        'themeDark': 'Tema Oscuro',
+        'themeLight': 'Tema Claro',
+        'toggleMusicPlay': 'Reproducir Música',
+        'toggleMusicPause': 'Pausar Música'
     }
 };
 
@@ -139,7 +139,7 @@ const supportedLanguages = Object.keys(translations);
 let currentLang = 'bn';
 let userTimeZone = 'Etc/UTC';
 let userLocale = 'bn-BD';
-let currentTheme = 'dark'; // ডিফল্ট থিম
+let currentTheme = 'dark';
 
 const backgroundMusic = document.getElementById('backgroundMusic');
 const userNameInput = document.getElementById('userNameInput');
@@ -153,7 +153,6 @@ const currentHijriDateEl = document.getElementById('currentHijriDate');
 const greetingMessageEl = document.getElementById('greetingMessage');
 const eidVideoEl = document.getElementById('eidVideo');
 
-// নতুন এলিমেন্ট সিলেকশন
 const languageSelector = document.getElementById('languageSelector');
 const musicToggleButton = document.getElementById('musicToggleButton');
 const musicIconPlay = document.getElementById('musicIconPlay');
@@ -162,30 +161,46 @@ const themeToggleButton = document.getElementById('themeToggleButton');
 const themeIconDark = document.getElementById('themeIconDark');
 const themeIconLight = document.getElementById('themeIconLight');
 
-
 let timeOffset = 0;
 let initialTimeSynced = false;
 let musicPlayAttemptedOnInteraction = false;
 
 const hijriMonthsData = { 'bn': ["মহররম", "সফর", "রবিউল আউয়াল", "রবিউস সানি", "জমাদিউল আউয়াল", "জমাদিউস সানি", "রজব", "শাবান", "রমজান", "শাওয়াল", "জ্বিলকদ", "জ্বিলহজ্জ"], 'en': ["Muharram", "Safar", "Rabi' al-awwal", "Rabi' al-thani", "Jumada al-awwal", "Jumada al-thani", "Rajab", "Sha'ban", "Ramadan", "Shawwal", "Dhu al-Qi'dah", "Dhu al-Hijjah"], 'ar': ["محرم", "صفر", "ربيع الأول", "ربيع الثاني", "جمادى الأولى", "جمادى الآخرة", "رجب", "شعبان", "رمضان", "شوال", "ذو القعدة", "ذو الحجة"], 'es': ["Muharram", "Safar", "Rabi' al-awwal", "Rabi' al-thani", "Jumada al-awwal", "Jumada al-thani", "Rajab", "Sha'ban", "Ramadán", "Shawwal", "Dhu ul-Qi'dah", "Dhu ul-Hiyya"] };
 
-function getTranslation(key, params = {}) { let text = (translations[currentLang] && translations[currentLang][key]) || (translations['en'] && translations['en][key]) || key; for (const param in params) { text = text.replace(`{${param}}`, params[param]); } return text; }
+function getTranslation(key, params = {}) {
+    let text;
+    if (translations[currentLang] && typeof translations[currentLang][key] !== 'undefined') {
+        text = translations[currentLang][key];
+    } else if (translations['en'] && typeof translations['en'][key] !== 'undefined') {
+        text = translations['en'][key]; // Fallback to English
+    } else {
+        text = key; // Fallback to the key itself if not found in current or English
+    }
+
+    for (const param in params) {
+        text = text.replace(`{${param}}`, params[param]);
+    }
+    return text;
+}
+
 function applyTranslations() {
     document.querySelectorAll('[data-lang-key]').forEach(element => {
         const key = element.getAttribute('data-lang-key');
+        const translatedText = getTranslation(key);
         if (element.tagName === 'INPUT' && element.hasAttribute('placeholder')) {
-            element.placeholder = getTranslation(key);
-        } else if (element.tagName === 'LABEL' && element.getAttribute('for') === 'languageSelector') {
-             element.textContent = getTranslation(key); // ভাষা লেবেলের জন্য
-        }
-        else {
-            element.textContent = getTranslation(key);
+            element.placeholder = translatedText;
+        } else {
+            element.textContent = translatedText;
         }
     });
     document.title = getTranslation('pageTitle');
-    // aria-label আপডেট করা
-    if (musicToggleButton) musicToggleButton.setAttribute('aria-label', backgroundMusic.paused ? getTranslation('toggleMusicPlay') : getTranslation('toggleMusicPause'));
-    if (themeToggleButton) themeToggleButton.setAttribute('aria-label', currentTheme === 'dark' ? getTranslation('themeLight') : getTranslation('themeDark'));
+
+    if (musicToggleButton && backgroundMusic) { // Ensure elements exist
+        musicToggleButton.setAttribute('aria-label', backgroundMusic.paused ? getTranslation('toggleMusicPlay') : getTranslation('toggleMusicPause'));
+    }
+    if (themeToggleButton) { // Ensure element exists
+        themeToggleButton.setAttribute('aria-label', currentTheme === 'dark' ? getTranslation('themeLight') : getTranslation('themeDark'));
+    }
 }
 
 function toNativeNumeral(numStr, lang) { if (lang === 'bn') { const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯']; return String(numStr).split('').map(digit => /\d/.test(digit) ? bengaliDigits[parseInt(digit)] : digit).join(''); } else if (lang === 'ar') { const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩']; return String(numStr).split('').map(digit => /\d/.test(digit) ? arabicDigits[parseInt(digit)] : digit).join(''); } return String(numStr); }
@@ -203,51 +218,60 @@ async function determineLanguageAndLocation() {
     else if (savedLang && supportedLanguages.includes(savedLang)) { detectedLang = savedLang; }
 
     try {
-        console.log("Attempting to fetch geolocation data from ip-api.com...");
+        // console.log("Attempting to fetch geolocation data from ip-api.com...");
         const response = await fetchWithTimeout('https://ip-api.com/json/?fields=status,message,timezone,countryCode', { cache: 'no-store' });
         if (!response.ok) throw new Error(`IP API HTTP error! status: ${response.status}`);
         const data = await response.json();
         if (data.status === 'success') {
-            if (data.countryCode) { userCountryCode = data.countryCode; console.log('User country code from IP API:', userCountryCode); if (!detectedLang && countryToLangMap[userCountryCode] && supportedLanguages.includes(countryToLangMap[userCountryCode])) { detectedLang = countryToLangMap[userCountryCode]; console.log(`Language set by country (${userCountryCode}): ${detectedLang}`); } }
-            if (data.timezone) { userTimeZone = data.timezone; fetchedTimeZoneFromAPI = true; console.log('User timezone from IP API:', userTimeZone); }
-            else { console.warn('IP API did not return timezone data.'); }
-        } else { console.warn('Failed to get country/timezone from IP API. Message:', data.message); }
+            if (data.countryCode) { userCountryCode = data.countryCode; /* console.log('User country code from IP API:', userCountryCode); */ if (!detectedLang && countryToLangMap[userCountryCode] && supportedLanguages.includes(countryToLangMap[userCountryCode])) { detectedLang = countryToLangMap[userCountryCode]; /* console.log(`Language set by country (${userCountryCode}): ${detectedLang}`); */ } }
+            if (data.timezone) { userTimeZone = data.timezone; fetchedTimeZoneFromAPI = true; /* console.log('User timezone from IP API:', userTimeZone); */ }
+            // else { console.warn('IP API did not return timezone data.'); }
+        }
+        // else { console.warn('Failed to get country/timezone from IP API. Message:', data.message); }
     } catch (error) { console.error("Error fetching user geolocation data from IP API:", error.name, error.message); }
 
     if (!fetchedTimeZoneFromAPI) {
         try {
             const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            if (browserTimezone && typeof browserTimezone === 'string' && browserTimezone.length > 0) { userTimeZone = browserTimezone; console.log(`Using browser's timezone as fallback: ${userTimeZone}`); }
-            else { console.warn("Could not determine timezone from browser, or invalid timezone returned."); userTimeZone = 'Etc/UTC'; console.log(`Defaulting to ${userTimeZone} due to invalid browser timezone.`); }
-        } catch (e) { console.error("Error getting timezone from browser Intl API:", e); userTimeZone = 'Etc/UTC'; console.log(`Defaulting to ${userTimeZone} due to error with Intl API.`); }
+            if (browserTimezone && typeof browserTimezone === 'string' && browserTimezone.length > 0) { userTimeZone = browserTimezone; /* console.log(`Using browser's timezone as fallback: ${userTimeZone}`); */ }
+            else { /* console.warn("Could not determine timezone from browser, or invalid timezone returned."); */ userTimeZone = 'Etc/UTC'; /* console.log(`Defaulting to ${userTimeZone} due to invalid browser timezone.`); */ }
+        } catch (e) { console.error("Error getting timezone from browser Intl API:", e); userTimeZone = 'Etc/UTC'; /* console.log(`Defaulting to ${userTimeZone} due to error with Intl API.`); */ }
     }
 
-    if (!detectedLang) { let browserLangFull = (navigator.languages && navigator.languages[0]) || navigator.language || 'bn-BD'; let browserLangShort = browserLangFull.split('-')[0].toLowerCase(); if (supportedLanguages.includes(browserLangShort)) { detectedLang = browserLangShort; console.log(`Language set by browser: ${detectedLang}`); } }
+    if (!detectedLang) { let browserLangFull = (navigator.languages && navigator.languages[0]) || navigator.language || 'bn-BD'; let browserLangShort = browserLangFull.split('-')[0].toLowerCase(); if (supportedLanguages.includes(browserLangShort)) { detectedLang = browserLangShort; /* console.log(`Language set by browser: ${detectedLang}`); */ } }
     currentLang = detectedLang || 'bn';
     userLocale = langToLocaleMap[currentLang] || (currentLang === 'bn' ? 'bn-BD' : 'en-US');
-    document.documentElement.lang = currentLang; document.body.lang = currentLang;
-    if (languageSelector) languageSelector.value = currentLang; // ভাষা সিলেক্টরে সেট করা
-    console.log(`Final App language: ${currentLang}, Locale: ${userLocale}, Timezone: ${userTimeZone}`);
+    document.documentElement.lang = currentLang;
+    if (document.body) document.body.lang = currentLang;
+    if (languageSelector) languageSelector.value = currentLang;
+    // console.log(`Final App language: ${currentLang}, Locale: ${userLocale}, Timezone: ${userTimeZone}`);
     applyTranslations();
 }
 
 async function fetchCorrectTime() {
     let finalTimeZone = userTimeZone; let success = false;
     try {
-        console.log(`Attempting to fetch time for timezone: ${finalTimeZone}`);
+        // console.log(`Attempting to fetch time for timezone: ${finalTimeZone}`);
         const response = await fetchWithTimeout(`https://worldtimeapi.org/api/timezone/${finalTimeZone}`, { cache: 'no-store' });
         if (response.ok) {
             const data = await response.json(); const serverTime = new Date(data.utc_datetime); const clientTimeAtFetch = new Date();
             timeOffset = serverTime.getTime() - clientTimeAtFetch.getTime(); initialTimeSynced = true;
-            console.log(`Time synced using WorldTimeAPI. Target timezone for display: ${finalTimeZone}, Actual data timezone from API: ${data.timezone}. Offset: ${timeOffset} ms.`);
+            // console.log(`Time synced using WorldTimeAPI. Target timezone for display: ${finalTimeZone}, Actual data timezone from API: ${data.timezone}. Offset: ${timeOffset} ms.`);
             success = true;
         } else { let errorText = ""; try { errorText = await response.text(); } catch (e) {} console.error(`WorldTimeAPI HTTP error! Status: ${response.status} for timezone: ${finalTimeZone}. Response: ${errorText}`); }
     } catch (error) { console.error("Failed to fetch correct time from WorldTimeAPI:", error.name, error.message); }
-    if (!success) { console.warn("Using local device time as fallback due to WorldTimeAPI failure. Ensure device clock is accurate. Time will be displayed in detected/fallback timezone:", userTimeZone); timeOffset = 0; initialTimeSynced = false; }
+    if (!success) { /* console.warn("Using local device time as fallback due to WorldTimeAPI failure. Ensure device clock is accurate. Time will be displayed in detected/fallback timezone:", userTimeZone); */ timeOffset = 0; initialTimeSynced = false; }
     updateTimeDate(); return success;
 }
 
-function initializeDateTimeDisplay() { if(!currentTimeEl||!currentDateEl||!currentHijriDateEl){console.error("Date/Time elements not found"); return;}updateTimeDate();setInterval(updateTimeDate,1000); }
+function initializeDateTimeDisplay() {
+    if(!currentTimeEl || !currentDateEl || !currentHijriDateEl){
+        console.error("Date/Time elements not found for initialization.");
+        return;
+    }
+    updateTimeDate();
+    setInterval(updateTimeDate,1000);
+}
 
 function determineEidName(hijriMonth, hijriDay) {
     if (hijriMonth === 10 && hijriDay >= 1 && hijriDay <= 3) { return getTranslation('eidAlFitr'); }
@@ -256,7 +280,7 @@ function determineEidName(hijriMonth, hijriDay) {
 }
 
 function updateGreetingMessageWithEid() {
-    if (!greetingMessageEl) return;
+    if (!greetingMessageEl) { /* console.log("Greeting message element not found."); */ return; }
     const clientNow = new Date();
     const correctedNow = new Date(clientNow.getTime() + timeOffset);
     const currentGregorianYear = correctedNow.getFullYear();
@@ -296,32 +320,49 @@ function updateGreetingMessageWithEid() {
     }
     greetingMessageEl.textContent = finalGreetingMessage;
     document.title = finalPageTitle;
-    greetingMessageEl.style.animation = 'none'; greetingMessageEl.offsetHeight; greetingMessageEl.style.animation = null;
+    greetingMessageEl.style.animation = 'none'; // Force reflow for animation restart
+    greetingMessageEl.offsetHeight; // Trigger reflow
+    greetingMessageEl.style.animation = null;
 }
 
 function updateTimeDate() {
     const clientNow = new Date(); const correctedNow = new Date(clientNow.getTime() + timeOffset);
-    const timeOptions = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true }; if (userTimeZone && userTimeZone !== 'Etc/Unknown') { timeOptions.timeZone = userTimeZone; }
-    let timeString; try { timeString = correctedNow.toLocaleTimeString(userLocale, timeOptions); } catch (e) { console.warn(`Error formatting time with TZ ${userTimeZone}, attempting without TZ. Error: ${e.message}`); delete timeOptions.timeZone; try { timeString = correctedNow.toLocaleTimeString(userLocale, timeOptions); } catch (e2) { console.error(`Fallback time formatting also failed. Error: ${e2.message}`); timeString = "N/A"; } }
+    const timeOptions = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
+    if (userTimeZone && userTimeZone !== 'Etc/Unknown') { timeOptions.timeZone = userTimeZone; }
+
+    let timeString;
+    try { timeString = correctedNow.toLocaleTimeString(userLocale, timeOptions); }
+    catch (e) { /* console.warn(`Error formatting time with TZ ${userTimeZone}, attempting without TZ. Error: ${e.message}`); */ delete timeOptions.timeZone; try { timeString = correctedNow.toLocaleTimeString(userLocale, timeOptions); } catch (e2) { console.error(`Fallback time formatting also failed. Error: ${e2.message}`); timeString = "N/A"; } }
     if (currentTimeEl) currentTimeEl.textContent = `${getTranslation('timeLabel')}: ${timeString}`;
-    const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' }; if (userTimeZone && userTimeZone !== 'Etc/Unknown') { dateOptions.timeZone = userTimeZone; }
-    let dateString; try { dateString = correctedNow.toLocaleDateString(userLocale, dateOptions); } catch (e) { console.warn(`Error formatting date with TZ ${userTimeZone}, attempting without TZ. Error: ${e.message}`); delete dateOptions.timeZone; try { dateString = correctedNow.toLocaleDateString(userLocale, dateOptions); } catch (e2) { console.error(`Fallback date formatting also failed. Error: ${e2.message}`); dateString = "N/A"; } }
+
+    const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+    if (userTimeZone && userTimeZone !== 'Etc/Unknown') { dateOptions.timeZone = userTimeZone; }
+    let dateString;
+    try { dateString = correctedNow.toLocaleDateString(userLocale, dateOptions); }
+    catch (e) { /* console.warn(`Error formatting date with TZ ${userTimeZone}, attempting without TZ. Error: ${e.message}`); */ delete dateOptions.timeZone; try { dateString = correctedNow.toLocaleDateString(userLocale, dateOptions); } catch (e2) { console.error(`Fallback date formatting also failed. Error: ${e2.message}`); dateString = "N/A"; } }
     if (currentDateEl) currentDateEl.textContent = `${getTranslation('dateLabel')}: ${dateString}`;
+
     if (currentHijriDateEl) {
         if (typeof HijriDate !== 'undefined' && HijriDate.JS && typeof HijriDate.JS.convert === 'function') {
             try {
                 const hijriInstance = HijriDate.JS.convert(correctedNow);
                 if (hijriInstance && typeof hijriInstance.getDate === 'function') {
-                    const hijriDay = toNativeNumeral(hijriInstance.getDate(), currentLang); const hijriMonthIndex = hijriInstance.getMonth() - 1; const currentHijriMonths = hijriMonthsData[currentLang] || hijriMonthsData['en'];
-                    if (hijriMonthIndex >= 0 && hijriMonthIndex < currentHijriMonths.length) { const hijriMonthName = currentHijriMonths[hijriMonthIndex]; const hijriYear = toNativeNumeral(hijriInstance.getFullYear(), currentLang); currentHijriDateEl.textContent = `${getTranslation('hijriDateLabel')}: ${hijriDay} ${hijriMonthName}, ${hijriYear} ${getTranslation('hijriYearSuffix')}`; } else { throw new Error("Invalid Hijri month index.");}
-                } else { throw new Error("HijriDate conversion returned invalid object."); }
+                    const hijriDay = toNativeNumeral(hijriInstance.getDate(), currentLang);
+                    const hijriMonthIndex = hijriInstance.getMonth() - 1;
+                    const currentHijriMonths = hijriMonthsData[currentLang] || hijriMonthsData['en'];
+                    if (hijriMonthIndex >= 0 && hijriMonthIndex < currentHijriMonths.length) {
+                        const hijriMonthName = currentHijriMonths[hijriMonthIndex];
+                        const hijriYear = toNativeNumeral(hijriInstance.getFullYear(), currentLang);
+                        currentHijriDateEl.textContent = `${getTranslation('hijriDateLabel')}: ${hijriDay} ${hijriMonthName}, ${hijriYear} ${getTranslation('hijriYearSuffix')}`;
+                    } else { /* throw new Error("Invalid Hijri month index."); */ currentHijriDateEl.textContent = getTranslation('hijriCalcError'); }
+                } else { currentHijriDateEl.textContent = getTranslation('hijriCalcError'); /* console.error("HijriDate conversion returned invalid object or failed to provide getDate method."); */ }
             } catch (e) { currentHijriDateEl.textContent = getTranslation('hijriDateError'); console.error("Error updating Hijri date:", e); }
         } else { currentHijriDateEl.textContent = getTranslation('hijriNotLoaded'); }
     }
 }
 
 function updateMusicButton() {
-    if (!musicToggleButton || !musicIconPlay || !musicIconPause) return;
+    if (!musicToggleButton || !musicIconPlay || !musicIconPause || !backgroundMusic) return;
     if (backgroundMusic.paused) {
         musicIconPlay.style.display = 'inline';
         musicIconPause.style.display = 'none';
@@ -335,25 +376,26 @@ function updateMusicButton() {
 
 function attemptMusicPlay(interactionType = "unknown") {
     if (backgroundMusic && backgroundMusic.paused) {
-        console.log(`Attempting music play due to ${interactionType} interaction...`);
+        // console.log(`Attempting music play due to ${interactionType} interaction...`);
         const playPromise = backgroundMusic.play();
         if (playPromise !== undefined) {
             playPromise.then(() => {
-                console.log(`Music started successfully via ${interactionType} interaction.`);
+                // console.log(`Music started successfully via ${interactionType} interaction.`);
+                musicPlayAttemptedOnInteraction = true; // Update flag here
                 updateMusicButton();
                 document.body.removeEventListener('click', handleFirstUserInteractionForMedia);
                 document.body.removeEventListener('touchstart', handleFirstUserInteractionForMedia);
             }).catch(error => {
                 console.warn(`Music play failed via ${interactionType} interaction:`, error.name, error.message);
-                updateMusicButton();
+                updateMusicButton(); // Ensure button state is correct even on failure
             });
         }
     } else if (backgroundMusic && !backgroundMusic.paused) {
-        console.log(`Music already playing (interaction: ${interactionType}).`);
+        // console.log(`Music already playing (interaction: ${interactionType}).`);
     } else if (!backgroundMusic) {
-        console.error("backgroundMusic element not found during attemptMusicPlay.");
+        // console.error("backgroundMusic element not found during attemptMusicPlay.");
     }
-    updateMusicButton();
+    updateMusicButton(); // Call regardless to ensure initial state if no play promise.
 }
 
 function toggleMusic() {
@@ -362,21 +404,20 @@ function toggleMusic() {
         attemptMusicPlay('music toggle button');
     } else {
         backgroundMusic.pause();
-        console.log("Music paused by user.");
+        // console.log("Music paused by user.");
     }
-    updateMusicButton();
+    updateMusicButton(); // Called after action
 }
 
 function handleFirstUserInteractionForMedia(event) {
-    console.log(`First user media interaction (type: ${event.type}) on body detected.`);
-    if (!musicPlayAttemptedOnInteraction) {
+    // console.log(`First user media interaction (type: ${event.type}) on body detected.`);
+    if (!musicPlayAttemptedOnInteraction) { // Only attempt if not already tried or succeeded
         attemptMusicPlay(`general body ${event.type}`);
-        musicPlayAttemptedOnInteraction = true;
     }
     if (eidVideoEl && eidVideoEl.paused) {
         eidVideoEl.play().catch(e => console.warn("Video play failed on interaction:", e));
     }
-    updateMusicButton();
+    // updateMusicButton(); // attemptMusicPlay calls this
 }
 
 function setLanguage(langCode) {
@@ -385,7 +426,7 @@ function setLanguage(langCode) {
         userLocale = langToLocaleMap[currentLang] || (currentLang === 'bn' ? 'bn-BD' : 'en-US');
         localStorage.setItem('preferredLang', currentLang);
         document.documentElement.lang = currentLang;
-        document.body.lang = currentLang;
+        if (document.body) document.body.lang = currentLang;
         if (languageSelector) languageSelector.value = currentLang;
         applyTranslations();
         updateGreetingMessageWithEid();
@@ -395,9 +436,9 @@ function setLanguage(langCode) {
 
 function setTheme(themeName) {
     localStorage.setItem('preferredTheme', themeName);
-    document.body.setAttribute('data-theme', themeName);
+    if (document.body) document.body.setAttribute('data-theme', themeName);
     currentTheme = themeName;
-    if (themeIconDark && themeIconLight) {
+    if (themeIconDark && themeIconLight && themeToggleButton) {
         if (themeName === 'dark') {
             themeIconDark.style.display = 'inline';
             themeIconLight.style.display = 'none';
@@ -408,11 +449,6 @@ function setTheme(themeName) {
             themeToggleButton.setAttribute('aria-label', getTranslation('themeDark'));
         }
     }
-    // থিম পরিবর্তনের পর আতশবাজির রং ঠিক রাখা
-    if (typeof animateFireworks === 'function') {
-        // If fireworks need re-styling based on theme, add logic here.
-        // For now, just ensuring it continues.
-    }
 }
 
 function toggleTheme() {
@@ -421,48 +457,52 @@ function toggleTheme() {
 }
 
 window.onload = async function() {
-    console.log("Window onload sequence started.");
-
-    // থিম লোড করা
-    const savedTheme = localStorage.getItem('preferredTheme');
-    if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
-        setTheme(savedTheme);
-    } else {
-        setTheme('dark'); // ডিফল্ট ডার্ক থিম
+    // console.log("Window onload sequence started.");
+    if (document.body) { // Ensure body exists before trying to set attributes on it
+      const savedTheme = localStorage.getItem('preferredTheme');
+      if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
+          setTheme(savedTheme);
+      } else {
+          setTheme('dark');
+      }
+      // Set body lang attribute here if not already set by determineLanguageAndLocation
+      if (!document.body.lang) document.body.lang = currentLang;
     }
 
+
     await determineLanguageAndLocation();
-    await fetchCorrectTime();
+    await fetchCorrectTime(); // Calls updateTimeDate internally
     updateGreetingMessageWithEid();
 
     if (backgroundMusic) {
+        // Initial button state update
+        updateMusicButton();
         const playPromise = backgroundMusic.play();
         if (playPromise !== undefined) {
             playPromise.then(() => {
-                console.log("Background music autoplay successful.");
-                musicPlayAttemptedOnInteraction = true; // যেহেতু অটো-প্লে সফল
+                // console.log("Background music autoplay successful.");
+                musicPlayAttemptedOnInteraction = true;
+                // updateMusicButton(); // Already called by onplay or finally
             }).catch(error => {
-                console.warn("Background music autoplay prevented:", error.name, error.message);
+                // console.warn("Background music autoplay prevented:", error.name, error.message);
                 if (error.name === 'NotAllowedError') {
                     document.body.addEventListener('click', handleFirstUserInteractionForMedia, { once: true });
                     document.body.addEventListener('touchstart', handleFirstUserInteractionForMedia, { once: true });
                 }
             }).finally(() => {
-                updateMusicButton(); // আইকন ঠিক করা
+                updateMusicButton(); // Ensure button state is correct after attempt
             });
         }
         backgroundMusic.onplay = updateMusicButton;
         backgroundMusic.onpause = updateMusicButton;
-    } else {
-        console.error("backgroundMusic element not found!");
-    }
+    } /* else { console.error("backgroundMusic element not found!"); } */
 
     if (eidVideoEl) {
         const videoPlayPromise = eidVideoEl.play();
         if (videoPlayPromise !== undefined) {
             videoPlayPromise.catch(error => {
-                console.warn("Video autoplay was prevented:", error.name, error.message);
-                if (!musicPlayAttemptedOnInteraction && error.name === 'NotAllowedError') { // মিউজিক যদি আগে থেকেই ইন্টার‍্যাকশন না পায়
+                // console.warn("Video autoplay was prevented:", error.name, error.message);
+                if (!musicPlayAttemptedOnInteraction && error.name === 'NotAllowedError') {
                     document.body.addEventListener('click', handleFirstUserInteractionForMedia, { once: true });
                     document.body.addEventListener('touchstart', handleFirstUserInteractionForMedia, { once: true });
                 }
@@ -483,10 +523,12 @@ window.onload = async function() {
         themeToggleButton.addEventListener('click', toggleTheme);
     }
 
-    generateButton.disabled = true;
-    userNameInput.addEventListener('input', function() {
-        generateButton.disabled = userNameInput.value.trim() === "";
-    });
+    if (generateButton && userNameInput) {
+        generateButton.disabled = true;
+        userNameInput.addEventListener('input', function() {
+            generateButton.disabled = userNameInput.value.trim() === "";
+        });
+    }
 
     if (typeof startFireworks === 'function' && typeof animateFireworks === 'function') {
         startFireworks();
@@ -496,13 +538,13 @@ window.onload = async function() {
     }
 
     initializeDateTimeDisplay();
-    console.log("Window onload sequence finished.");
+    // console.log("Window onload sequence finished.");
 };
 
-function showStatusMessage(messageKey, type = 'info', duration = 3000, params = {}) { clearTimeout(statusTimeout); statusMessageDiv.textContent = getTranslation(messageKey, params); statusMessageDiv.className = ''; statusMessageDiv.classList.add(type); statusMessageDiv.style.display = 'block'; setTimeout(() => { statusMessageDiv.style.opacity = '1'; }, 10); statusTimeout = setTimeout(() => { statusMessageDiv.style.opacity = '0'; setTimeout(() => { statusMessageDiv.style.display = 'none'; }, 500); }, duration); }
-async function generateAndShareLink() { const userName = userNameInput.value.trim(); if (userName === "") { showStatusMessage("statusEnterName", "error"); return; } attemptMusicPlay("share button click"); const currentUrl = new URL(window.location.href); currentUrl.searchParams.set('name', userName); const newLink = currentUrl.toString(); const sharerNameForMessage = decodeURIComponent(userName);
+function showStatusMessage(messageKey, type = 'info', duration = 3000, params = {}) { if (!statusMessageDiv) return; clearTimeout(statusTimeout); statusMessageDiv.textContent = getTranslation(messageKey, params); statusMessageDiv.className = ''; statusMessageDiv.classList.add(type); statusMessageDiv.style.display = 'block'; setTimeout(() => { statusMessageDiv.style.opacity = '1'; }, 10); statusTimeout = setTimeout(() => { statusMessageDiv.style.opacity = '0'; setTimeout(() => { statusMessageDiv.style.display = 'none'; }, 500); }, duration); }
+async function generateAndShareLink() { if (!userNameInput || !generateButton) return; const userName = userNameInput.value.trim(); if (userName === "") { showStatusMessage("statusEnterName", "error"); return; } attemptMusicPlay("share button click"); const currentUrl = new URL(window.location.href); currentUrl.searchParams.set('name', userName); const newLink = currentUrl.toString(); const sharerNameForMessage = decodeURIComponent(userName);
     const clientNow = new Date(); const correctedNow = new Date(clientNow.getTime() + timeOffset); const currentGregorianYear = correctedNow.getFullYear(); let eidName = null;
-    if (typeof HijriDate !== 'undefined' && HijriDate.JS && typeof HijriDate.JS.convert === 'function') { try { const hijriInstance = HijriDate.JS.convert(correctedNow); if (hijriInstance) { eidName = determineEidName(hijriInstance.getMonth(), hijriInstance.getDate()); } } catch(e){} }
+    if (typeof HijriDate !== 'undefined' && HijriDate.JS && typeof HijriDate.JS.convert === 'function') { try { const hijriInstance = HijriDate.JS.convert(correctedNow); if (hijriInstance && typeof hijriInstance.getMonth === 'function') { eidName = determineEidName(hijriInstance.getMonth(), hijriInstance.getDate()); } } catch(e){console.error("Error determining Eid for share link:", e);} }
 
     let shareTextBase;
     if (eidName) {
@@ -512,8 +554,9 @@ async function generateAndShareLink() { const userName = userNameInput.value.tri
     }
     const shareText = `${shareTextBase} ${newLink}`;
 
-    if (navigator.share) { try { await navigator.share({ title: document.title, text: shareText, url: newLink }); showStatusMessage('statusShareOptions', 'success', 1000); document.getElementById('generatedLinkContainer').style.display = 'none'; } catch (error) { console.error("Error during navigator.share:", error); showManualLink(newLink); showStatusMessage('statusShareError', 'info', 4000); } } else { showManualLink(newLink); showStatusMessage('statusNoAutoShare', 'info', 4000); } userNameInput.value = ''; generateButton.disabled = true; }
-function showManualLink(link) { const sharableLinkInput = document.getElementById('sharableLink'); sharableLinkInput.value = link; document.getElementById('generatedLinkContainer').style.display = 'block'; }
-function copyLink() { const sharableLinkInput = document.getElementById('sharableLink'); sharableLinkInput.select(); sharableLinkInput.setSelectionRange(0, 99999); try { navigator.clipboard.writeText(sharableLinkInput.value) .then(() => { showStatusMessage("statusLinkCopied", "success"); }) .catch(err => { console.error("Clipboard API copy failed:", err); if(document.execCommand('copy')) { showStatusMessage("statusLinkCopiedFallback", "success"); } else { showStatusMessage("statusCopyError", "error", 4000); } }); } catch (err) { console.error("Clipboard API not available or other error:", err); if(document.execCommand('copy')) { showStatusMessage("statusLinkCopiedFallback", "success"); } else { showStatusMessage("statusCopyError", "error", 4000); } } }
+    if (navigator.share) { try { await navigator.share({ title: document.title, text: shareText, url: newLink }); showStatusMessage('statusShareOptions', 'success', 1000); if(document.getElementById('generatedLinkContainer')) document.getElementById('generatedLinkContainer').style.display = 'none'; } catch (error) { console.error("Error during navigator.share:", error); showManualLink(newLink); showStatusMessage('statusShareError', 'info', 4000); } } else { showManualLink(newLink); showStatusMessage('statusNoAutoShare', 'info', 4000); } userNameInput.value = ''; generateButton.disabled = true; }
+function showManualLink(link) { const linkContainer = document.getElementById('generatedLinkContainer'); const sharableLinkInput = document.getElementById('sharableLink'); if (!linkContainer || !sharableLinkInput) return; sharableLinkInput.value = link; linkContainer.style.display = 'block'; }
+function copyLink() { const sharableLinkInput = document.getElementById('sharableLink'); if (!sharableLinkInput) return; sharableLinkInput.select(); sharableLinkInput.setSelectionRange(0, 99999); try { navigator.clipboard.writeText(sharableLinkInput.value) .then(() => { showStatusMessage("statusLinkCopied", "success"); }) .catch(err => { console.error("Clipboard API copy failed:", err); if(document.execCommand('copy')) { showStatusMessage("statusLinkCopiedFallback", "success"); } else { showStatusMessage("statusCopyError", "error", 4000); } }); } catch (err) { console.error("Clipboard API not available or other error:", err); if(document.execCommand('copy')) { showStatusMessage("statusLinkCopiedFallback", "success"); } else { showStatusMessage("statusCopyError", "error", 4000); } } }
 
-// HijriDate.js এবং fireworks.js ফাইলগুলো আগের মতোই থাকবে।
+// hijri-date.js এবং fireworks.js অপরিবর্তিত থাকবে।
+// style.css এবং index.html আগের উত্তরে যেমন ছিল তেমনই থাকবে।
