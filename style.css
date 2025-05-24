@@ -327,6 +327,22 @@ body[data-theme="light"] .controls-top-right button:hover {
     background-color: #fffaf0;
 }
 
+/* --- "WhatsApp এ শেয়ার করুন" বাটনের লেখার রং লাইট থিমের জন্য কালো করা হচ্ছে --- */
+body[data-theme="light"] button#generateButton {
+    background-color: #25D366; /* WhatsApp সবুজ ব্যাকগ্রাউন্ড (অপরিবর্তিত) */
+    color: #000000 !important; /* লেখার রং কালো করা হলো এবং !important */
+}
+body[data-theme="light"] button#generateButton:hover {
+    background-color: #1DAE54; /* হোভারে গাঢ় সবুজ (অপরিবর্তিত) */
+    color: #000000 !important; /* হোভারেও লেখার রং কালো */
+}
+/* WhatsApp বাটনের SVG আইকনের রং যদি পরিবর্তন করতে চান (সাধারণত সাদা রাখাই ভালো) */
+/* body[data-theme="light"] button#generateButton svg {
+    fill: #000000 !important; /* আইকনের রং কালো - যদি চান */
+/* } */
+/* --- উপরের অংশে পরিবর্তন শেষ --- */
+
+
 /* ... (বাকি Responsive Media Queries অপরিবর্তিত থাকবে) ... */
 /* Responsive Media Queries */
 @media (max-width: 600px) {
