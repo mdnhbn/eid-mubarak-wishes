@@ -216,19 +216,33 @@ body[lang="ar"] .controls-top-right { right: auto; left: 15px; }
 /* Light Theme Styles */
 body[data-theme="light"] {
     background: linear-gradient(to bottom, #e6fff2, #cceeff, #b3e0ff);
-    color: #003300;
+    color: #003300; /* Default text color for light theme */
 }
 body[data-theme="light"] .container { background-color: rgba(240, 255, 240, 0.9); border-color: #006400; }
 body[data-theme="light"] #eidVideo { border-color: #006400; background-color: #e0f0e0; }
 body[data-theme="light"] .greeting-message { color: #004d00; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+
 body[data-theme="light"] label,
-body[data-theme="light"] #generatedLinkContainer p,
-body[data-theme="light"] footer { color: #004d00; }
+body[data-theme="light"] #generatedLinkContainer p {
+     color: #004d00; /* Keeps these elements slightly less dark than footer for distinction if needed */
+}
+
+/* UPDATED FOOTER TEXT COLOR FOR LIGHT THEME */
+body[data-theme="light"] footer {
+    color: #222222; /* Darker gray for better contrast */
+}
+/* Ensuring specific footer texts also get the new color */
+body[data-theme="light"] footer p[data-lang-key="eidWishesFooter"],
+body[data-theme="light"] .dateTimeEntry span {
+    color: #222222; /* Darker gray for better contrast */
+}
+
+
 body[data-theme="light"] input[type="text"] { background-color: #f0fff0; color: #003300; border-color: #006400; }
 body[data-theme="light"] input[type="text"]::placeholder { color: #558055; }
-body[data-theme="light"] #statusMessage.success { background-color: #28a745; }
-body[data-theme="light"] #statusMessage.error { background-color: #dc3545; }
-body[data-theme="light"] #statusMessage.info { background-color: #17a2b8; }
+body[data-theme="light"] #statusMessage.success { background-color: #28a745; color:white;}
+body[data-theme="light"] #statusMessage.error { background-color: #dc3545; color:white;}
+body[data-theme="light"] #statusMessage.info { background-color: #17a2b8; color:white;}
 body[data-theme="light"] #generatedLinkContainer { background-color: rgba(200, 230, 200, 0.6); border-color: #008000; }
 body[data-theme="light"] #sharableLink { background-color: #e6ffe6; color: #003300; border-color: #008000; }
 body[data-theme="light"] .controls-top-right { background-color: rgba(200, 230, 200, 0.8); }
@@ -260,7 +274,8 @@ body[data-theme="light"] .controls-top-right button:hover { border-color: #00640
     button#generateButton svg { width: 18px; height: 18px; }
     #statusMessage { font-size: 0.85em; }
     #sharableLink, button#copyButton { font-size: 0.9em; }
-    footer { font-size: 0.8em; }
+    /* Footer font size was already responsive, color is handled above */
+    /* footer { font-size: 0.8em; } */
     .dateTimeEntry { font-size: 0.85em; }
     .social-button { padding: 7px 12px; font-size: 0.85em; }
     .social-button svg { width: 16px; height: 16px; }
