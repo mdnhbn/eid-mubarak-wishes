@@ -1,151 +1,52 @@
-// Helper functions (fetchWithTimeout, toNativeNumeral - ফাইলের শুরুতে থাকবে)
-async function fetchWithTimeout(resource, options = {}, timeout = 8000) { /*...*/ }
-function toNativeNumeral(numStr, lang) { /*...*/ }
+// --- Helper Functions (Defined at the very top) ---
+async function fetchWithTimeout(resource, options = {}, timeout = 8000) {
+    const controller = new AbortController();
+    const id = setTimeout(() => {
+        controller.abort();
+        console.warn(`Fetch to ${resource} timed out after ${timeout}ms`);
+    }, timeout);
 
-// Global constants and variables
-const translations = {
-    'bn': {
-        'pageTitle': 'ঈদ মোবারক!',
-        'greetingMessage': 'ঈদ মোবারক!',
-        'greetingMessageFrom': '{name} এর পক্ষ থেকে, ঈদ মোবারক!',
-        'yourNameLabel': 'আপনার নাম লিখুন:',
-        'namePlaceholder': 'এখানে আপনার নাম দিন',
-        'shareButtonText': 'WhatsApp এ শেয়ার করুন',
-        'shareLinkManualText': 'এই লিঙ্কটি বন্ধুদের সাথে শেয়ার করুন (যদি অটো-শেয়ার কাজ না করে):',
-        'copyButtonText': 'কপি করুন',
-        'eidWishesFooter': 'সবাইকে ঈদের আন্তরিক শুভেচ্ছা!',
-        'timeLabel': 'সময়',
-        'dateLabel': 'তারিখ',
-        'hijriDateLabel': 'ইসলামী তারিখ',
-        'hijriYearSuffix': 'হিজরি',
-        'statusEnterName': 'অনুগ্রহ করে আপনার নাম লিখুন।',
-        'statusShareOptions': 'শুভেচ্ছা শেয়ার করার জন্য অপশন দেখানো হয়েছে!',
-        'statusShareError': 'শেয়ার অপশন কাজ করেনি/বাতিল হয়েছে। লিঙ্ক কপি করুন।',
-        'statusNoAutoShare': 'আপনার ব্রাউজার অটো-শেয়ার সাপোর্ট করে না। লিঙ্ক কপি করুন।',
-        'statusLinkCopied': 'লিঙ্ক সফলভাবে কপি করা হয়েছে!',
-        'statusLinkCopiedFallback': 'লিঙ্ক কপি করা হয়েছে (ফলব্যাক)!',
-        'statusCopyError': 'দুঃখিত, লিঙ্ক কপি করা যায়নি। নিজে কপি করে নিন।',
-        'hijriDateLoading': 'ইসলামী তারিখ পরীক্ষা করা হচ্ছে...',
-        'hijriDateError': 'ইসলামী তারিখ রূপান্তরে ত্রুটি।',
-        'hijriCalcError': 'হিজরি মাস গণনায় ত্রুটি।',
-        'hijriNotLoaded': 'ইসলামী ক্যালকুলেটর লোড হয়নি.',
-        'musicPlayError': 'মিউজিক প্লে করা যায়নি। ডিভাইস সাউন্ড চেক করুন।',
-        'pageTitleEid': '{eidName} {year} এর শুভেচ্ছা!',
-        'greetingMessageEid': '{eidName} {year}!',
-        'greetingMessageFromEid': '{name} এর পক্ষ থেকে, {eidName} {year}!',
-        'eidAlFitr': 'ঈদুল ফিতর',
-        'eidAlAdha': 'ঈদুল আযহা',
-        'eidMubarakGeneric': 'ঈদ মোবারক',
-        'languageLabel': 'ভাষা',
-        'themeDark': 'ডার্ক থিম',
-        'themeLight': 'লাইট থিম',
-        'toggleMusicPlay': 'মিউজিক প্লে করুন',
-        'toggleMusicPause': 'মিউজিক বন্ধ করুন'
-    },
-    'en': { /* ... English translations ... */
-        'pageTitle': 'Eid Mubarak!',
-        'greetingMessage': 'Eid Mubarak!',
-        'greetingMessageFrom': 'Eid Mubarak from {name}!',
-        'yourNameLabel': 'Enter your name:',
-        'namePlaceholder': 'Enter your name here',
-        'shareButtonText': 'Share on WhatsApp',
-        'shareLinkManualText': 'Share this link with friends (if auto-share doesn\'t work):',
-        'copyButtonText': 'Copy',
-        'eidWishesFooter': 'Eid greetings to everyone!',
-        'timeLabel': 'Time',
-        'dateLabel': 'Date',
-        'hijriDateLabel': 'Islamic Date',
-        'hijriYearSuffix': 'AH',
-        // Add all other keys from 'bn' here for completeness, even if they are the same as key
-        'statusEnterName': 'Please enter your name.',
-        'statusShareOptions': 'Share options are shown!',
-        'statusShareError': 'Share option failed/cancelled. Please copy the link.',
-        'statusNoAutoShare': 'Your browser does not support auto-share. Please copy the link.',
-        'statusLinkCopied': 'Link copied successfully!',
-        'statusLinkCopiedFallback': 'Link copied (fallback)!',
-        'statusCopyError': 'Sorry, could not copy the link. Please copy it manually.',
-        'hijriDateLoading': 'Checking Islamic date...',
-        'hijriDateError': 'Error in Islamic date conversion.',
-        'hijriCalcError': 'Error in Hijri month calculation.',
-        'hijriNotLoaded': 'Islamic calendar not loaded.',
-        'musicPlayError': 'Could not play music. Check device sound.',
-        'pageTitleEid': '{eidName} {year} Greetings!',
-        'greetingMessageEid': '{eidName} {year}!',
-        'greetingMessageFromEid': 'From {name}, {eidName} {year}!',
-        'eidAlFitr': 'Eid al-Fitr',
-        'eidAlAdha': 'Eid al-Adha',
-        'eidMubarakGeneric': 'Eid Mubarak',
-        'languageLabel': 'Language',
-        'themeDark': 'Dark Theme',
-        'themeLight': 'Light Theme',
-        'toggleMusicPlay': 'Play Music',
-        'toggleMusicPause': 'Pause Music'
-    },
-    'ar': { /* ... Arabic translations ... */
-        'pageTitle': 'عيد مبارك!',
-        'greetingMessage': 'عيد مبارك!',
-        'greetingMessageFrom': 'عيد مبارك من {name}!',
-        'yourNameLabel': 'أدخل اسمك:',
-        'namePlaceholder': 'أدخل اسمك هنا',
-        'shareButtonText': 'شارك على WhatsApp',
-        'shareLinkManualText': 'شارك هذا الرابط مع الأصدقاء (إذا لم تعمل المشاركة التلقائية):',
-        'copyButtonText': 'نسخ',
-        'eidWishesFooter': 'تهاني العيد للجميع!',
-        'timeLabel': 'الوقت',
-        'dateLabel': 'التاريخ',
-        'hijriDateLabel': 'التاريخ الهجري',
-        'hijriYearSuffix': 'هـ',
-        'statusEnterName': 'الرجاء إدخال اسمك.',
-        'statusLinkCopied': 'تم نسخ الرابط بنجاح!',
-        'hijriDateLoading': 'جاري التحقق من التاريخ الهجري...',
-        'pageTitleEid': 'تهاني {eidName} {year}!',
-        'greetingMessageEid': '{eidName} {year}!',
-        'greetingMessageFromEid': 'من {name}, {eidName} {year}!',
-        'eidAlFitr': 'عيد الفطر',
-        'eidAlAdha': 'عيد الأضحى',
-        'eidMubarakGeneric': 'عيد مبارك',
-        'languageLabel': 'اللغة',
-        'themeDark': 'الوضع الداكن',
-        'themeLight': 'الوضع الفاتح',
-        'toggleMusicPlay': 'تشغيل الموسيقى',
-        'toggleMusicPause': 'إيقاف الموسيقى'
-    },
-    'es': { /* ... Spanish translations ... */
-        'pageTitle': '¡Eid Mubarak!',
-        'greetingMessage': '¡Eid Mubarak!',
-        'greetingMessageFrom': '¡Eid Mubarak de parte de {name}!',
-        'yourNameLabel': 'Introduce tu nombre:',
-        'namePlaceholder': 'Introduce tu nombre aquí',
-        'shareButtonText': 'Compartir en WhatsApp',
-        'copyButtonText': 'Copiar',
-        'eidWishesFooter': '¡Saludos de Eid para todos!',
-        'timeLabel': 'Hora',
-        'dateLabel': 'Fecha',
-        'hijriDateLabel': 'Fecha Islámica',
-        'hijriYearSuffix': 'H',
-        'pageTitleEid': '¡Saludos de {eidName} {year}!',
-        'greetingMessageEid': '¡{eidName} {year}!',
-        'greetingMessageFromEid': '¡De parte de {name}, {eidName} {year}!',
-        'eidAlFitr': 'Eid al-Fitr',
-        'eidAlAdha': 'Eid al-Adha',
-        'eidMubarakGeneric': 'Eid Mubarak',
-        'languageLabel': 'Idioma',
-        'themeDark': 'Tema Oscuro',
-        'themeLight': 'Tema Claro',
-        'toggleMusicPlay': 'Reproducir Música',
-        'toggleMusicPause': 'Pausar Música'
+    try {
+        const response = await fetch(resource, { ...options, signal: controller.signal });
+        clearTimeout(id);
+        return response;
+    } catch (error) {
+        clearTimeout(id);
+        console.error(`Fetch error for ${resource}:`, error.name, error.message);
+        throw error;
     }
-};
+}
+
+function toNativeNumeral(numStr, lang) {
+    if (lang === 'bn') {
+        const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+        return String(numStr).split('').map(digit => /\d/.test(digit) ? bengaliDigits[parseInt(digit)] : digit).join('');
+    } else if (lang === 'ar') {
+        const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+        return String(numStr).split('').map(digit => /\d/.test(digit) ? arabicDigits[parseInt(digit)] : digit).join('');
+    }
+    return String(numStr);
+}
+
+// --- Global Constants and Variables ---
+const translations = { /* ... আপনার সম্পূর্ণ translations অবজেক্ট ... */ };
 const countryToLangMap = { /* ... */ };
 const langToLocaleMap = { /* ... */ };
 const supportedLanguages = Object.keys(translations);
+const hijriMonthsData = { /* ... আপনার সম্পূর্ণ hijriMonthsData অবজেক্ট ... */ };
 
-let currentLang = 'bn'; // Default language
+let currentLang = 'bn';
 let userTimeZone = 'Etc/UTC';
 let userLocale = 'bn-BD';
 let currentTheme = 'dark';
+let timeOffset = 0;
+let initialTimeSynced = false;
+let musicPlayAttemptedOnInteraction = false;
+let canAutoplayAudio = false;
+let statusTimeout;
 
-// DOM Elements (অপরিবর্তিত)
+
+// --- DOM Element Selectors (Ensure these are correct) ---
 const backgroundMusic = document.getElementById('backgroundMusic');
 const userNameInput = document.getElementById('userNameInput');
 const generateButton = document.getElementById('generateButton');
@@ -164,217 +65,82 @@ const themeIconDark = document.getElementById('themeIconDark');
 const themeIconLight = document.getElementById('themeIconLight');
 
 
-let timeOffset = 0;
-let initialTimeSynced = false;
-let musicPlayAttemptedOnInteraction = false;
-let canAutoplayAudio = false;
+// --- Core Application Functions (Defined before window.onload) ---
 
-const hijriMonthsData = { /* ... */ };
+function getTranslation(key, params = {}) { /* ... আগের মতোই ... */ }
+function applyTranslations() { /* ... আগের মতোই ... */ }
+async function determineLanguageAndLocation() { /* ... আগের মতোই ... */ }
+async function fetchCorrectTime() { /* ... আগের মতোই ... */ }
+function initializeDateTimeDisplay() { /* ... আগের মতোই ... */ }
+function determineEidName(hijriMonth, hijriDay) { /* ... আগের মতোই ... */ }
+function updateGreetingMessageWithEid() { /* ... আগের মতোই ... */ }
+function updateTimeDate() { /* ... আগের মতোই, toNativeNumeral এর ভ্যালিডেশন সহ ... */ }
+function updateMusicButton() { /* ... আগের মতোই ... */ }
+function attemptMusicPlay(interactionType = "user_interaction") { /* ... আগের মতোই ... */ }
+function toggleMusic() { /* ... আগের মতোই ... */ }
+function handleFirstUserInteractionForMedia(event) { /* ... আগের মতোই ... */ }
 
-// --- Functions ---
-
-function getTranslation(key, params = {}) {
-    let text;
-    // Ensure translations for currentLang exist, or fallback to 'en', then to key
-    if (translations[currentLang] && typeof translations[currentLang][key] !== 'undefined') {
-        text = translations[currentLang][key];
-    } else if (translations['en'] && typeof translations['en'][key] !== 'undefined') {
-        console.warn(`Translation key '${key}' not found for language '${currentLang}'. Using English fallback.`);
-        text = translations['en'][key];
-    } else {
-        console.error(`Translation key '${key}' not found for language '${currentLang}' and no English fallback. Using key as text.`);
-        text = key; // Fallback to the key itself
-    }
-
-    for (const param in params) {
-        text = text.replace(`{${param}}`, params[param]);
-    }
-    return text;
-}
-
-function applyTranslations() {
-    console.log("Applying translations for lang:", currentLang); // ডিবাগিং
-    document.querySelectorAll('[data-lang-key]').forEach(element => {
-        const key = element.getAttribute('data-lang-key');
-        const translatedText = getTranslation(key); // getTranslation এখন আরও সতর্ক
-        // console.log(`Translating key '${key}' to '${translatedText}'`); // ডিবাগিং
-        if (element.tagName === 'INPUT' && element.hasAttribute('placeholder')) {
-            element.placeholder = translatedText;
-        } else {
-            element.textContent = translatedText;
-        }
-    });
-    document.title = getTranslation('pageTitle');
-    if (musicToggleButton && backgroundMusic) {
-        musicToggleButton.setAttribute('aria-label', backgroundMusic.paused ? getTranslation('toggleMusicPlay') : getTranslation('toggleMusicPause'));
-    }
-    if (themeToggleButton) {
-        themeToggleButton.setAttribute('aria-label', currentTheme === 'dark' ? getTranslation('themeLight') : getTranslation('themeDark'));
+function setLanguage(langCode) {
+    if (supportedLanguages.includes(langCode) && currentLang !== langCode) {
+        currentLang = langCode;
+        userLocale = langToLocaleMap[currentLang] || (currentLang === 'bn' ? 'bn-BD' : 'en-US');
+        localStorage.setItem('preferredLang', currentLang);
+        document.documentElement.lang = currentLang;
+        if (document.body) document.body.lang = currentLang;
+        if (languageSelector) languageSelector.value = currentLang;
+        applyTranslations();
+        updateGreetingMessageWithEid();
+        updateTimeDate();
     }
 }
 
-
-async function determineLanguageAndLocation() {
-    // Set initial defaults before any async operations
-    let langFromStorage = localStorage.getItem('preferredLang');
-    let langFromNavigator = (navigator.language || navigator.userLanguage || 'bn-BD').split('-')[0];
-
-    currentLang = langFromStorage || langFromNavigator;
-    if (!supportedLanguages.includes(currentLang)) {
-        currentLang = 'bn'; // Final fallback
-    }
-
-    userLocale = langToLocaleMap[currentLang] || (currentLang === 'bn' ? 'bn-BD' : 'en-US');
-    userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Etc/UTC';
-
-    document.documentElement.lang = currentLang;
-    if (document.body) document.body.lang = currentLang;
-    if (languageSelector) languageSelector.value = currentLang;
-    applyTranslations(); // First application with best guess
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const langParam = urlParams.get('lang');
-
-    if (langParam && supportedLanguages.includes(langParam)) {
-        currentLang = langParam; // URL param has highest priority
-    }
-    // If lang changed by URL param, update everything
-    if (languageSelector && languageSelector.value !== currentLang) languageSelector.value = currentLang;
-    document.documentElement.lang = currentLang;
-    if (document.body) document.body.lang = currentLang;
-    userLocale = langToLocaleMap[currentLang] || (currentLang === 'bn' ? 'bn-BD' : 'en-US');
-
-
-    // Fetch IP based location data
-    try {
-        const response = await fetchWithTimeout('https://ip-api.com/json/?fields=status,message,timezone,countryCode', { cache: 'no-store' });
-        if (!response.ok) throw new Error(`IP API HTTP error! status: ${response.status} ${response.statusText}`);
-        const data = await response.json();
-        if (data.status === 'success') {
-            if (data.countryCode && !langParam && !langFromStorage) { // Only use IP for lang if no explicit user choice
-                const langFromCountry = countryToLangMap[data.countryCode];
-                if (langFromCountry && supportedLanguages.includes(langFromCountry)) {
-                    currentLang = langFromCountry;
-                }
-            }
-            if (data.timezone) {
-                userTimeZone = data.timezone; // Override browser/default timezone if IP API provides one
-            }
+function setTheme(themeName) {
+    localStorage.setItem('preferredTheme', themeName);
+    if (document.body) document.body.setAttribute('data-theme', themeName);
+    currentTheme = themeName;
+    if (themeIconDark && themeIconLight && themeToggleButton) {
+        if (themeName === 'dark') {
+            themeIconDark.style.display = 'inline';
+            themeIconLight.style.display = 'none';
+            themeToggleButton.setAttribute('aria-label', getTranslation('themeLight'));
         } else {
-            console.warn('Failed to get country/timezone from IP API. Message:', data.message);
-        }
-    } catch (error) {
-        console.error("Error fetching user geolocation data from IP API:", error.name, error.message);
-    }
-
-    // Final update of lang and locale after IP API potentially changed currentLang
-    document.documentElement.lang = currentLang;
-    if (document.body) document.body.lang = currentLang;
-    if (languageSelector && languageSelector.value !== currentLang) languageSelector.value = currentLang;
-    userLocale = langToLocaleMap[currentLang] || (currentLang === 'bn' ? 'bn-BD' : 'en-US');
-
-    console.log(`Final determined settings - Lang: ${currentLang}, Locale: ${userLocale}, Timezone: ${userTimeZone}`);
-    applyTranslations(); // Apply translations again with final determined values
-}
-
-// fetchCorrectTime, initializeDateTimeDisplay, determineEidName, updateGreetingMessageWithEid, updateTimeDate - আগের মতো
-// ... (এই ফাংশনগুলোর কোড আগের উত্তরে যেমন ছিল, তেমনই থাকবে, শুধু updateTimeDate এর ভেতরে toNativeNumeral কল করার আগে ভ্যালু undefined কিনা চেক করতে হবে)
-
-function updateTimeDate() {
-    if (!currentLang || !hijriMonthsData[currentLang]) {
-        // console.warn(`updateTimeDate: currentLang ('${currentLang}') is not ready or invalid for hijriMonthsData.`);
-        // ... ( আগের মত গ্রেগরিয়ান তারিখ সময় দেখানোর কোড ) ...
-        const clientNowBasic = new Date();
-        const correctedNowBasic = new Date(clientNowBasic.getTime() + timeOffset);
-        const timeOptionsBasic = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
-        if(userTimeZone && userTimeZone !== 'Etc/Unknown') timeOptionsBasic.timeZone = userTimeZone;
-
-        if (currentTimeEl) currentTimeEl.textContent = `${getTranslation('timeLabel')}: ${correctedNowBasic.toLocaleTimeString(userLocale, timeOptionsBasic)}`;
-
-        const dateOptionsBasic = { day: 'numeric', month: 'long', year: 'numeric' };
-        if(userTimeZone && userTimeZone !== 'Etc/Unknown') dateOptionsBasic.timeZone = userTimeZone;
-
-        if (currentDateEl) currentDateEl.textContent = `${getTranslation('dateLabel')}: ${correctedNowBasic.toLocaleDateString(userLocale, dateOptionsBasic)}`;
-        if (currentHijriDateEl) currentHijriDateEl.textContent = getTranslation('hijriDateLoading');
-        return;
-    }
-
-    const clientNow = new Date();
-    const correctedNow = new Date(clientNow.getTime() + timeOffset);
-
-    const timeOptions = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
-    if (userTimeZone && userTimeZone !== 'Etc/Unknown' && userTimeZone !== 'Etc/UTC') {
-        try { new Date().toLocaleTimeString('en-US', {timeZone: userTimeZone}); timeOptions.timeZone = userTimeZone; }
-        catch (e) { console.warn(`Invalid timezone '${userTimeZone}' for time formatting. Using local.`);}
-    }
-    // ... (বাকি সময় ও তারিখ ফরম্যাটিং আগের মত) ...
-    let timeString;
-    try { timeString = correctedNow.toLocaleTimeString(userLocale, timeOptions); }
-    catch (e) { delete timeOptions.timeZone; try { timeString = correctedNow.toLocaleTimeString(userLocale, timeOptions); } catch (e2) { console.error(`Fallback time formatting also failed. Error: ${e2.message}`); timeString = "N/A"; } }
-    if (currentTimeEl) currentTimeEl.textContent = `${getTranslation('timeLabel')}: ${timeString}`;
-
-    const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
-     if (userTimeZone && userTimeZone !== 'Etc/Unknown' && userTimeZone !== 'Etc/UTC') {
-        try { new Date().toLocaleDateString('en-US', {timeZone: userTimeZone}); dateOptions.timeZone = userTimeZone; }
-        catch (e) { console.warn(`Invalid timezone '${userTimeZone}' for date formatting. Using local.`);}
-    }
-    let dateString;
-    try { dateString = correctedNow.toLocaleDateString(userLocale, dateOptions); }
-    catch (e) { delete dateOptions.timeZone; try { dateString = correctedNow.toLocaleDateString(userLocale, dateOptions); } catch (e2) { console.error(`Fallback date formatting also failed. Error: ${e2.message}`); dateString = "N/A"; } }
-    if (currentDateEl) currentDateEl.textContent = `${getTranslation('dateLabel')}: ${dateString}`;
-
-
-    if (currentHijriDateEl) {
-        if (typeof HijriDate !== 'undefined' && HijriDate.JS && typeof HijriDate.JS.convert === 'function') {
-            try {
-                const hijriInstance = HijriDate.JS.convert(correctedNow);
-                if (hijriInstance && typeof hijriInstance.getDate === 'function' && typeof hijriInstance.getMonth === 'function' && typeof hijriInstance.getFullYear === 'function') {
-                    const dayVal = hijriInstance.getDate();
-                    const yearVal = hijriInstance.getFullYear();
-
-                    // toNativeNumeral কল করার আগে ভ্যালু চেক
-                    const hijriDay = (typeof dayVal !== 'undefined' && dayVal !== null) ? toNativeNumeral(dayVal, currentLang) : 'undefined';
-                    const hijriYear = (typeof yearVal !== 'undefined' && yearVal !== null) ? toNativeNumeral(yearVal, currentLang) : 'undefined';
-
-                    const hijriMonthIndex = hijriInstance.getMonth() - 1;
-                    const currentValidHijriMonths = hijriMonthsData[currentLang] || hijriMonthsData['en'];
-
-                    if (currentValidHijriMonths && hijriMonthIndex >= 0 && hijriMonthIndex < currentValidHijriMonths.length && hijriDay !== 'undefined' && hijriYear !== 'undefined') {
-                        const hijriMonthName = currentValidHijriMonths[hijriMonthIndex];
-                        currentHijriDateEl.textContent = `${getTranslation('hijriDateLabel')}: ${hijriDay} ${hijriMonthName}, ${hijriYear} ${getTranslation('hijriYearSuffix')}`;
-                    } else {
-                        console.error("Invalid Hijri data:", {dayVal, yearVal, hijriMonthIndex, currentLang});
-                        currentHijriDateEl.textContent = getTranslation('hijriCalcError');
-                    }
-                } else {
-                    currentHijriDateEl.textContent = getTranslation('hijriCalcError');
-                }
-            } catch (e) {
-                currentHijriDateEl.textContent = getTranslation('hijriDateError');
-            }
-        } else {
-            currentHijriDateEl.textContent = getTranslation('hijriNotLoaded');
+            themeIconDark.style.display = 'none';
+            themeIconLight.style.display = 'inline';
+            themeToggleButton.setAttribute('aria-label', getTranslation('themeDark'));
         }
     }
 }
 
-// বাকি সব ফাংশন (updateMusicButton থেকে copyLink পর্যন্ত) আগের উত্তরে যেমন ছিল, তেমনই থাকবে।
+function toggleTheme() {
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+}
 
+function showStatusMessage(messageKey, type = 'info', duration = 3000, params = {}) { /* ... আগের মতোই ... */ }
+async function generateAndShareLink() { /* ... আগের মতোই ... */ }
+function showManualLink(link) { /* ... আগের মতোই ... */ }
+function copyLink() { /* ... আগের মতোই ... */ }
+
+
+// --- Window Onload Event ---
 window.onload = async function() {
-    console.log("Window onload sequence started.");
-
+    console.log("Window.onload started");
+    // Ensure body exists before setting theme
     if (document.body) {
-      const savedTheme = localStorage.getItem('preferredTheme');
-      setTheme(savedTheme && (savedTheme === 'light' || savedTheme === 'dark') ? savedTheme : 'dark');
+        const savedTheme = localStorage.getItem('preferredTheme');
+        // setTheme ফাংশনটি এখন এর উপরে ডিফাইন করা আছে
+        setTheme(savedTheme && (savedTheme === 'light' || savedTheme === 'dark') ? savedTheme : 'dark');
+    } else {
+        console.error("document.body not found on window.onload start");
     }
 
-    await determineLanguageAndLocation(); // This now applies translations
+    await determineLanguageAndLocation();
     await fetchCorrectTime();
-    initializeDateTimeDisplay(); // Calls updateTimeDate
-    updateGreetingMessageWithEid(); // Uses translations and potentially Hijri date
+    initializeDateTimeDisplay();
+    updateGreetingMessageWithEid();
 
-    // ... (মিডিয়া প্লেব্যাক এবং অন্যান্য ইভেন্ট লিসেনার আগের মতো)
-    if (eidVideoEl) {
+    // ... (বাকি মিডিয়া প্লেব্যাক, ইভেন্ট লিসেনার, ফায়ারওয়ার্কস আগের window.onload এর মতোই)
+        if (eidVideoEl) {
         eidVideoEl.muted = true;
         const videoPlayPromise = eidVideoEl.play();
         if (videoPlayPromise !== undefined) {
@@ -390,7 +156,7 @@ window.onload = async function() {
     }
 
     if (backgroundMusic) {
-        updateMusicButton();
+        updateMusicButton(); // Set initial button state
         attemptMusicPlay("initial_autoplay_attempt").catch(err => { /* Error handled in func */ });
         backgroundMusic.onplay = updateMusicButton;
         backgroundMusic.onpause = updateMusicButton;
@@ -398,6 +164,7 @@ window.onload = async function() {
         backgroundMusic.onerror = function() { console.error("Error with background music: " + (backgroundMusic.error ? backgroundMusic.error.message : 'Unknown error')); showStatusMessage('musicPlayError', 'error');}
     }
 
+    // Event listeners for controls
     if (languageSelector) {
         languageSelector.addEventListener('change', (event) => {
             setLanguage(event.target.value);
@@ -410,6 +177,7 @@ window.onload = async function() {
         themeToggleButton.addEventListener('click', toggleTheme);
     }
 
+    // Input field and generate button logic
     if (generateButton && userNameInput) {
         generateButton.disabled = true;
         userNameInput.addEventListener('input', function() {
@@ -417,16 +185,35 @@ window.onload = async function() {
         });
     }
 
+    // Fireworks
     if (typeof startFireworks === 'function' && typeof animateFireworks === 'function') {
         startFireworks();
         animateFireworks();
     } else {
         console.error("Fireworks functions not loaded correctly.");
     }
-    console.log("Window onload sequence finished.");
+    console.log("Window.onload finished");
 };
-// ফাংশনগুলো অপরিবর্তিত:
-// fetchCorrectTime, initializeDateTimeDisplay, determineEidName, updateGreetingMessageWithEid,
-// updateMusicButton, attemptMusicPlay, toggleMusic, handleFirstUserInteractionForMedia,
-// setLanguage, setTheme, toggleTheme, showStatusMessage, generateAndShareLink, showManualLink, copyLink
-// শুধু ensure `toNativeNumeral` is called with valid inputs inside `updateTimeDate`
+
+// --- `getTranslation`, `applyTranslations`, `determineLanguageAndLocation`, etc. ফাংশনগুলোর সম্পূর্ণ কোড এখানে যোগ করতে হবে ---
+// --- (আগের উত্তর থেকে এই ফাংশনগুলোর কোড কপি করে এখানে পেস্ট করুন) ---
+// আমি শুধু ফাংশনের নামগুলো নিচে আবার উল্লেখ করছি যাতে ক্রম ঠিক থাকে:
+/*
+function getTranslation(key, params = {}) { ... }
+function applyTranslations() { ... }
+async function determineLanguageAndLocation() { ... }
+async function fetchCorrectTime() { ... }
+function initializeDateTimeDisplay() { ... }
+function determineEidName(hijriMonth, hijriDay) { ... }
+function updateGreetingMessageWithEid() { ... }
+function updateTimeDate() { ... }
+function updateMusicButton() { ... }
+function attemptMusicPlay(interactionType = "user_interaction") { ... }
+function toggleMusic() { ... }
+function handleFirstUserInteractionForMedia(event) { ... }
+// setLanguage(), setTheme(), toggleTheme() - এগুলো window.onload এর আগে ডিফাইন করা হয়েছে।
+function showStatusMessage(messageKey, type = 'info', duration = 3000, params = {}) { ... }
+async function generateAndShareLink() { ... }
+function showManualLink(link) { ... }
+function copyLink() { ... }
+*/
