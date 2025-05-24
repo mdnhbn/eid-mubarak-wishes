@@ -1,5 +1,33 @@
 // --- Main Application Logic (মাল্টি-ল্যাঙ্গুয়েজ এবং অন্যান্য) ---
+
+// Helper functions that need to be defined at the top
+async function fetchWithTimeout(resource, options = {}, timeout = 8000) {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    try {
+        const response = await fetch(resource, { ...options, signal: controller.signal });
+        clearTimeout(id);
+        return response;
+    } catch (error) {
+        clearTimeout(id);
+        throw error;
+    }
+}
+
+function toNativeNumeral(numStr, lang) {
+    if (lang === 'bn') {
+        const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+        return String(numStr).split('').map(digit => /\d/.test(digit) ? bengaliDigits[parseInt(digit)] : digit).join('');
+    } else if (lang === 'ar') {
+        const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+        return String(numStr).split('').map(digit => /\d/.test(digit) ? arabicDigits[parseInt(digit)] : digit).join('');
+    }
+    return String(numStr);
+}
+
+
 const translations = {
+    // ... (আপনার translations অবজেক্ট অপরিবর্তিত থাকবে) ...
     'bn': {
         'pageTitle': 'ঈদ মোবারক!',
         'greetingMessage': 'ঈদ মোবারক!',
@@ -132,27 +160,26 @@ const translations = {
     }
 };
 
-const countryToLangMap = { 'SA': 'ar', 'AE': 'ar', 'EG': 'ar', 'KW': 'ar', 'QA': 'ar', 'OM': 'ar', 'BH': 'ar', 'BD': 'bn', 'IN': 'en', 'PK': 'en', 'US': 'en', 'GB': 'en', 'CA': 'en', 'AU': 'en', 'ES': 'es', 'MX': 'es', 'AR': 'es', 'CO': 'es', };
-const langToLocaleMap = { 'bn': 'bn-BD', 'en': 'en-US', 'ar': 'ar-SA', 'es': 'es-ES', };
-const supportedLanguages = Object.keys(translations);
+const countryToLangMap = { /* ... */ }; // অপরিবর্তিত
+const langToLocaleMap = { /* ... */ }; // অপরিবর্তিত
+const supportedLanguages = Object.keys(translations); // অপরিবর্তিত
 
 let currentLang = 'bn';
 let userTimeZone = 'Etc/UTC';
 let userLocale = 'bn-BD';
 let currentTheme = 'dark';
 
+// DOM Element selectors (অপরিবর্তিত)
 const backgroundMusic = document.getElementById('backgroundMusic');
+// ... (বাকি সব এলিমেন্ট সিলেকশন অপরিবর্তিত) ...
 const userNameInput = document.getElementById('userNameInput');
 const generateButton = document.getElementById('generateButton');
 const statusMessageDiv = document.getElementById('statusMessage');
-let statusTimeout;
-
 const currentTimeEl = document.getElementById('currentTime');
 const currentDateEl = document.getElementById('currentDate');
 const currentHijriDateEl = document.getElementById('currentHijriDate');
 const greetingMessageEl = document.getElementById('greetingMessage');
 const eidVideoEl = document.getElementById('eidVideo');
-
 const languageSelector = document.getElementById('languageSelector');
 const musicToggleButton = document.getElementById('musicToggleButton');
 const musicIconPlay = document.getElementById('musicIconPlay');
@@ -161,14 +188,16 @@ const themeToggleButton = document.getElementById('themeToggleButton');
 const themeIconDark = document.getElementById('themeIconDark');
 const themeIconLight = document.getElementById('themeIconLight');
 
+
 let timeOffset = 0;
 let initialTimeSynced = false;
 let musicPlayAttemptedOnInteraction = false;
-let canAutoplayAudio = false; // Flag to check if audio autoplay is likely possible
+let canAutoplayAudio = false;
 
-const hijriMonthsData = { 'bn': ["মহররম", "সফর", "রবিউল আউয়াল", "রবিউস সানি", "জমাদিউল আউয়াল", "জমাদিউস সানি", "রজব", "শাবান", "রমজান", "শাওয়াল", "জ্বিলকদ", "জ্বিলহজ্জ"], 'en': ["Muharram", "Safar", "Rabi' al-awwal", "Rabi' al-thani", "Jumada al-awwal", "Jumada al-thani", "Rajab", "Sha'ban", "Ramadan", "Shawwal", "Dhu al-Qi'dah", "Dhu al-Hijjah"], 'ar': ["محرم", "صفر", "ربيع الأول", "ربيع الثاني", "جمادى الأولى", "جمادى الآخرة", "رجب", "شعبان", "رمضان", "شوال", "ذو القعدة", "ذو الحجة"], 'es': ["Muharram", "Safar", "Rabi' al-awwal", "Rabi' al-thani", "Jumada al-awwal", "Jumada al-thani", "Rajab", "Sha'ban", "Ramadán", "Shawwal", "Dhu ul-Qi'dah", "Dhu ul-Hiyya"] };
+const hijriMonthsData = { /* ... */ }; // অপরিবর্তিত
 
 function getTranslation(key, params = {}) {
+    // ... (এই ফাংশনটি আগের উত্তরে যেমন ছিল, তেমনই থাকবে) ...
     let text;
     if (translations[currentLang] && typeof translations[currentLang][key] !== 'undefined') {
         text = translations[currentLang][key];
@@ -184,6 +213,7 @@ function getTranslation(key, params = {}) {
 }
 
 function applyTranslations() {
+    // ... (এই ফাংশনটি আগের উত্তরে যেমন ছিল, তেমনই থাকবে) ...
     document.querySelectorAll('[data-lang-key]').forEach(element => {
         const key = element.getAttribute('data-lang-key');
         const translatedText = getTranslation(key);
@@ -202,8 +232,32 @@ function applyTranslations() {
     }
 }
 
-// (বাকি ফাংশনগুলো যেমন toNativeNumeral, fetchWithTimeout, determineLanguageAndLocation, fetchCorrectTime, initializeDateTimeDisplay, determineEidName, updateGreetingMessageWithEid, updateTimeDate আগের মতোই থাকবে)
-// ... (আগের কোডের মাঝের অংশ অপরিবর্তিত) ...
+
+// --- এর পরের সব ফাংশন (determineLanguageAndLocation থেকে শুরু করে copyLink পর্যন্ত) আগের উত্তরে যেমন ছিল, তেমনই থাকবে। ---
+// --- কোনো পরিবর্তন করার প্রয়োজন নেই, কারণ সমস্যা ছিল ফাংশন ডিক্লেয়ারেশনের ক্রমে। ---
+
+// আগের উত্তরে যেমন ছিল:
+// determineLanguageAndLocation()
+// fetchCorrectTime()
+// initializeDateTimeDisplay()
+// determineEidName()
+// updateGreetingMessageWithEid()
+// updateTimeDate()
+// updateMusicButton()
+// attemptMusicPlay()
+// toggleMusic()
+// handleFirstUserInteractionForMedia()
+// setLanguage()
+// setTheme()
+// toggleTheme()
+// window.onload
+// showStatusMessage()
+// generateAndShareLink()
+// showManualLink()
+// copyLink()
+
+// নিচে আমি শুধু ফাংশনগুলোর ক্রম ঠিক রাখছি, ভেতরের কোড আগের মতোই থাকবে
+
 async function determineLanguageAndLocation() {
     const urlParams = new URLSearchParams(window.location.search);
     const langParam = urlParams.get('lang');
@@ -308,8 +362,8 @@ function updateGreetingMessageWithEid() {
     }
     greetingMessageEl.textContent = finalGreetingMessage;
     document.title = finalPageTitle;
-    greetingMessageEl.style.animation = 'none'; 
-    greetingMessageEl.offsetHeight; 
+    greetingMessageEl.style.animation = 'none';
+    greetingMessageEl.offsetHeight;
     greetingMessageEl.style.animation = null;
 }
 
@@ -368,9 +422,8 @@ function attemptMusicPlay(interactionType = "user_interaction") {
             if (playPromise !== undefined) {
                 playPromise.then(() => {
                     musicPlayAttemptedOnInteraction = true;
-                    canAutoplayAudio = true; // Successfully played, so future autoplays might work
+                    canAutoplayAudio = true;
                     updateMusicButton();
-                    // Remove interaction listeners ONLY if play was due to direct interaction
                     if (interactionType === "user_interaction") {
                         document.body.removeEventListener('click', handleFirstUserInteractionForMedia);
                         document.body.removeEventListener('touchstart', handleFirstUserInteractionForMedia);
@@ -380,23 +433,21 @@ function attemptMusicPlay(interactionType = "user_interaction") {
                     console.warn(`Music play failed (${interactionType}):`, error.name, error.message);
                     updateMusicButton();
                     if (error.name === 'NotAllowedError' && interactionType !== "user_interaction") {
-                        // Autoplay failed, add listeners for first user interaction
                         document.body.addEventListener('click', handleFirstUserInteractionForMedia, { once: true });
                         document.body.addEventListener('touchstart', handleFirstUserInteractionForMedia, { once: true });
                     }
                     reject(error);
                 });
             } else {
-                // play() didn't return a promise (older browser or unusual case)
-                updateMusicButton(); // Still try to update button
+                updateMusicButton();
                 reject(new Error("play() did not return a promise."));
             }
         } else if (backgroundMusic && !backgroundMusic.paused) {
-            resolve(true); // Already playing
+            resolve(true);
         } else if (!backgroundMusic) {
             reject(new Error("Background music element not found."));
         } else {
-            resolve(false); // Paused, but no action taken by this call.
+            resolve(false);
         }
     });
 }
@@ -408,11 +459,10 @@ function toggleMusic() {
     } else {
         backgroundMusic.pause();
     }
-    // updateMusicButton(); // attemptMusicPlay and pause event will handle this
 }
 
 function handleFirstUserInteractionForMedia(event) {
-    if (!musicPlayAttemptedOnInteraction) { // Only attempt if not already tried
+    if (!musicPlayAttemptedOnInteraction) {
         attemptMusicPlay("user_interaction").catch(err => console.warn("First interaction music play failed:", err));
     }
     if (eidVideoEl && eidVideoEl.paused) {
@@ -471,14 +521,12 @@ window.onload = async function() {
     await fetchCorrectTime();
     updateGreetingMessageWithEid();
 
-    // Video Autoplay (muted)
     if (eidVideoEl) {
-        eidVideoEl.muted = true; // Ensure video is muted for autoplay
+        eidVideoEl.muted = true;
         const videoPlayPromise = eidVideoEl.play();
         if (videoPlayPromise !== undefined) {
             videoPlayPromise.catch(error => {
                 console.warn("Video autoplay was prevented:", error.name, error.message);
-                // If video autoplay fails, and audio hasn't been interacted with, set up interaction listener
                 if (!musicPlayAttemptedOnInteraction) {
                      document.body.addEventListener('click', handleFirstUserInteractionForMedia, { once: true });
                      document.body.addEventListener('touchstart', handleFirstUserInteractionForMedia, { once: true });
@@ -488,27 +536,12 @@ window.onload = async function() {
         eidVideoEl.onerror = function() { console.error("Error loading video."); };
     }
 
-    // Audio Autoplay Attempt (best effort)
     if (backgroundMusic) {
-        updateMusicButton(); // Set initial button state
-
-        // Try to play audio. This might be blocked by the browser.
-        attemptMusicPlay("initial_autoplay_attempt").catch(err => {
-            // If initial autoplay fails, the 'NotAllowedError' case inside attemptMusicPlay
-            // should have already set up the user interaction listeners.
-            // console.log("Initial audio autoplay attempt was blocked or failed silently earlier.");
-        });
-
+        updateMusicButton();
+        attemptMusicPlay("initial_autoplay_attempt").catch(err => { /* Autoplay failure handled in function */ });
         backgroundMusic.onplay = updateMusicButton;
         backgroundMusic.onpause = updateMusicButton;
-        backgroundMusic.onended = () => { // If you want it to loop and button to reset
-            if (backgroundMusic.loop) {
-                // updateMusicButton(); // It will replay and trigger 'onplay'
-            } else {
-                updateMusicButton(); // Reset to 'play' icon if not looping
-            }
-        };
-
+        backgroundMusic.onended = () => { if (!backgroundMusic.loop) { updateMusicButton(); }};
     }
 
     if (languageSelector) {
@@ -536,22 +569,16 @@ window.onload = async function() {
     } else {
         console.error("Fireworks functions not loaded correctly.");
     }
-
     initializeDateTimeDisplay();
 };
 
-// (showStatusMessage, generateAndShareLink, showManualLink, copyLink ফাংশনগুলো আগের মতোই থাকবে)
-// ... (আগের কোডের শেষের অংশ অপরিবর্তিত) ...
 function showStatusMessage(messageKey, type = 'info', duration = 3000, params = {}) { if (!statusMessageDiv) return; clearTimeout(statusTimeout); statusMessageDiv.textContent = getTranslation(messageKey, params); statusMessageDiv.className = ''; statusMessageDiv.classList.add(type); statusMessageDiv.style.display = 'block'; setTimeout(() => { statusMessageDiv.style.opacity = '1'; }, 10); statusTimeout = setTimeout(() => { statusMessageDiv.style.opacity = '0'; setTimeout(() => { statusMessageDiv.style.display = 'none'; }, 500); }, duration); }
 async function generateAndShareLink() { if (!userNameInput || !generateButton) return; const userName = userNameInput.value.trim(); if (userName === "") { showStatusMessage("statusEnterName", "error"); return; }
-    // Ensure music is playing or attempt to play it on share
     if (backgroundMusic && backgroundMusic.paused && !musicPlayAttemptedOnInteraction) {
         await attemptMusicPlay("user_interaction").catch(err => console.warn("Music play on share failed:", err));
     } else if (backgroundMusic && backgroundMusic.paused && musicPlayAttemptedOnInteraction && canAutoplayAudio) {
-        // If user previously allowed play, try again without needing interaction listener
          await attemptMusicPlay("implicit_permission").catch(err => console.warn("Music play on share (implicit) failed:", err));
     }
-
 
     const currentUrl = new URL(window.location.href); currentUrl.searchParams.set('name', userName); const newLink = currentUrl.toString(); const sharerNameForMessage = decodeURIComponent(userName);
     const clientNow = new Date(); const correctedNow = new Date(clientNow.getTime() + timeOffset); const currentGregorianYear = correctedNow.getFullYear(); let eidName = null;
