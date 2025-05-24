@@ -13,12 +13,12 @@ async function fetchWithTimeout(resource, options = {}, timeout = 8000) {
     } catch (error) {
         clearTimeout(id);
         console.error(`Fetch error for ${resource}:`, error.name, error.message);
-        throw error; // Re-throw to be caught by caller
+        throw error;
     }
 }
 
 function toNativeNumeral(numStr, lang) {
-    if (typeof numStr === 'undefined' || numStr === null) return ''; // Return empty string for undefined
+    if (typeof numStr === 'undefined' || numStr === null) return '';
     if (lang === 'bn') {
         const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
         return String(numStr).split('').map(digit => /\d/.test(digit) ? bengaliDigits[parseInt(digit)] : digit).join('');
@@ -39,156 +39,78 @@ function sanitizeHTML(str) {
 // --- Global Constants and Variables ---
 const translations = {
     'bn': {
-        'pageTitle': 'ঈদ মোবারক!',
-        'greetingMessage': 'ঈদ মোবারক!',
-        'greetingMessageFrom': '{name} এর পক্ষ থেকে, ঈদ মোবারক!',
-        'yourNameLabel': 'আপনার নাম লিখুন:',
-        'namePlaceholder': 'এখানে আপনার নাম দিন',
-        'shareButtonText': 'WhatsApp এ শেয়ার করুন',
-        'shareLinkManualText': 'এই লিঙ্কটি বন্ধুদের সাথে শেয়ার করুন (যদি অটো-শেয়ার কাজ না করে):',
-        'copyButtonText': 'কপি করুন',
-        'eidWishesFooter': 'সবাইকে ঈদের আন্তরিক শুভেচ্ছা!',
-        'timeLabel': 'সময়',
-        'dateLabel': 'তারিখ',
-        'hijriDateLabel': 'ইসলামী তারিখ',
-        'hijriYearSuffix': 'হিজরি',
-        'statusEnterName': 'অনুগ্রহ করে আপনার নাম লিখুন।',
-        'statusShareOptions': 'শুভেচ্ছা শেয়ার করার জন্য অপশন দেখানো হয়েছে!',
-        'statusShareError': 'শেয়ার অপশন কাজ করেনি/বাতিল হয়েছে। লিঙ্ক কপি করুন।',
-        'statusNoAutoShare': 'আপনার ব্রাউজার অটো-শেয়ার সাপোর্ট করে না। লিঙ্ক কপি করুন।',
-        'statusLinkCopied': 'লিঙ্ক সফলভাবে কপি করা হয়েছে!',
-        'statusLinkCopiedFallback': 'লিঙ্ক কপি করা হয়েছে (ফলব্যাক)!',
-        'statusCopyError': 'দুঃখিত, লিঙ্ক কপি করা যায়নি। নিজে কপি করে নিন।',
-        'hijriDateLoading': 'ইসলামী তারিখ পরীক্ষা করা হচ্ছে...',
-        'hijriDateError': 'ইসলামী তারিখ রূপান্তরে ত্রুটি।',
-        'hijriCalcError': 'হিজরি মাস গণনায় ত্রুটি।',
-        'hijriNotLoaded': 'ইসলামী ক্যালেন্ডার লোড হয়নি.',
-        'musicPlayError': 'মিউজিক প্লে করা যায়নি। ডিভাইস সাউন্ড চেক করুন।',
-        'pageTitleEid': '{eidName} {year} এর শুভেচ্ছা!',
-        'greetingMessageEid': '{eidName} {year}!',
-        'greetingMessageFromEid': '{name} এর পক্ষ থেকে, {eidName} {year}!',
-        'eidAlFitr': 'ঈদুল ফিতর',
-        'eidAlAdha': 'ঈদুল আযহা',
-        'eidMubarakGeneric': 'ঈদ মোবারক',
-        'languageLabel': 'ভাষা:',
-        'themeDark': 'ডার্ক থিম',
-        'themeLight': 'লাইট থিম',
-        'toggleMusicPlay': 'মিউজিক প্লে করুন',
-        'toggleMusicPause': 'মিউজিক বন্ধ করুন'
+        'pageTitle': 'ঈদ মোবারক!', 'greetingMessage': 'ঈদ মোবারক!', 'greetingMessageFrom': '{name} এর পক্ষ থেকে, ঈদ মোবারক!',
+        'yourNameLabel': 'আপনার নাম লিখুন:', 'namePlaceholder': 'এখানে আপনার নাম দিন', 'shareButtonText': 'WhatsApp এ শেয়ার করুন',
+        'shareLinkManualText': 'এই লিঙ্কটি বন্ধুদের সাথে শেয়ার করুন (যদি অটো-শেয়ার কাজ না করে):', 'copyButtonText': 'কপি করুন',
+        'eidWishesFooter': 'সবাইকে ঈদের আন্তরিক শুভেচ্ছা!', 'timeLabel': 'সময়', 'dateLabel': 'তারিখ',
+        'hijriDateLabel': 'ইসলামী তারিখ', 'hijriYearSuffix': 'হিজরি', 'statusEnterName': 'অনুগ্রহ করে আপনার নাম লিখুন।',
+        'statusShareOptions': 'শুভেচ্ছা শেয়ার করার জন্য অপশন দেখানো হয়েছে!', 'statusShareError': 'শেয়ার অপশন কাজ করেনি/বাতিল হয়েছে। লিঙ্ক কপি করুন।',
+        'statusNoAutoShare': 'আপনার ব্রাউজার অটো-শেয়ার সাপোর্ট করে না। লিঙ্ক কপি করুন।', 'statusLinkCopied': 'লিঙ্ক সফলভাবে কপি করা হয়েছে!',
+        'statusLinkCopiedFallback': 'লিঙ্ক কপি করা হয়েছে (ফলব্যাক)!', 'statusCopyError': 'দুঃখিত, লিঙ্ক কপি করা যায়নি। নিজে কপি করে নিন।',
+        'hijriDateLoading': 'ইসলামী তারিখ পরীক্ষা করা হচ্ছে...', 'hijriDateError': 'ইসলামী তারিখ রূপান্তরে ত্রুটি।',
+        'hijriCalcError': 'হিজরি মাস গণনায় ত্রুটি।', 'hijriNotLoaded': 'ইসলামী ক্যালেন্ডার লোড হয়নি।',
+        'musicPlayError': 'মিউজিক প্লে করা যায়নি। ডিভাইস সাউন্ড চেক করুন।', 'pageTitleEid': '{eidName} {year} এর শুভেচ্ছা!',
+        'greetingMessageEid': '{eidName} {year}!', 'greetingMessageFromEid': '{name} এর পক্ষ থেকে, {eidName} {year}!',
+        'eidAlFitr': 'ঈদুল ফিতর', 'eidAlAdha': 'ঈদুল আযহা', 'eidMubarakGeneric': 'ঈদ মোবারক',
+        'languageLabel': 'ভাষা:', 'themeDark': 'ডার্ক থিম', 'themeLight': 'লাইট থিম',
+        'toggleMusicPlay': 'মিউজিক প্লে করুন', 'toggleMusicPause': 'মিউজিক বন্ধ করুন',
+        'shareViaText': 'অন্যান্য মাধ্যমে শেয়ার করুন:', 'shareFacebookText': 'Facebook', 'shareTwitterText': 'Twitter/X',
     },
     'en': {
-        'pageTitle': 'Eid Mubarak!',
-        'greetingMessage': 'Eid Mubarak!',
-        'greetingMessageFrom': 'Eid Mubarak from {name}!',
-        'yourNameLabel': 'Enter your name:',
-        'namePlaceholder': 'Enter your name here',
-        'shareButtonText': 'Share on WhatsApp',
-        'shareLinkManualText': 'Share this link with friends (if auto-share doesn\'t work):',
-        'copyButtonText': 'Copy',
-        'eidWishesFooter': 'Eid greetings to everyone!',
-        'timeLabel': 'Time',
-        'dateLabel': 'Date',
-        'hijriDateLabel': 'Islamic Date',
-        'hijriYearSuffix': 'AH',
-        'statusEnterName': 'Please enter your name.',
-        'statusShareOptions': 'Share options are shown!',
-        'statusShareError': 'Share option failed/cancelled. Please copy the link.',
-        'statusNoAutoShare': 'Your browser does not support auto-share. Please copy the link.',
-        'statusLinkCopied': 'Link copied successfully!',
-        'statusLinkCopiedFallback': 'Link copied (fallback)!',
-        'statusCopyError': 'Sorry, could not copy the link. Please copy it manually.',
-        'hijriDateLoading': 'Checking Islamic date...',
-        'hijriDateError': 'Error in Islamic date conversion.',
-        'hijriCalcError': 'Error in Hijri month calculation.',
-        'hijriNotLoaded': 'Islamic calendar not loaded.',
-        'musicPlayError': 'Could not play music. Check device sound.',
-        'pageTitleEid': '{eidName} {year} Greetings!',
-        'greetingMessageEid': '{eidName} {year}!',
-        'greetingMessageFromEid': 'From {name}, {eidName} {year}!',
-        'eidAlFitr': 'Eid al-Fitr',
-        'eidAlAdha': 'Eid al-Adha',
-        'eidMubarakGeneric': 'Eid Mubarak',
-        'languageLabel': 'Language:',
-        'themeDark': 'Dark Theme',
-        'themeLight': 'Light Theme',
-        'toggleMusicPlay': 'Play Music',
-        'toggleMusicPause': 'Pause Music'
+        'pageTitle': 'Eid Mubarak!', 'greetingMessage': 'Eid Mubarak!', 'greetingMessageFrom': 'Eid Mubarak from {name}!',
+        'yourNameLabel': 'Enter your name:', 'namePlaceholder': 'Enter your name here', 'shareButtonText': 'Share on WhatsApp',
+        'shareLinkManualText': 'Share this link with friends (if auto-share doesn\'t work):', 'copyButtonText': 'Copy',
+        'eidWishesFooter': 'Eid greetings to everyone!', 'timeLabel': 'Time', 'dateLabel': 'Date',
+        'hijriDateLabel': 'Islamic Date', 'hijriYearSuffix': 'AH', 'statusEnterName': 'Please enter your name.',
+        'statusShareOptions': 'Share options are shown!', 'statusShareError': 'Share option failed/cancelled. Please copy the link.',
+        'statusNoAutoShare': 'Your browser does not support auto-share. Please copy the link.', 'statusLinkCopied': 'Link copied successfully!',
+        'statusLinkCopiedFallback': 'Link copied (fallback)!', 'statusCopyError': 'Sorry, could not copy the link. Please copy it manually.',
+        'hijriDateLoading': 'Checking Islamic date...', 'hijriDateError': 'Error in Islamic date conversion.',
+        'hijriCalcError': 'Error in Hijri month calculation.', 'hijriNotLoaded': 'Islamic calendar not loaded.',
+        'musicPlayError': 'Could not play music. Check device sound.', 'pageTitleEid': '{eidName} {year} Greetings!',
+        'greetingMessageEid': '{eidName} {year}!', 'greetingMessageFromEid': 'From {name}, {eidName} {year}!',
+        'eidAlFitr': 'Eid al-Fitr', 'eidAlAdha': 'Eid al-Adha', 'eidMubarakGeneric': 'Eid Mubarak',
+        'languageLabel': 'Language:', 'themeDark': 'Dark Theme', 'themeLight': 'Light Theme',
+        'toggleMusicPlay': 'Play Music', 'toggleMusicPause': 'Pause Music',
+        'shareViaText': 'Share via other platforms:', 'shareFacebookText': 'Facebook', 'shareTwitterText': 'Twitter/X',
     },
     'ar': {
-        'pageTitle': 'عيد مبارك!',
-        'greetingMessage': 'عيد مبارك!',
-        'greetingMessageFrom': 'عيد مبارك من {name}!',
-        'yourNameLabel': 'أدخل اسمك:',
-        'namePlaceholder': 'أدخل اسمك هنا',
-        'shareButtonText': 'شارك على WhatsApp',
-        'shareLinkManualText': 'شارك هذا الرابط مع الأصدقاء (إذا لم تعمل المشاركة التلقائية):',
-        'copyButtonText': 'نسخ',
-        'eidWishesFooter': 'تهاني العيد للجميع!',
-        'timeLabel': 'الوقت',
-        'dateLabel': 'التاريخ',
-        'hijriDateLabel': 'التاريخ الهجري',
-        'hijriYearSuffix': 'هـ',
-        'statusEnterName': 'الرجاء إدخال اسمك.',
-        'statusShareOptions': 'عرضت خيارات المشاركة!',
-        'statusShareError': 'فشلت المشاركة / ألغيت. يرجى نسخ الرابط.',
-        'statusNoAutoShare': 'متصفحك لا يدعم المشاركة التلقائية. يرجى نسخ الرابط.',
-        'statusLinkCopied': 'تم نسخ الرابط بنجاح!',
-        'statusLinkCopiedFallback': 'تم نسخ الرابط (احتياطي)!',
-        'statusCopyError': 'عذراً، لم يتم نسخ الرابط. يرجى نسخه يدوياً.',
-        'hijriDateLoading': 'جاري التحقق من التاريخ الهجري...',
-        'hijriDateError': 'خطأ في تحويل التاريخ الهجري.',
-        'hijriCalcError': 'خطأ في حساب الشهر الهجري.',
-        'hijriNotLoaded': 'التقويم الإسلامي لم يتم تحميله.',
-        'musicPlayError': 'لم يتم تشغيل الموسيقى. تحقق من صوت الجهاز.',
-        'pageTitleEid': 'تهاني {eidName} {year}!',
-        'greetingMessageEid': '{eidName} {year}!',
-        'greetingMessageFromEid': 'من {name}, {eidName} {year}!',
-        'eidAlFitr': 'عيد الفطر',
-        'eidAlAdha': 'عيد الأضحى',
-        'eidMubarakGeneric': 'عيد مبارك',
-        'languageLabel': 'اللغة:',
-        'themeDark': 'الوضع الداكن',
-        'themeLight': 'الوضع الفاتح',
-        'toggleMusicPlay': 'تشغيل الموسيقى',
-        'toggleMusicPause': 'إيقاف الموسيقى'
+        'pageTitle': 'عيد مبارك!', 'greetingMessage': 'عيد مبارك!', 'greetingMessageFrom': 'عيد مبارك من {name}!',
+        'yourNameLabel': 'أدخل اسمك:', 'namePlaceholder': 'أدخل اسمك هنا', 'shareButtonText': 'شارك على WhatsApp',
+        'shareLinkManualText': 'شارك هذا الرابط مع الأصدقاء (إذا لم تعمل المشاركة التلقائية):', 'copyButtonText': 'نسخ',
+        'eidWishesFooter': 'تهاني العيد للجميع!', 'timeLabel': 'الوقت', 'dateLabel': 'التاريخ',
+        'hijriDateLabel': 'التاريخ الهجري', 'hijriYearSuffix': 'هـ', 'statusEnterName': 'الرجاء إدخال اسمك.',
+        'statusShareOptions': 'عرضت خيارات المشاركة!', 'statusShareError': 'فشلت المشاركة / ألغيت. يرجى نسخ الرابط.',
+        'statusNoAutoShare': 'متصفحك لا يدعم المشاركة التلقائية. يرجى نسخ الرابط.', 'statusLinkCopied': 'تم نسخ الرابط بنجاح!',
+        'statusLinkCopiedFallback': 'تم نسخ الرابط (احتياطي)!', 'statusCopyError': 'عذراً، لم يتم نسخ الرابط. يرجى نسخه يدوياً.',
+        'hijriDateLoading': 'جاري التحقق من التاريخ الهجري...', 'hijriDateError': 'خطأ في تحويل التاريخ الهجري.',
+        'hijriCalcError': 'خطأ في حساب الشهر الهجري.', 'hijriNotLoaded': 'التقويم الإسلامي لم يتم تحميله.',
+        'musicPlayError': 'لم يتم تشغيل الموسيقى. تحقق من صوت الجهاز.', 'pageTitleEid': 'تهاني {eidName} {year}!',
+        'greetingMessageEid': '{eidName} {year}!', 'greetingMessageFromEid': 'من {name}, {eidName} {year}!',
+        'eidAlFitr': 'عيد الفطر', 'eidAlAdha': 'عيد الأضحى', 'eidMubarakGeneric': 'عيد مبارك',
+        'languageLabel': 'اللغة:', 'themeDark': 'الوضع الداكن', 'themeLight': 'الوضع الفاتح',
+        'toggleMusicPlay': 'تشغيل الموسيقى', 'toggleMusicPause': 'إيقاف الموسيقى',
+        'shareViaText': 'شارك عبر منصات أخرى:', 'shareFacebookText': 'Facebook', 'shareTwitterText': 'Twitter/X',
     },
     'es': {
-        'pageTitle': '¡Eid Mubarak!',
-        'greetingMessage': '¡Eid Mubarak!',
-        'greetingMessageFrom': '¡Eid Mubarak de parte de {name}!',
-        'yourNameLabel': 'Introduce tu nombre:',
-        'namePlaceholder': 'Introduce tu nombre aquí',
-        'shareButtonText': 'Compartir en WhatsApp',
-        'shareLinkManualText': 'Comparte este enlace con amigos (si la compartición automática no funciona):',
-        'copyButtonText': 'Copiar',
-        'eidWishesFooter': '¡Saludos de Eid para todos!',
-        'timeLabel': 'Hora',
-        'dateLabel': 'Fecha',
-        'hijriDateLabel': 'Fecha Islámica',
-        'hijriYearSuffix': 'H',
-        'statusEnterName': 'Por favor, introduce tu nombre.',
-        'statusShareOptions': '¡Se muestran las opciones para compartir!',
-        'statusShareError': 'La opción de compartir falló o fue cancelada. Por favor, copia el enlace.',
+        'pageTitle': '¡Eid Mubarak!', 'greetingMessage': '¡Eid Mubarak!', 'greetingMessageFrom': '¡Eid Mubarak de parte de {name}!',
+        'yourNameLabel': 'Introduce tu nombre:', 'namePlaceholder': 'Introduce tu nombre aquí', 'shareButtonText': 'Compartir en WhatsApp',
+        'shareLinkManualText': 'Comparte este enlace con amigos (si la compartición automática no funciona):', 'copyButtonText': 'Copiar',
+        'eidWishesFooter': '¡Saludos de Eid para todos!', 'timeLabel': 'Hora', 'dateLabel': 'Fecha',
+        'hijriDateLabel': 'Fecha Islámica', 'hijriYearSuffix': 'H', 'statusEnterName': 'Por favor, introduce tu nombre.',
+        'statusShareOptions': '¡Se muestran las opciones para compartir!', 'statusShareError': 'La opción de compartir falló o fue cancelada. Por favor, copia el enlace.',
         'statusNoAutoShare': 'Tu navegador no soporta la compartición automática. Por favor, copia el enlace.',
-        'statusLinkCopied': '¡Enlace copiado con éxito!',
-        'statusLinkCopiedFallback': '¡Enlace copiado (alternativo)!',
+        'statusLinkCopied': '¡Enlace copiado con éxito!', 'statusLinkCopiedFallback': '¡Enlace copiado (alternativo)!',
         'statusCopyError': 'Lo sentimos, no se pudo copiar el enlace. Por favor, cópialo manualmente.',
-        'hijriDateLoading': 'Comprobando fecha islámica...',
-        'hijriDateError': 'Error en la conversión de la fecha islámica.',
-        'hijriCalcError': 'Error en el cálculo del mes islámico.',
-        'hijriNotLoaded': 'Calendario islámico no cargado.',
+        'hijriDateLoading': 'Comprobando fecha islámica...', 'hijriDateError': 'Error en la conversión de la fecha islámica.',
+        'hijriCalcError': 'Error en el cálculo del mes islámico.', 'hijriNotLoaded': 'Calendario islámico no cargado.',
         'musicPlayError': 'No se pudo reproducir la música. Comprueba el sonido del dispositivo.',
-        'pageTitleEid': '¡Saludos de {eidName} {year}!',
-        'greetingMessageEid': '¡{eidName} {year}!',
-        'greetingMessageFromEid': '¡De parte de {name}, {eidName} {year}!',
-        'eidAlFitr': 'Eid al-Fitr',
-        'eidAlAdha': 'Eid al-Adha',
-        'eidMubarakGeneric': 'Eid Mubarak',
-        'languageLabel': 'Idioma:',
-        'themeDark': 'Tema Oscuro',
-        'themeLight': 'Tema Claro',
-        'toggleMusicPlay': 'Reproducir Música',
-        'toggleMusicPause': 'Pausar Música'
+        'pageTitleEid': '¡Saludos de {eidName} {year}!', 'greetingMessageEid': '¡{eidName} {year}!',
+        'greetingMessageFromEid': '¡De parte de {name}, {eidName} {year}!', 'eidAlFitr': 'Eid al-Fitr',
+        'eidAlAdha': 'Eid al-Adha', 'eidMubarakGeneric': 'Eid Mubarak',
+        'languageLabel': 'Idioma:', 'themeDark': 'Tema Oscuro', 'themeLight': 'Tema Claro',
+        'toggleMusicPlay': 'Reproducir Música', 'toggleMusicPause': 'Pausar Música',
+        'shareViaText': 'Compartir en otras plataformas:', 'shareFacebookText': 'Facebook', 'shareTwitterText': 'Twitter/X',
     }
 };
 const countryToLangMap = { 'SA': 'ar', 'AE': 'ar', 'EG': 'ar', 'KW': 'ar', 'QA': 'ar', 'OM': 'ar', 'BH': 'ar', 'BD': 'bn', 'IN': 'en', 'PK': 'en', 'US': 'en', 'GB': 'en', 'CA': 'en', 'AU': 'en', 'ES': 'es', 'MX': 'es', 'AR': 'es', 'CO': 'es', };
@@ -228,6 +150,9 @@ const musicIconPause = document.getElementById('musicIconPause');
 const themeToggleButton = document.getElementById('themeToggleButton');
 const themeIconDark = document.getElementById('themeIconDark');
 const themeIconLight = document.getElementById('themeIconLight');
+const shareFacebookButton = document.getElementById('shareFacebook');
+const shareTwitterButton = document.getElementById('shareTwitter');
+
 
 // --- Core Application Functions ---
 
@@ -238,7 +163,7 @@ function getTranslation(key, params = {}) {
     } else if (translations['en'] && typeof translations['en'][key] !== 'undefined') {
         text = translations['en'][key];
     } else {
-        text = key; // Fallback to key if no translation found
+        text = key;
     }
     for (const param in params) {
         text = text.replace(`{${param}}`, params[param]);
@@ -306,7 +231,7 @@ async function determineLanguageAndLocation() {
                 if (data.timezone) userTimeZone = data.timezone;
             }
         }
-    } catch (error) { /* Error already logged in fetchWithTimeout */ }
+    } catch (error) { /* Error handled in fetchWithTimeout */ }
 
     if (languageSelector && languageSelector.value !== currentLang) languageSelector.value = currentLang;
     document.documentElement.lang = currentLang;
@@ -326,7 +251,7 @@ async function fetchCorrectTime() {
             initialTimeSynced = true;
             success = true;
         }
-    } catch (error) { /* Error already logged in fetchWithTimeout */ }
+    } catch (error) { /* Error handled in fetchWithTimeout */ }
     if (!success) {
         timeOffset = 0;
         initialTimeSynced = false;
@@ -335,10 +260,7 @@ async function fetchCorrectTime() {
 }
 
 function initializeDateTimeDisplay() {
-    if (!currentTimeEl || !currentDateEl || !currentHijriDateEl) {
-        console.error("Date/Time elements not found for initialization.");
-        return;
-    }
+    if (!currentTimeEl || !currentDateEl || !currentHijriDateEl) return;
     updateTimeDate();
     setInterval(updateTimeDate, 1000);
 }
@@ -369,7 +291,6 @@ function updateGreetingMessageWithEid() {
     let sharerNameForDisplay = '';
     if (sharerNameParamRaw) {
         sharerNameForDisplay = decodeURIComponent(sharerNameParamRaw);
-        // let sanitizedName = sanitizeHTML(sharerNameForDisplay); // Use if inserting into innerHTML
     }
 
     let finalGreetingMessage;
@@ -394,19 +315,18 @@ function updateGreetingMessageWithEid() {
     greetingMessageEl.textContent = finalGreetingMessage;
     if (document.title !== finalPageTitle) document.title = finalPageTitle;
     greetingMessageEl.style.animation = 'none';
-    greetingMessageEl.offsetHeight; // Trigger reflow
+    greetingMessageEl.offsetHeight;
     greetingMessageEl.style.animation = null;
 }
 
 function updateTimeDate() {
     if (!currentLang || !hijriMonthsData[currentLang]) {
-        const clientNowBasic = new Date();
-        const correctedNowBasic = new Date(clientNowBasic.getTime() + timeOffset);
+        const correctedNowBasic = new Date(new Date().getTime() + timeOffset);
         const timeOptionsBasic = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
-        if(userTimeZone && userTimeZone !== 'Etc/Unknown') timeOptionsBasic.timeZone = userTimeZone;
+        if(userTimeZone && userTimeZone !== 'Etc/Unknown' && userTimeZone !== 'Etc/UTC') timeOptionsBasic.timeZone = userTimeZone;
         if (currentTimeEl) currentTimeEl.textContent = `${getTranslation('timeLabel')}: ${correctedNowBasic.toLocaleTimeString(userLocale, timeOptionsBasic)}`;
         const dateOptionsBasic = { day: 'numeric', month: 'long', year: 'numeric' };
-        if(userTimeZone && userTimeZone !== 'Etc/Unknown') dateOptionsBasic.timeZone = userTimeZone;
+        if(userTimeZone && userTimeZone !== 'Etc/Unknown' && userTimeZone !== 'Etc/UTC') dateOptionsBasic.timeZone = userTimeZone;
         if (currentDateEl) currentDateEl.textContent = `${getTranslation('dateLabel')}: ${correctedNowBasic.toLocaleDateString(userLocale, dateOptionsBasic)}`;
         if (currentHijriDateEl) currentHijriDateEl.textContent = getTranslation('hijriDateLoading');
         return;
@@ -491,7 +411,6 @@ function attemptMusicPlay(interactionType = "user_interaction") {
                     }
                     resolve(true);
                 }).catch(error => {
-                    // console.warn(`Music play failed (${interactionType}):`, error.name, error.message);
                     updateMusicButton();
                     if (error.name === 'NotAllowedError' && interactionType !== "user_interaction") {
                         document.body.addEventListener('click', handleFirstUserInteractionForMedia, { once: true });
@@ -516,7 +435,7 @@ function attemptMusicPlay(interactionType = "user_interaction") {
 function toggleMusic() {
     if (!backgroundMusic) return;
     if (backgroundMusic.paused) {
-        attemptMusicPlay("user_interaction").catch(err => { /* console.warn("Toggle music play failed:", err.message) */ });
+        attemptMusicPlay("user_interaction").catch(err => { /* Error logged in attemptMusicPlay */ });
     } else {
         backgroundMusic.pause();
     }
@@ -524,7 +443,7 @@ function toggleMusic() {
 
 function handleFirstUserInteractionForMedia(event) {
     if (!musicPlayAttemptedOnInteraction) {
-        attemptMusicPlay("user_interaction").catch(err => { /* console.warn("First interaction music play failed:", err.message) */ });
+        attemptMusicPlay("user_interaction").catch(err => { /* Error logged in attemptMusicPlay */ });
     }
     if (eidVideoEl && eidVideoEl.paused) {
         eidVideoEl.play().catch(e => console.warn("Video play failed on interaction:", e));
@@ -571,7 +490,7 @@ function showStatusMessage(messageKey, type = 'info', duration = 3000, params = 
     if (!statusMessageDiv) return;
     clearTimeout(statusTimeout);
     statusMessageDiv.textContent = getTranslation(messageKey, params);
-    statusMessageDiv.className = ''; // Clear existing classes
+    statusMessageDiv.className = '';
     statusMessageDiv.classList.add(type);
     statusMessageDiv.style.display = 'block';
     setTimeout(() => { statusMessageDiv.style.opacity = '1'; }, 10);
@@ -581,6 +500,58 @@ function showStatusMessage(messageKey, type = 'info', duration = 3000, params = 
     }, duration);
 }
 
+function shareOnSocialMedia(platform) {
+    const sharableLinkInput = document.getElementById('sharableLink');
+    const linkToShare = (sharableLinkInput && sharableLinkInput.value) ? sharableLinkInput.value : window.location.href;
+    
+    let textToShare = document.title; 
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const sharerNameParamRaw = urlParams.get('name');
+    let sharerNameForDisplay = '';
+    if(sharerNameParamRaw) sharerNameForDisplay = decodeURIComponent(sharerNameParamRaw);
+
+    let customMessage = getTranslation('greetingMessage');
+    if (sharerNameForDisplay) {
+        customMessage = getTranslation('greetingMessageFrom', { name: sharerNameForDisplay });
+    }
+
+    const correctedNow = new Date(new Date().getTime() + timeOffset);
+    const currentGregorianYear = correctedNow.getFullYear();
+    let eidName = null;
+    if (typeof HijriDate !== 'undefined' && HijriDate.JS && typeof HijriDate.JS.convert === 'function') {
+        try {
+            const hijriInstance = HijriDate.JS.convert(correctedNow);
+            if (hijriInstance && typeof hijriInstance.getMonth === 'function') {
+                eidName = determineEidName(hijriInstance.getMonth(), hijriInstance.getDate());
+            }
+        } catch (e) { /* ignore */ }
+    }
+
+    if (eidName) {
+        const yearText = toNativeNumeral(currentGregorianYear, currentLang);
+        if (sharerNameForDisplay) {
+            customMessage = getTranslation('greetingMessageFromEid', { name: sharerNameForDisplay, eidName: eidName, year: yearText });
+        } else {
+            customMessage = getTranslation('greetingMessageEid', { eidName: eidName, year: yearText });
+        }
+    }
+    textToShare = `${customMessage} - ${getTranslation('eidWishesFooter')}`;
+
+
+    let shareUrl = '';
+    if (platform === 'facebook') {
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(linkToShare)}"e=${encodeURIComponent(textToShare)}`;
+    } else if (platform === 'twitter') {
+        shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(linkToShare)}&text=${encodeURIComponent(textToShare)}`;
+    }
+
+    if (shareUrl) {
+        window.open(shareUrl, '_blank', 'noopener,noreferrer,width=600,height=400');
+    }
+}
+
+
 async function generateAndShareLink() {
     if (!userNameInput || !generateButton) return;
     const userNameRaw = userNameInput.value.trim();
@@ -588,7 +559,7 @@ async function generateAndShareLink() {
         showStatusMessage("statusEnterName", "error");
         return;
     }
-    const userNameForDisplay = userNameRaw; // No sanitization needed for text context
+    const userNameForDisplay = userNameRaw;
 
     if (backgroundMusic && backgroundMusic.paused) {
         if (!musicPlayAttemptedOnInteraction) {
@@ -601,6 +572,11 @@ async function generateAndShareLink() {
     const currentUrl = new URL(window.location.href);
     currentUrl.searchParams.set('name', userNameRaw);
     const newLink = currentUrl.toString();
+    
+    // Update sharableLink input field value when a link is generated
+    const sharableLinkInput = document.getElementById('sharableLink');
+    if (sharableLinkInput) sharableLinkInput.value = newLink;
+
 
     const correctedNow = new Date(new Date().getTime() + timeOffset);
     const currentGregorianYear = correctedNow.getFullYear();
@@ -627,14 +603,13 @@ async function generateAndShareLink() {
             await navigator.share({ title: document.title, text: shareText, url: newLink });
             showStatusMessage('statusShareOptions', 'success', 1000);
             const linkContainer = document.getElementById('generatedLinkContainer');
-            if(linkContainer) linkContainer.style.display = 'none';
+            if(linkContainer) linkContainer.style.display = 'none'; // Hide manual link if native share works
         } catch (error) {
-            // console.error("Error during navigator.share:", error);
-            showManualLink(newLink);
+            showManualLink(newLink); // Show manual link if native share fails
             showStatusMessage('statusShareError', 'info', 4000);
         }
     } else {
-        showManualLink(newLink);
+        showManualLink(newLink); // Show manual link if navigator.share is not supported
         showStatusMessage('statusNoAutoShare', 'info', 4000);
     }
     userNameInput.value = '';
@@ -645,7 +620,7 @@ function showManualLink(link) {
     const linkContainer = document.getElementById('generatedLinkContainer');
     const sharableLinkInput = document.getElementById('sharableLink');
     if (!linkContainer || !sharableLinkInput) return;
-    sharableLinkInput.value = link;
+    sharableLinkInput.value = link; // Ensure the link is set here as well
     linkContainer.style.display = 'block';
 }
 
@@ -653,20 +628,18 @@ function copyLink() {
     const sharableLinkInput = document.getElementById('sharableLink');
     if (!sharableLinkInput) return;
     sharableLinkInput.select();
-    sharableLinkInput.setSelectionRange(0, 99999); // For mobile devices
+    sharableLinkInput.setSelectionRange(0, 99999);
     try {
         navigator.clipboard.writeText(sharableLinkInput.value)
             .then(() => { showStatusMessage("statusLinkCopied", "success"); })
             .catch(err => {
-                // console.error("Clipboard API copy failed:", err);
-                if(document.execCommand('copy')) { // Fallback
+                if(document.execCommand('copy')) {
                     showStatusMessage("statusLinkCopiedFallback", "success");
                 } else {
                     showStatusMessage("statusCopyError", "error", 4000);
                 }
             });
-    } catch (err) { // Fallback for older browsers
-        // console.error("Clipboard API not available or other error:", err);
+    } catch (err) {
         if(document.execCommand('copy')) {
             showStatusMessage("statusLinkCopiedFallback", "success");
         } else {
@@ -677,7 +650,6 @@ function copyLink() {
 
 // --- Window Onload Event ---
 window.onload = async function() {
-    // console.log("Window.onload started");
     if (document.body) {
         const savedTheme = localStorage.getItem('preferredTheme');
         setTheme(savedTheme && (savedTheme === 'light' || savedTheme === 'dark') ? savedTheme : 'dark');
@@ -693,7 +665,6 @@ window.onload = async function() {
         const videoPlayPromise = eidVideoEl.play();
         if (videoPlayPromise !== undefined) {
             videoPlayPromise.catch(error => {
-                // console.warn("Video autoplay was prevented:", error.name, error.message);
                 if (!musicPlayAttemptedOnInteraction) {
                      document.body.addEventListener('click', handleFirstUserInteractionForMedia, { once: true });
                      document.body.addEventListener('touchstart', handleFirstUserInteractionForMedia, { once: true });
@@ -705,7 +676,7 @@ window.onload = async function() {
 
     if (backgroundMusic) {
         updateMusicButton();
-        attemptMusicPlay("initial_autoplay_attempt").catch(err => { /* Error handled in func */ });
+        attemptMusicPlay("initial_autoplay_attempt").catch(err => { /* Handled in func */ });
         backgroundMusic.onplay = updateMusicButton;
         backgroundMusic.onpause = updateMusicButton;
         backgroundMusic.onended = () => { if (!backgroundMusic.loop) { updateMusicButton(); }};
@@ -724,6 +695,13 @@ window.onload = async function() {
     if (themeToggleButton) {
         themeToggleButton.addEventListener('click', toggleTheme);
     }
+    if (shareFacebookButton) {
+        shareFacebookButton.addEventListener('click', () => shareOnSocialMedia('facebook'));
+    }
+    if (shareTwitterButton) {
+        shareTwitterButton.addEventListener('click', () => shareOnSocialMedia('twitter'));
+    }
+
 
     if (generateButton && userNameInput) {
         generateButton.disabled = true;
@@ -738,5 +716,4 @@ window.onload = async function() {
     } else {
         console.error("Fireworks functions not loaded correctly.");
     }
-    // console.log("Window.onload finished");
 };
