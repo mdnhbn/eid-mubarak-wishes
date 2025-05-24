@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="style.css">
 </head>
-<body lang="bn" data-theme="dark"> <!-- data-theme অ্যাট্রিবিউট যোগ করা হয়েছে -->
+<body lang="bn" data-theme="dark">
     <canvas id="fireworksCanvas"></canvas>
     <audio id="backgroundMusic" src="eidmubarak.mp3" loop preload="metadata"></audio>
 
@@ -55,6 +55,18 @@
             <p data-lang-key="shareLinkManualText">এই লিঙ্কটি বন্ধুদের সাথে শেয়ার করুন (যদি অটো-শেয়ার কাজ না করে):</p>
             <input type="text" id="sharableLink" readonly>
             <button id="copyButton" onclick="copyLink()" data-lang-key="copyButtonText">কপি করুন</button>
+
+            <div class="social-share-buttons">
+                <p data-lang-key="shareViaText" style="margin-top: 15px; margin-bottom: 5px;">অন্যান্য মাধ্যমে শেয়ার করুন:</p>
+                <button id="shareFacebook" class="social-button facebook" aria-label="Share on Facebook">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2.04C6.48 2.04 2 6.52 2 12.04s4.48 10 10 10 10-4.48 10-10S17.52 2.04 12 2.04zm2.75 10.58h-1.6V18h-2.73v-5.38H9.14V10.3h1.28V8.91c0-1.2.54-2.37 2.37-2.37h1.75v2.2H13.4c-.23 0-.44.13-.44.45v1.11h1.78l-.23 2.28z"/></svg>
+                    <span data-lang-key="shareFacebookText">Facebook</span>
+                </button>
+                <button id="shareTwitter" class="social-button twitter" aria-label="Share on Twitter">
+                     <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.48 2.96,10.3 2.38,10C2.38,10.02 2.38,10.04 2.38,10.06C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16.03 5.96,17.26 7.78,17.3C6.31,18.46 4.36,19.14 2.22,19.14C1.88,19.14 1.53,19.12 1.19,19.08C2.74,20.09 4.65,20.63 6.69,20.63C16.05,20.63 20.48,12.97 20.48,6.25C20.48,6.08 20.48,5.92 20.47,5.75C21.31,5.16 22,4.42 22.46,3.62V6Z" /></svg>
+                    <span data-lang-key="shareTwitterText">Twitter/X</span>
+                </button>
+            </div>
         </div>
     </div>
     <footer>
