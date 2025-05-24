@@ -169,7 +169,7 @@ button#copyButton:hover { background-color: #DAA520; }
     color: #f0e68c;
     margin-bottom: 8px !important;
 }
-body[data-theme="light"] .social-share-buttons p { color: #004d00; }
+body[data-theme="light"] .social-share-buttons p { color: #333333; } /* Darker text for light theme */
 
 .social-button {
     padding: 8px 15px; border: none; border-radius: 8px; color: white;
@@ -184,13 +184,15 @@ body[data-theme="light"] .social-share-buttons p { color: #004d00; }
 
 
 /* Footer */
-footer {
-    margin-top: 15px; font-size: 0.85em; color: #f0e68c;
+#mainFooter { /* Changed from footer to #mainFooter for specificity */
+    margin-top: 15px; font-size: 0.85em; color: #f0e68c; /* Default for dark theme */
     position: relative; z-index: 1; padding-bottom: 15px;
     transition: color 0.3s;
 }
 .dateTimeEntry { margin-top: 4px; font-size: 0.9em; }
-.dateTimeEntry span { margin: 0 3px; }
+/* Default span color within dateTimeEntry will inherit from #mainFooter */
+/* .dateTimeEntry span { margin: 0 3px; } */
+
 
 /* Controls for language, music, theme */
 .controls-top-right {
@@ -212,46 +214,43 @@ body[lang="ar"] .controls-top-right { right: auto; left: 15px; }
 .controls-top-right select:hover, .controls-top-right button:hover {
     border-color: #DAA520; background-color: #003f00;
 }
-/* ... (আগের সব CSS কোড অপরিবর্তিত থাকবে, শুধুমাত্র নিচের অংশটুকু পরিবর্তন হবে) ... */
 
 /* Light Theme Styles */
 body[data-theme="light"] {
-    background: #f4f4f4; /* খুব হালকা ধূসর বা প্রায় সাদা ব্যাকগ্রাউন্ড */
-    color: #333333;    /* ডিফল্ট টেক্সট কালার (গাঢ় ধূসর) */
+    background: #f4f4f4; /* Very light gray or off-white */
+    color: #333333;    /* Default dark gray text for light theme */
 }
 body[data-theme="light"] .container {
-    background-color: #ffffff; /* কন্টেইনারের জন্য সাদা ব্যাকগ্রাউন্ড */
-    border-color: #cccccc;     /* হালকা ধূসর বর্ডার */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* হালকা শ্যাডো */
+    background-color: #ffffff; /* White container */
+    border-color: #cccccc;     /* Light gray border */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
 }
 body[data-theme="light"] #eidVideo {
     border-color: #cccccc;
-    background-color: #f0f0f0; /* ভিডিওর ব্যাকগ্রাউন্ড */
+    background-color: #f0f0f0;
 }
 body[data-theme="light"] .greeting-message {
-    color: #007bff; /* একটি উজ্জ্বল নীল রং */
-    text-shadow: none; /* লাইট থিমে টেক্সট শ্যাডো বাদ দেওয়া যেতে পারে */
+    color: #007bff; /* A pleasant blue */
+    text-shadow: none;
 }
 
-body[data-theme="light"] label,
-body[data-theme="light"] #generatedLinkContainer p,
-body[data-theme="light"] .social-share-buttons p {
-     color: #333333; /* গাঢ় ধূসর */
+body[data-theme="light"] label {
+     color: #333333; /* Dark gray for labels */
 }
+body[data-theme="light"] #generatedLinkContainer p {
+    color: #333333; /* Dark gray for text in generated link area */
+}
+
 
 /* --- ফুটারের টেক্সট কালার লাইট থিমের জন্য মূল পরিবর্তন এখানে --- */
-body[data-theme="light"] footer {
-    color: #111111 !important; /* খুব গাঢ় ধূসর, প্রায় কালো এবং !important */
+body[data-theme="light"] #mainFooter {
+    color: #000000 !important; /* BLACK color for footer text in light mode */
 }
-/* ফুটারের ভেতরের নির্দিষ্ট টেক্সট এলিমেন্টগুলোর জন্যও একই রং নিশ্চিত করা হচ্ছে */
-body[data-theme="light"] footer p[data-lang-key="eidWishesFooter"] {
-    color: #111111 !important;
-}
-body[data-theme="light"] .dateTimeEntry { /* .dateTimeEntry div এর জন্য */
-    color: #111111 !important;
-}
-body[data-theme="light"] .dateTimeEntry span { /* এর ভেতরের span গুলোর জন্য */
-    color: #111111 !important;
+/* It's better to target specific elements if the above is not enough */
+body[data-theme="light"] #mainFooter p,
+body[data-theme="light"] #mainFooter .dateTimeEntry,
+body[data-theme="light"] #mainFooter .dateTimeEntry span {
+    color: #000000 !important; /* Ensure all text within footer is black */
 }
 /* --- উপরের অংশে পরিবর্তন শেষ --- */
 
@@ -262,14 +261,14 @@ body[data-theme="light"] input[type="text"] {
     border-color: #cccccc;
 }
 body[data-theme="light"] input[type="text"]::placeholder {
-    color: #777777; /* মাঝারি ধূসর */
+    color: #777777;
 }
 body[data-theme="light"] #statusMessage.success { background-color: #28a745; color:white;}
 body[data-theme="light"] #statusMessage.error { background-color: #dc3545; color:white;}
 body[data-theme="light"] #statusMessage.info { background-color: #17a2b8; color:white;}
 
 body[data-theme="light"] #generatedLinkContainer {
-    background-color: #f9f9f9; /* হালকা ধূসর */
+    background-color: #f9f9f9;
     border-color: #dddddd;
 }
 body[data-theme="light"] #sharableLink {
@@ -278,44 +277,42 @@ body[data-theme="light"] #sharableLink {
     border-color: #cccccc;
 }
 body[data-theme="light"] button#copyButton {
-    background-color: #007bff; /* নীল */
+    background-color: #007bff;
     color: white;
 }
 body[data-theme="light"] button#copyButton:hover {
-    background-color: #0056b3; /* গাঢ় নীল */
+    background-color: #0056b3;
 }
-body[data-theme="light"] button#generateButton { /* WhatsApp বাটন */
-    background-color: #25D366; /* WhatsApp সবুজ */
+body[data-theme="light"] button#generateButton {
+    background-color: #25D366;
     color: white;
 }
 body[data-theme="light"] button#generateButton:hover {
-    background-color: #1DAE54; /* গাঢ় WhatsApp সবুজ */
+    background-color: #1DAE54;
 }
 
 
 body[data-theme="light"] .controls-top-right {
-    background-color: rgba(255, 255, 255, 0.9); /* সাদা, সামান্য স্বচ্ছ */
+    background-color: rgba(255, 255, 255, 0.9);
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 body[data-theme="light"] .controls-top-right label {
-    color: #333333; /* গাঢ় ধূসর */
+    color: #333333;
 }
 body[data-theme="light"] .controls-top-right select,
 body[data-theme="light"] .controls-top-right button {
     background-color: #ffffff;
-    color: #333333; /* গাঢ় ধূসর */
+    color: #333333;
     border-color: #cccccc;
 }
 body[data-theme="light"] .controls-top-right button svg {
-    fill: #333333; /* গাঢ় ধূসর */
+    fill: #333333;
 }
 body[data-theme="light"] .controls-top-right select:hover,
 body[data-theme="light"] .controls-top-right button:hover {
     border-color: #bbbbbb;
     background-color: #f0f0f0;
 }
-
-/* ... (বাকি Responsive Media Queries অপরিবর্তিত থাকবে) ... */
 
 /* Responsive Media Queries */
 @media (max-width: 600px) {
@@ -338,8 +335,7 @@ body[data-theme="light"] .controls-top-right button:hover {
     button#generateButton svg { width: 18px; height: 18px; }
     #statusMessage { font-size: 0.85em; }
     #sharableLink, button#copyButton { font-size: 0.9em; }
-    /* Footer font size was already responsive, color is handled above */
-    /* footer { font-size: 0.8em; } */
+    #mainFooter { font-size: 0.8em; } /* Changed from footer to #mainFooter */
     .dateTimeEntry { font-size: 0.85em; }
     .social-button { padding: 7px 12px; font-size: 0.85em; }
     .social-button svg { width: 16px; height: 16px; }
