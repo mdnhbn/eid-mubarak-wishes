@@ -212,7 +212,7 @@ body[lang="ar"] .controls-top-right { right: auto; left: 15px; }
     border-color: #DAA520; background-color: #003f00;
 }
 
-/* Light Theme Styles - কোরবানির ঈদের জন্য নতুন থিম */
+/* Light Theme Styles - কোরবানির ঈদের জন্য থিম */
 body[data-theme="light"] {
     background: #fdf5e6; /* খুব হালকা সোনালী/ক্রিম কালার */
     color: #5a3a22;    /* গাঢ় বাদামী টেক্সট */
@@ -275,7 +275,7 @@ body[data-theme="light"] button#generateButton svg {
     fill: #000000 !important; /* SVG আইকনের রংও কালো */
 }
 body[data-theme="light"] button#generateButton:hover {
-    background-color: #1DAE54;
+    background-color: #1DAE54; /* হোভারে গাঢ় সবুজ (অপরিবর্তিত) */
     color: #000000 !important; /* হোভারেও লেখার রং কালো */
 }
 body[data-theme="light"] button#generateButton:hover svg {
@@ -283,9 +283,6 @@ body[data-theme="light"] button#generateButton:hover svg {
 }
 /* --- উপরের অংশে পরিবর্তন শেষ --- */
 
-/* Facebook ও Twitter বাটনের রং লাইট থিমে অপরিবর্তিত রাখা হয়েছে (তাদের ব্র্যান্ড কালার) */
-/* body[data-theme="light"] .social-button.facebook { ... } */
-/* body[data-theme="light"] .social-button.twitter { ... } */
 
 body[data-theme="light"] .controls-top-right {
     background-color: rgba(253, 245, 230, 0.9);
@@ -309,7 +306,7 @@ body[data-theme="light"] .controls-top-right button:hover {
     background-color: #fffaf0;
 }
 
-/* --- ফুটারের টেক্সট কালার লাইট থিমের জন্য কালো করা হচ্ছে (আগের সমাধান অনুযায়ী) --- */
+/* --- ফুটারের টেক্সট কালার লাইট থিমের জন্য কালো করা হচ্ছে --- */
 body[data-theme="light"] #mainFooter,
 body[data-theme="light"] #mainFooter p,
 body[data-theme="light"] #mainFooter .dateTimeEntry,
