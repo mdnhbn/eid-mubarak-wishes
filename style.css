@@ -212,42 +212,46 @@ body[lang="ar"] .controls-top-right { right: auto; left: 15px; }
 .controls-top-right select:hover, .controls-top-right button:hover {
     border-color: #DAA520; background-color: #003f00;
 }
-
 /* ... (আগের সব CSS কোড অপরিবর্তিত থাকবে, শুধুমাত্র নিচের অংশটুকু পরিবর্তন হবে) ... */
 
 /* Light Theme Styles */
 body[data-theme="light"] {
-    background: linear-gradient(to bottom, #f0f8ff, #e6f7ff, #d9f2ff); /* হালকা আকাশি গ্রেডিয়েন্ট */
-    color: #333333; /* ডিফল্ট টেক্সট কালার লাইট থিমের জন্য (গাঢ় ধূসর) */
+    background: #f4f4f4; /* খুব হালকা ধূসর বা প্রায় সাদা ব্যাকগ্রাউন্ড */
+    color: #333333;    /* ডিফল্ট টেক্সট কালার (গাঢ় ধূসর) */
 }
 body[data-theme="light"] .container {
-    background-color: rgba(255, 255, 255, 0.95); /* প্রায় সাদা, সামান্য স্বচ্ছ */
-    border-color: #007bff; /* একটি মানানসই নীল রং */
-    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.15);
+    background-color: #ffffff; /* কন্টেইনারের জন্য সাদা ব্যাকগ্রাউন্ড */
+    border-color: #cccccc;     /* হালকা ধূসর বর্ডার */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* হালকা শ্যাডো */
 }
 body[data-theme="light"] #eidVideo {
-    border-color: #007bff;
-    background-color: #f0f8ff; /* ভিডিওর ব্যাকগ্রাউন্ড */
+    border-color: #cccccc;
+    background-color: #f0f0f0; /* ভিডিওর ব্যাকগ্রাউন্ড */
 }
 body[data-theme="light"] .greeting-message {
-    color: #0056b3; /* গাঢ় নীল */
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    color: #007bff; /* একটি উজ্জ্বল নীল রং */
+    text-shadow: none; /* লাইট থিমে টেক্সট শ্যাডো বাদ দেওয়া যেতে পারে */
 }
 
 body[data-theme="light"] label,
 body[data-theme="light"] #generatedLinkContainer p,
 body[data-theme="light"] .social-share-buttons p {
-     color: #0056b3; /* গাঢ় নীল */
+     color: #333333; /* গাঢ় ধূসর */
 }
 
 /* --- ফুটারের টেক্সট কালার লাইট থিমের জন্য মূল পরিবর্তন এখানে --- */
 body[data-theme="light"] footer {
-    color: #1c1c1c; /* খুব গাঢ় ধূসর, প্রায় কালো - এটি প্রধান পরিবর্তন */
+    color: #111111 !important; /* খুব গাঢ় ধূসর, প্রায় কালো এবং !important */
 }
 /* ফুটারের ভেতরের নির্দিষ্ট টেক্সট এলিমেন্টগুলোর জন্যও একই রং নিশ্চিত করা হচ্ছে */
-body[data-theme="light"] footer p[data-lang-key="eidWishesFooter"],
-body[data-theme="light"] .dateTimeEntry span {
-    color: #1c1c1c !important; /* !important যোগ করা হয়েছে যদি অন্য কোনো স্টাইল ওভাররাইড করে */
+body[data-theme="light"] footer p[data-lang-key="eidWishesFooter"] {
+    color: #111111 !important;
+}
+body[data-theme="light"] .dateTimeEntry { /* .dateTimeEntry div এর জন্য */
+    color: #111111 !important;
+}
+body[data-theme="light"] .dateTimeEntry span { /* এর ভেতরের span গুলোর জন্য */
+    color: #111111 !important;
 }
 /* --- উপরের অংশে পরিবর্তন শেষ --- */
 
@@ -255,52 +259,60 @@ body[data-theme="light"] .dateTimeEntry span {
 body[data-theme="light"] input[type="text"] {
     background-color: #ffffff;
     color: #333333;
-    border-color: #007bff;
+    border-color: #cccccc;
 }
 body[data-theme="light"] input[type="text"]::placeholder {
-    color: #6c757d; /* মাঝারি ধূসর */
+    color: #777777; /* মাঝারি ধূসর */
 }
 body[data-theme="light"] #statusMessage.success { background-color: #28a745; color:white;}
 body[data-theme="light"] #statusMessage.error { background-color: #dc3545; color:white;}
 body[data-theme="light"] #statusMessage.info { background-color: #17a2b8; color:white;}
 
 body[data-theme="light"] #generatedLinkContainer {
-    background-color: rgba(220, 235, 255, 0.8); /* হালকা নীল স্বচ্ছ */
-    border-color: #007bff;
+    background-color: #f9f9f9; /* হালকা ধূসর */
+    border-color: #dddddd;
 }
 body[data-theme="light"] #sharableLink {
     background-color: #ffffff;
     color: #333333;
-    border-color: #007bff;
+    border-color: #cccccc;
 }
-body[data-theme="light"] button#copyButton { /* কপি বাটনের স্টাইল লাইট থিমের জন্য */
-    background-color: #007bff;
+body[data-theme="light"] button#copyButton {
+    background-color: #007bff; /* নীল */
     color: white;
 }
 body[data-theme="light"] button#copyButton:hover {
-    background-color: #0056b3;
+    background-color: #0056b3; /* গাঢ় নীল */
+}
+body[data-theme="light"] button#generateButton { /* WhatsApp বাটন */
+    background-color: #25D366; /* WhatsApp সবুজ */
+    color: white;
+}
+body[data-theme="light"] button#generateButton:hover {
+    background-color: #1DAE54; /* গাঢ় WhatsApp সবুজ */
 }
 
 
 body[data-theme="light"] .controls-top-right {
-    background-color: rgba(220, 235, 255, 0.9); /* হালকা নীল স্বচ্ছ */
+    background-color: rgba(255, 255, 255, 0.9); /* সাদা, সামান্য স্বচ্ছ */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 body[data-theme="light"] .controls-top-right label {
-    color: #0056b3; /* গাঢ় নীল */
+    color: #333333; /* গাঢ় ধূসর */
 }
 body[data-theme="light"] .controls-top-right select,
 body[data-theme="light"] .controls-top-right button {
     background-color: #ffffff;
-    color: #0056b3; /* গাঢ় নীল */
-    border-color: #007bff;
+    color: #333333; /* গাঢ় ধূসর */
+    border-color: #cccccc;
 }
 body[data-theme="light"] .controls-top-right button svg {
-    fill: #0056b3; /* গাঢ় নীল */
+    fill: #333333; /* গাঢ় ধূসর */
 }
 body[data-theme="light"] .controls-top-right select:hover,
 body[data-theme="light"] .controls-top-right button:hover {
-    border-color: #0056b3;
-    background-color: #e6f2ff; /* হোভারে হালকা নীল */
+    border-color: #bbbbbb;
+    background-color: #f0f0f0;
 }
 
 /* ... (বাকি Responsive Media Queries অপরিবর্তিত থাকবে) ... */
