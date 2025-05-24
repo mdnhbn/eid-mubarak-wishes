@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="bn"> <!-- ডিফল্ট ভাষা, এটি JavaScript দ্বারা পরিবর্তিত হবে -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ঈদ মোবারক!</title> <!-- এটিও পরিবর্তিত হবে -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet"> <!-- সাধারণ Noto Sans -->
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body lang="bn">
+    <canvas id="fireworksCanvas"></canvas>
+    <audio id="backgroundMusic" src="eidmubarak.mp3" loop preload="metadata"></audio>
+
+    <div class="container">
+        <div id="greetingMessage" class="greeting-message"></div>
+        <video id="eidVideo" src="eidmubarak.mp4" autoplay loop muted playsinline preload="metadata">
+            Your browser does not support the video tag.
+        </video>
+        <div class="input-group">
+            <label for="userNameInput" data-lang-key="yourNameLabel">আপনার নাম লিখুন:</label>
+            <input type="text" id="userNameInput" data-lang-key="namePlaceholder" placeholder="এখানে আপনার নাম দিন">
+            <button id="generateButton" onclick="generateAndShareLink()" disabled>
+                <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.61 15.31 3.4 16.78L2 22L7.31 20.62C8.72 21.37 10.33 21.82 12.04 21.82C17.5 21.82 21.95 17.37 21.95 11.91C21.95 6.45 17.5 2 12.04 2M12.04 19.96C10.6 19.96 9.22 19.57 8.03 18.89L7.62 18.65L4.32 19.53L5.22 16.32L4.96 15.89C4.14 14.57 3.74 13.07 3.74 11.91C3.74 7.36 7.48 3.62 12.04 3.62C16.6 3.62 20.34 7.36 20.34 11.91C20.34 16.47 16.6 19.96 12.04 19.96M17.01 14.34C16.76 14.22 15.56 13.64 15.34 13.56C15.13 13.48 14.97 13.44 14.82 13.67C14.67 13.91 14.17 14.51 14.03 14.67C13.88 14.82 13.73 14.84 13.48 14.72C13.24 14.6 12.26 14.27 11.11 13.24C10.21 12.43 9.62 11.47 9.44 11.18C9.27 10.89 9.41 10.76 9.53 10.64C9.64 10.53 9.78 10.34 9.91 10.19C10.03 10.04 10.07 9.93 10.15 9.76C10.23 9.59 10.19 9.45 10.11 9.33C10.04 9.22 9.46 7.78 9.22 7.23C8.99 6.68 8.76 6.72 8.59 6.72H8.24C8.06 6.72 7.78 6.8 7.54 7.04C7.3 7.28 6.67 7.85 6.67 8.99C6.67 10.13 7.58 11.21 7.7 11.37C7.82 11.53 9.32 13.83 11.59 14.73C12.14 14.96 12.58 15.09 12.95 15.19C13.48 15.32 14.25 15.25 14.58 14.94C14.96 14.58 15.34 14.04 15.49 13.81C15.65 13.59 15.57 13.48 15.5 13.38C15.42 13.28 15.2 13.2 14.95 13.08C14.7 12.96 17.25 14.46 17.01 14.34Z"/></svg>
+                <span data-lang-key="shareButtonText">WhatsApp এ শেয়ার করুন</span>
+            </button>
+            <div id="statusMessage"></div>
+        </div>
+        <div id="generatedLinkContainer">
+            <p data-lang-key="shareLinkManualText">এই লিঙ্কটি বন্ধুদের সাথে শেয়ার করুন (যদি অটো-শেয়ার কাজ না করে):</p>
+            <input type="text" id="sharableLink" readonly>
+            <button id="copyButton" onclick="copyLink()" data-lang-key="copyButtonText">কপি করুন</button>
+        </div>
+    </div>
+    <footer>
+        <p data-lang-key="eidWishesFooter">সবাইকে ঈদের আন্তরিক শুভেচ্ছা!</p>
+        <div id="dateTimeDisplay">
+            <div class="dateTimeEntry">
+                <span id="currentTime"></span> | <span id="currentDate"></span>
+            </div>
+            <div class="dateTimeEntry">
+                <span id="currentHijriDate" data-lang-key="hijriDateLoading">ইসলামী তারিখ পরীক্ষা করা হচ্ছে...</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="hijri-date.js"></script>
+    <script src="fireworks.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

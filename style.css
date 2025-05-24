@@ -1,0 +1,55 @@
+/* আপনার আগের CSS কোড এখানে অপরিবর্তিত থাকবে */
+body {
+    font-family: 'Noto Sans', 'Arial', sans-serif; /* ডিফল্ট ফন্ট */
+    background: linear-gradient(to bottom, #001c00, #003800, #004d00);
+    color: #f0e68c;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    line-height: 1.6;
+}
+body[lang="bn"] { font-family: 'Noto Sans Bengali', 'Arial', sans-serif; }
+body[lang="en"] { font-family: 'Roboto', 'Arial', sans-serif; }
+body[lang="ar"] { font-family: 'Noto Sans Arabic', 'Arial', sans-serif; direction: rtl; }
+body[lang="es"] { font-family: 'Noto Sans', 'Arial', sans-serif; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+#fireworksCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+.container { background-color: rgba(1, 32, 1, 0.88); padding: 25px 20px; border-radius: 20px; box-shadow: 0 8px 25px rgba(255, 215, 0, 0.25); max-width: 500px; width: 90%; border: 2px solid #ffd700; position: relative; z-index: 1; margin-top: 3vh; margin-bottom: 3vh; }
+#eidVideo { width: 100%; max-height: 260px; object-fit: contain; border-radius: 15px; margin-bottom: 20px; border: 3px solid #ffd700; box-shadow: 0 0 12px rgba(255, 215, 0, 0.4); background-color: #001000; }
+.greeting-message { font-size: 2em; font-weight: 700; color: #fff; margin-bottom: 20px; text-shadow: 1px 1px 4px rgba(0,0,0,0.6); animation: fadeInGrow 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+@keyframes fadeInGrow { 0% { opacity: 0; transform: scale(0.7) translateY(25px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+.input-group { margin-top: 25px; margin-bottom: 15px; }
+label { display: block; margin-bottom: 8px; color: #f0e68c; font-weight: bold; font-size: 1.05em; }
+body[lang="ar"] label { text-align: right; }
+input[type="text"] { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid #ffd700; border-radius: 10px; font-size: 1em; background-color: #002a00; color: #fff; }
+body[lang="ar"] input[type="text"] { text-align: right; }
+input[type="text"]::placeholder { color: #b0a060; }
+button#generateButton { background-color: #25D366; color: #fff; padding: 12px 20px; border: none; border-radius: 10px; cursor: pointer; font-size: 1em; font-weight: bold; transition: background-color 0.2s ease, transform 0.15s ease, opacity 0.2s ease; letter-spacing: 0.5px; box-shadow: 0 3px 7px rgba(0,0,0,0.25); display: flex; align-items: center; justify-content: center; width: 100%; max-width: 280px; margin: 0 auto; }
+button#generateButton svg { width: 20px; height: 20px; margin-right: 8px; fill: #fff; }
+body[lang="ar"] button#generateButton svg { margin-left: 8px; margin-right: 0; }
+button#generateButton:disabled { background-color: #cccccc; color: #666666; cursor: not-allowed; opacity: 0.7; }
+button#generateButton:disabled svg { fill: #666666; }
+button#generateButton:not(:disabled):hover { background-color: #1DAE54; transform: translateY(-1px) scale(1.02); box-shadow: 0 5px 10px rgba(0,0,0,0.3); }
+button#generateButton:not(:disabled):active { transform: translateY(0px) scale(1); }
+#statusMessage { padding: 10px; margin-top: 10px; margin-bottom: 10px; border-radius: 8px; font-size: 0.9em; display: none; opacity: 0; transition: opacity 0.4s ease-in-out; }
+#statusMessage.success { background-color: #1DAE54; color: white; } #statusMessage.error { background-color: #d9534f; color: white; } #statusMessage.info { background-color: #5bc0de; color: white; }
+#generatedLinkContainer { margin-top: 15px; padding: 15px; background-color: rgba(0, 0, 0, 0.4); border-radius: 10px; border: 1px solid #DAA520; display: none; }
+body[lang="ar"] #generatedLinkContainer p { text-align: right; }
+#generatedLinkContainer p { color: #f0e68c; margin-bottom: 8px; font-size: 0.95em; }
+#sharableLink { width: calc(100% - 110px); padding: 10px; border: 1px solid #DAA520; border-radius: 8px; margin-right: 8px; background-color: #002a00; color: #fff; font-size: 0.95em;}
+body[lang="ar"] #sharableLink { margin-left: 8px; margin-right: 0; text-align: right; }
+button#copyButton { padding: 10px 15px; background-color: #B8860B; color: #fff; font-size: 0.95em; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.2s ease; }
+button#copyButton:hover { background-color: #DAA520; }
+footer { margin-top: 15px; font-size: 0.85em; color: #f0e68c; position: relative; z-index: 1; padding-bottom: 15px; }
+.dateTimeEntry { margin-top: 4px; font-size: 0.9em; } .dateTimeEntry span { margin: 0 3px; }
+
+@media (max-width: 480px) { .container { padding: 20px 15px; margin-top: 2vh; margin-bottom: 2vh; } #eidVideo { max-height: 220px; margin-bottom: 15px; } .greeting-message { font-size: 1.7em; margin-bottom: 15px; } label { font-size: 1em; } input[type="text"] { padding: 10px; font-size: 0.95em; } button#generateButton { padding: 10px 15px; font-size: 0.95em; max-width: 250px; } button#generateButton svg { width: 18px; height: 18px; } #statusMessage { font-size: 0.85em; } #sharableLink, button#copyButton { font-size: 0.9em; } footer { font-size: 0.8em; } .dateTimeEntry { font-size: 0.85em; } }
+@media (max-width: 360px) { .greeting-message { font-size: 1.5em; } #eidVideo { max-height: 180px; } }
