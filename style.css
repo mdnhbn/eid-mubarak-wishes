@@ -122,6 +122,33 @@ button#generateButton:disabled svg { fill: #666666; }
 button#generateButton:not(:disabled):hover { background-color: #1DAE54; transform: translateY(-1px) scale(1.02); box-shadow: 0 5px 10px rgba(0,0,0,0.3); }
 button#generateButton:not(:disabled):active { transform: translateY(0px) scale(1); }
 
+
+/* নতুন ই-কার্ড বাটনের স্টাইল */
+button#generateCardButton {
+    display: none; /* JS দিয়ে কন্ট্রোল করা হবে */
+    margin-top: 10px;
+    width: 100%;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 15px; /* generateButton থেকে একটু ছোট প্যাডিং */
+    font-size: 0.95em; /* generateButton থেকে একটু ছোট ফন্ট */
+    background-color: #B8860B; /* DarkGoldenRod - একটি উদাহরণ */
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold; /* generateButton এর সাথে মিল রাখতে */
+    transition: background-color 0.2s ease, transform 0.15s ease;
+    box-shadow: 0 3px 7px rgba(0,0,0,0.20); /* generateButton থেকে একটু কম শ্যাডো */
+}
+
+button#generateCardButton:hover {
+    background-color: #DAA520; /* GoldenRod - হোভারের জন্য */
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.25);
+}
+
 /* Status Message */
 #statusMessage {
     padding: 10px; margin-top: 10px; margin-bottom: 10px; border-radius: 8px;
@@ -283,6 +310,15 @@ body[data-theme="light"] button#generateButton:hover svg {
 }
 /* --- উপরের অংশে "WhatsApp এ শেয়ার করুন" বাটনের পরিবর্তন শেষ --- */
 
+/* লাইট থিমে নতুন ই-কার্ড বাটনের স্টাইল */
+body[data-theme="light"] button#generateCardButton {
+    background-color: #8B4513; /* SaddleBrown - লাইট থিমের জন্য */
+    color: white;
+}
+body[data-theme="light"] button#generateCardButton:hover {
+    background-color: #A0522D; /* Sienna - লাইট থিমের হোভার */
+}
+
 
 body[data-theme="light"] .controls-top-right {
     background-color: rgba(253, 245, 230, 0.9);
@@ -311,7 +347,7 @@ body[data-theme="light"] #mainFooter,
 body[data-theme="light"] #mainFooter p,
 body[data-theme="light"] #mainFooter .dateTimeEntry,
 body[data-theme="light"] #mainFooter .dateTimeEntry span {
-    color: #ffffff !important; /* সাদা রং */
+    color: #000000 !important; /* কালো রং */
 }
 
 /* Responsive Media Queries */
@@ -339,8 +375,11 @@ body[data-theme="light"] #mainFooter .dateTimeEntry span {
     .dateTimeEntry { font-size: 0.85em; }
     .social-button { padding: 7px 12px; font-size: 0.85em; }
     .social-button svg { width: 16px; height: 16px; }
+
+    button#generateCardButton { padding: 8px 12px; font-size: 0.9em; max-width: 250px; } /* Responsive Card Button */
 }
 @media (max-width: 360px) {
     .greeting-message { font-size: 1.5em; }
     #eidVideo { max-height: 180px; }
+    button#generateCardButton { font-size: 0.85em; } /* Smaller screen Card Button */
 }
