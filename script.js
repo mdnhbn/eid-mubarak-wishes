@@ -55,6 +55,7 @@ const translations = {
         'languageLabel': 'ভাষা:', 'themeDark': 'ডার্ক থিম', 'themeLight': 'লাইট থিম',
         'toggleMusicPlay': 'মিউজিক প্লে করুন', 'toggleMusicPause': 'মিউজিক বন্ধ করুন',
         'shareViaText': 'অন্যান্য মাধ্যমে শেয়ার করুন:', 'shareFacebookText': 'Facebook', 'shareTwitterText': 'Twitter/X',
+        'generateCardButtonText': 'ই-কার্ড তৈরি ও ডাউনলোড করুন', // নতুন টেক্সট
     },
     'en': {
         'pageTitle': 'Eid Mubarak!', 'greetingMessage': 'Eid Mubarak!', 'greetingMessageFrom': 'Eid Mubarak from {name}!',
@@ -73,6 +74,7 @@ const translations = {
         'languageLabel': 'Language:', 'themeDark': 'Dark Theme', 'themeLight': 'Light Theme',
         'toggleMusicPlay': 'Play Music', 'toggleMusicPause': 'Pause Music',
         'shareViaText': 'Share via other platforms:', 'shareFacebookText': 'Facebook', 'shareTwitterText': 'Twitter/X',
+        'generateCardButtonText': 'Create & Download E-Card', // নতুন টেক্সট
     },
     'ar': {
         'pageTitle': 'عيد مبارك!', 'greetingMessage': 'عيد مبارك!', 'greetingMessageFrom': 'عيد مبارك من {name}!',
@@ -91,6 +93,7 @@ const translations = {
         'languageLabel': 'اللغة:', 'themeDark': 'الوضع الداكن', 'themeLight': 'الوضع الفاتح',
         'toggleMusicPlay': 'تشغيل الموسيقى', 'toggleMusicPause': 'إيقاف الموسيقى',
         'shareViaText': 'شارك عبر منصات أخرى:', 'shareFacebookText': 'Facebook', 'shareTwitterText': 'Twitter/X',
+        'generateCardButtonText': 'إنشاء وتنزيل البطاقة الإلكترونية', // নতুন টেক্সট
     },
     'es': {
         'pageTitle': '¡Eid Mubarak!', 'greetingMessage': '¡Eid Mubarak!', 'greetingMessageFrom': '¡Eid Mubarak de parte de {name}!',
@@ -99,9 +102,8 @@ const translations = {
         'eidWishesFooter': '¡Saludos de Eid para todos!', 'timeLabel': 'Hora', 'dateLabel': 'Fecha',
         'hijriDateLabel': 'Fecha Islámica', 'hijriYearSuffix': 'H', 'statusEnterName': 'Por favor, introduce tu nombre.',
         'statusShareOptions': '¡Se muestran las opciones para compartir!', 'statusShareError': 'La opción de compartir falló o fue cancelada. Por favor, copia el enlace.',
-        'statusNoAutoShare': 'Tu navegador no soporta la compartición automática. Por favor, copia el enlace.',
-        'statusLinkCopied': '¡Enlace copiado con éxito!', 'statusLinkCopiedFallback': '¡Enlace copiado (alternativo)!',
-        'statusCopyError': 'Lo sentimos, no se pudo copiar el enlace. Por favor, cópialo manualmente.',
+        'statusNoAutoShare': 'Tu navegador no soporta la compartición automática. Por favor, copia el enlace.', 'statusLinkCopied': '¡Enlace copiado con éxito!',
+        'statusLinkCopiedFallback': '¡Enlace copiado (alternativo)!', 'statusCopyError': 'Lo sentimos, no se pudo copiar el enlace. Por favor, cópialo manualmente.',
         'hijriDateLoading': 'Comprobando fecha islámica...', 'hijriDateError': 'Error en la conversión de la fecha islámica.',
         'hijriCalcError': 'Error en el cálculo del mes islámico.', 'hijriNotLoaded': 'Calendario islámico no cargado.',
         'musicPlayError': 'No se pudo reproducir la música. Comprueba el sonido del dispositivo.',
@@ -111,6 +113,7 @@ const translations = {
         'languageLabel': 'Idioma:', 'themeDark': 'Tema Oscuro', 'themeLight': 'Tema Claro',
         'toggleMusicPlay': 'Reproducir Música', 'toggleMusicPause': 'Pausar Música',
         'shareViaText': 'Compartir en otras plataformas:', 'shareFacebookText': 'Facebook', 'shareTwitterText': 'Twitter/X',
+        'generateCardButtonText': 'Crear y Descargar Tarjeta Electrónica', // নতুন টেক্সট
     }
 };
 const countryToLangMap = { 'SA': 'ar', 'AE': 'ar', 'EG': 'ar', 'KW': 'ar', 'QA': 'ar', 'OM': 'ar', 'BH': 'ar', 'BD': 'bn', 'IN': 'en', 'PK': 'en', 'US': 'en', 'GB': 'en', 'CA': 'en', 'AU': 'en', 'ES': 'es', 'MX': 'es', 'AR': 'es', 'CO': 'es', };
@@ -132,6 +135,7 @@ let initialTimeSynced = false;
 let musicPlayAttemptedOnInteraction = false;
 let canAutoplayAudio = false;
 let statusTimeout;
+let sharerNameForCard = ''; // ই-কার্ডের জন্য নাম সংরক্ষণ করতে
 
 // DOM Element Selectors
 const backgroundMusic = document.getElementById('backgroundMusic');
@@ -152,7 +156,8 @@ const themeIconDark = document.getElementById('themeIconDark');
 const themeIconLight = document.getElementById('themeIconLight');
 const shareFacebookButton = document.getElementById('shareFacebook');
 const shareTwitterButton = document.getElementById('shareTwitter');
-const mainFooterElement = document.getElementById('mainFooter'); // ফুটার এলিমেন্ট সিলেক্ট করা
+const mainFooterElement = document.getElementById('mainFooter');
+const generateCardButton = document.getElementById('generateCardButton'); // নতুন বাটন সিলেক্ট করুন
 
 // --- Core Application Functions ---
 
@@ -204,7 +209,7 @@ async function determineLanguageAndLocation() {
     document.documentElement.lang = currentLang;
     if (document.body) document.body.lang = currentLang;
     if (languageSelector) languageSelector.value = currentLang;
-    applyTranslations();
+    // applyTranslations(); // onload এ কল হবে
 
     const urlParams = new URLSearchParams(window.location.search);
     const langParam = urlParams.get('lang');
@@ -237,7 +242,7 @@ async function determineLanguageAndLocation() {
     document.documentElement.lang = currentLang;
     if (document.body) document.body.lang = currentLang;
     userLocale = langToLocaleMap[currentLang] || (currentLang === 'bn' ? 'bn-BD' : 'en-US');
-    applyTranslations();
+    // applyTranslations(); // onload এ কল হবে
 }
 
 async function fetchCorrectTime() {
@@ -312,10 +317,10 @@ function updateGreetingMessageWithEid() {
         }
         finalPageTitle = getTranslation('pageTitle');
     }
-    greetingMessageEl.textContent = finalGreetingMessage;
+    greetingMessageEl.textContent = finalGreetingMessage; // textContent ব্যবহার XSS প্রতিরোধ করে
     if (document.title !== finalPageTitle) document.title = finalPageTitle;
     greetingMessageEl.style.animation = 'none';
-    greetingMessageEl.offsetHeight;
+    greetingMessageEl.offsetHeight; // Reflow to restart animation
     greetingMessageEl.style.animation = null;
 }
 
@@ -481,9 +486,8 @@ function setTheme(themeName) {
         }
     }
 
-    // Force footer text color via JavaScript for better control
     if (mainFooterElement) {
-        const colorToSet = themeName === 'light' ? '#000000' : '#f0e68c'; // Black for light, default for dark
+        const colorToSet = themeName === 'light' ? '#000000' : '#f0e68c';
         mainFooterElement.style.color = colorToSet;
         const footerParagraphs = mainFooterElement.getElementsByTagName('p');
         for (let p of footerParagraphs) {
@@ -493,9 +497,6 @@ function setTheme(themeName) {
         for (let span of footerSpans) {
             span.style.color = colorToSet;
         }
-        // console.log(`Footer text color set to ${colorToSet} for ${themeName} theme via JS.`);
-    } else {
-        // console.error("#mainFooter element not found for JS theming.");
     }
 }
 
@@ -521,8 +522,8 @@ function showStatusMessage(messageKey, type = 'info', duration = 3000, params = 
 function shareOnSocialMedia(platform) {
     const sharableLinkInput = document.getElementById('sharableLink');
     const linkToShare = (sharableLinkInput && sharableLinkInput.value) ? sharableLinkInput.value : window.location.href;
-    
-    let textToShare = document.title; 
+
+    let textToShare = document.title;
 
     const urlParams = new URLSearchParams(window.location.search);
     const sharerNameParamRaw = urlParams.get('name');
@@ -576,7 +577,7 @@ async function generateAndShareLink() {
         showStatusMessage("statusEnterName", "error");
         return;
     }
-    const userNameForDisplay = userNameRaw;
+    sharerNameForCard = userNameRaw; // নামটি গ্লোবাল ভেরিয়েবলে সংরক্ষণ করুন
 
     if (backgroundMusic && backgroundMusic.paused) {
         if (!musicPlayAttemptedOnInteraction) {
@@ -589,7 +590,7 @@ async function generateAndShareLink() {
     const currentUrl = new URL(window.location.href);
     currentUrl.searchParams.set('name', userNameRaw);
     const newLink = currentUrl.toString();
-    
+
     const sharableLinkInput = document.getElementById('sharableLink');
     if (sharableLinkInput) sharableLinkInput.value = newLink;
 
@@ -607,9 +608,9 @@ async function generateAndShareLink() {
 
     let shareTextBase;
     if (eidName) {
-        shareTextBase = getTranslation('greetingMessageFromEid', {name: userNameForDisplay, eidName: eidName, year: toNativeNumeral(currentGregorianYear, currentLang)});
+        shareTextBase = getTranslation('greetingMessageFromEid', {name: sharerNameForCard, eidName: eidName, year: toNativeNumeral(currentGregorianYear, currentLang)});
     } else {
-        shareTextBase = getTranslation('greetingMessageFrom', {name: userNameForDisplay});
+        shareTextBase = getTranslation('greetingMessageFrom', {name: sharerNameForCard});
     }
     const shareText = `${shareTextBase} ${newLink}`;
 
@@ -627,8 +628,14 @@ async function generateAndShareLink() {
         showManualLink(newLink);
         showStatusMessage('statusNoAutoShare', 'info', 4000);
     }
-    userNameInput.value = '';
-    generateButton.disabled = true;
+    userNameInput.value = ''; // ইনপুট ফিল্ড খালি করুন
+    generateButton.disabled = true; // শেয়ার বাটন ডিজেবল করুন
+
+    // নতুন ই-কার্ড বাটন দেখানোর কোড
+    if (generateCardButton) {
+        generateCardButton.style.display = 'block';
+        applyTranslations(); // Ensure the button text is translated if language changes before it's shown
+    }
 }
 
 function showManualLink(link) {
@@ -663,6 +670,16 @@ function copyLink() {
     }
 }
 
+// ই-কার্ড জেনারেট করার ফাংশন (প্রাথমিক)
+function generateECard() {
+    if (!sharerNameForCard) {
+        showStatusMessage('statusEnterName', 'error');
+        return;
+    }
+    alert(`ই-কার্ড তৈরি করার ফিচার শীঘ্রই আসছে! \nশুভেচ্ছান্তে: ${sharerNameForCard}`);
+    // পরবর্তী ধাপে এখানে ক্যানভাস ব্যবহার করে কার্ড তৈরির লজিক যুক্ত করা হবে
+}
+
 // --- Window Onload Event ---
 window.onload = async function() {
     if (document.body) {
@@ -671,9 +688,10 @@ window.onload = async function() {
     }
 
     await determineLanguageAndLocation();
+    applyTranslations(); // প্রাথমিক অনুবাদ প্রয়োগ
     await fetchCorrectTime();
-    initializeDateTimeDisplay(); // This calls updateTimeDate internally
-    updateGreetingMessageWithEid(); // Call after translations and time are set up
+    initializeDateTimeDisplay();
+    updateGreetingMessageWithEid();
 
     if (eidVideoEl) {
         eidVideoEl.muted = true;
@@ -721,7 +739,21 @@ window.onload = async function() {
         generateButton.disabled = true;
         userNameInput.addEventListener('input', function() {
             generateButton.disabled = userNameInput.value.trim() === "";
+            // যদি নাম লেখার সময় শেয়ার বাটন এনাবল হয়, তাহলে কার্ড বাটন হাইড করে দিন
+            if (generateCardButton && generateCardButton.style.display !== 'none') {
+                generateCardButton.style.display = 'none';
+            }
+            // যদি নাম মুছে ফেলা হয় এবং লিঙ্ক কন্টেইনার দৃশ্যমান থাকে, সেটাও হাইড করুন
+            const linkContainer = document.getElementById('generatedLinkContainer');
+            if(linkContainer && linkContainer.style.display !== 'none' && userNameInput.value.trim() === ""){
+                linkContainer.style.display = 'none';
+            }
         });
+    }
+
+    // নতুন: generateCardButton এর জন্য ইভেন্ট লিসেনার
+    if (generateCardButton) {
+        generateCardButton.addEventListener('click', generateECard);
     }
 
     if (typeof startFireworks === 'function' && typeof animateFireworks === 'function') {
