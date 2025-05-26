@@ -55,7 +55,12 @@ const translations = {
         'languageLabel': 'ভাষা:', 'themeDark': 'ডার্ক থিম', 'themeLight': 'লাইট থিম',
         'toggleMusicPlay': 'মিউজিক প্লে করুন', 'toggleMusicPause': 'মিউজিক বন্ধ করুন',
         'shareViaText': 'অন্যান্য মাধ্যমে শেয়ার করুন:', 'shareFacebookText': 'Facebook', 'shareTwitterText': 'Twitter/X',
-        'generateCardButtonText': 'ই-কার্ড তৈরি ও ডাউনলোড করুন', // নতুন টেক্সট
+        'generateCardButtonText': 'ই-কার্ড তৈরি ও ডাউনলোড করুন',
+        'statusGeneratingCard': 'ই-কার্ড তৈরি করা হচ্ছে...',
+        'statusCardGenerated': 'ই-কার্ড সফলভাবে তৈরি ও ডাউনলোড শুরু হয়েছে!',
+        'statusCardErrorGeneric': 'ই-কার্ড তৈরিতে সমস্যা হয়েছে।',
+        'statusCardImageError': 'ই-কার্ডের জন্য ছবি লোড করা যায়নি।',
+        'cardFromText': 'শুভেচ্ছান্তে: {name}',
     },
     'en': {
         'pageTitle': 'Eid Mubarak!', 'greetingMessage': 'Eid Mubarak!', 'greetingMessageFrom': 'Eid Mubarak from {name}!',
@@ -74,7 +79,12 @@ const translations = {
         'languageLabel': 'Language:', 'themeDark': 'Dark Theme', 'themeLight': 'Light Theme',
         'toggleMusicPlay': 'Play Music', 'toggleMusicPause': 'Pause Music',
         'shareViaText': 'Share via other platforms:', 'shareFacebookText': 'Facebook', 'shareTwitterText': 'Twitter/X',
-        'generateCardButtonText': 'Create & Download E-Card', // নতুন টেক্সট
+        'generateCardButtonText': 'Create & Download E-Card',
+        'statusGeneratingCard': 'Generating e-card...',
+        'statusCardGenerated': 'E-card generated successfully, download started!',
+        'statusCardErrorGeneric': 'Error generating e-card.',
+        'statusCardImageError': 'Could not load image for e-card.',
+        'cardFromText': 'Greetings from: {name}',
     },
     'ar': {
         'pageTitle': 'عيد مبارك!', 'greetingMessage': 'عيد مبارك!', 'greetingMessageFrom': 'عيد مبارك من {name}!',
@@ -93,7 +103,12 @@ const translations = {
         'languageLabel': 'اللغة:', 'themeDark': 'الوضع الداكن', 'themeLight': 'الوضع الفاتح',
         'toggleMusicPlay': 'تشغيل الموسيقى', 'toggleMusicPause': 'إيقاف الموسيقى',
         'shareViaText': 'شارك عبر منصات أخرى:', 'shareFacebookText': 'Facebook', 'shareTwitterText': 'Twitter/X',
-        'generateCardButtonText': 'إنشاء وتنزيل البطاقة الإلكترونية', // নতুন টেক্সট
+        'generateCardButtonText': 'إنشاء وتنزيل البطاقة الإلكترونية',
+        'statusGeneratingCard': 'جاري إنشاء البطاقة الإلكترونية...',
+        'statusCardGenerated': 'تم إنشاء البطاقة الإلكترونية بنجاح، بدأ التنزيل!',
+        'statusCardErrorGeneric': 'خطأ في إنشاء البطاقة الإلكترونية.',
+        'statusCardImageError': 'لم يتم تحميل الصورة للبطاقة الإلكترونية.',
+        'cardFromText': 'مع تحيات: {name}',
     },
     'es': {
         'pageTitle': '¡Eid Mubarak!', 'greetingMessage': '¡Eid Mubarak!', 'greetingMessageFrom': '¡Eid Mubarak de parte de {name}!',
@@ -113,7 +128,12 @@ const translations = {
         'languageLabel': 'Idioma:', 'themeDark': 'Tema Oscuro', 'themeLight': 'Tema Claro',
         'toggleMusicPlay': 'Reproducir Música', 'toggleMusicPause': 'Pausar Música',
         'shareViaText': 'Compartir en otras plataformas:', 'shareFacebookText': 'Facebook', 'shareTwitterText': 'Twitter/X',
-        'generateCardButtonText': 'Crear y Descargar Tarjeta Electrónica', // নতুন টেক্সট
+        'generateCardButtonText': 'Crear y Descargar Tarjeta Electrónica',
+        'statusGeneratingCard': 'Generando tarjeta electrónica...',
+        'statusCardGenerated': '¡Tarjeta electrónica generada con éxito, descarga iniciada!',
+        'statusCardErrorGeneric': 'Error al generar la tarjeta electrónica.',
+        'statusCardImageError': 'No se pudo cargar la imagen para la tarjeta electrónica.',
+        'cardFromText': 'Saludos de: {name}',
     }
 };
 const countryToLangMap = { 'SA': 'ar', 'AE': 'ar', 'EG': 'ar', 'KW': 'ar', 'QA': 'ar', 'OM': 'ar', 'BH': 'ar', 'BD': 'bn', 'IN': 'en', 'PK': 'en', 'US': 'en', 'GB': 'en', 'CA': 'en', 'AU': 'en', 'ES': 'es', 'MX': 'es', 'AR': 'es', 'CO': 'es', };
@@ -135,7 +155,7 @@ let initialTimeSynced = false;
 let musicPlayAttemptedOnInteraction = false;
 let canAutoplayAudio = false;
 let statusTimeout;
-let sharerNameForCard = ''; // ই-কার্ডের জন্য নাম সংরক্ষণ করতে
+let sharerNameForCard = '';
 
 // DOM Element Selectors
 const backgroundMusic = document.getElementById('backgroundMusic');
@@ -157,7 +177,7 @@ const themeIconLight = document.getElementById('themeIconLight');
 const shareFacebookButton = document.getElementById('shareFacebook');
 const shareTwitterButton = document.getElementById('shareTwitter');
 const mainFooterElement = document.getElementById('mainFooter');
-const generateCardButton = document.getElementById('generateCardButton'); // নতুন বাটন সিলেক্ট করুন
+const generateCardButton = document.getElementById('generateCardButton');
 
 // --- Core Application Functions ---
 
@@ -209,7 +229,6 @@ async function determineLanguageAndLocation() {
     document.documentElement.lang = currentLang;
     if (document.body) document.body.lang = currentLang;
     if (languageSelector) languageSelector.value = currentLang;
-    // applyTranslations(); // onload এ কল হবে
 
     const urlParams = new URLSearchParams(window.location.search);
     const langParam = urlParams.get('lang');
@@ -242,7 +261,6 @@ async function determineLanguageAndLocation() {
     document.documentElement.lang = currentLang;
     if (document.body) document.body.lang = currentLang;
     userLocale = langToLocaleMap[currentLang] || (currentLang === 'bn' ? 'bn-BD' : 'en-US');
-    // applyTranslations(); // onload এ কল হবে
 }
 
 async function fetchCorrectTime() {
@@ -317,10 +335,10 @@ function updateGreetingMessageWithEid() {
         }
         finalPageTitle = getTranslation('pageTitle');
     }
-    greetingMessageEl.textContent = finalGreetingMessage; // textContent ব্যবহার XSS প্রতিরোধ করে
+    greetingMessageEl.textContent = finalGreetingMessage;
     if (document.title !== finalPageTitle) document.title = finalPageTitle;
     greetingMessageEl.style.animation = 'none';
-    greetingMessageEl.offsetHeight; // Reflow to restart animation
+    greetingMessageEl.offsetHeight;
     greetingMessageEl.style.animation = null;
 }
 
@@ -509,7 +527,7 @@ function showStatusMessage(messageKey, type = 'info', duration = 3000, params = 
     if (!statusMessageDiv) return;
     clearTimeout(statusTimeout);
     statusMessageDiv.textContent = getTranslation(messageKey, params);
-    statusMessageDiv.className = '';
+    statusMessageDiv.className = 'status-message'; // Reset class
     statusMessageDiv.classList.add(type);
     statusMessageDiv.style.display = 'block';
     setTimeout(() => { statusMessageDiv.style.opacity = '1'; }, 10);
@@ -577,7 +595,7 @@ async function generateAndShareLink() {
         showStatusMessage("statusEnterName", "error");
         return;
     }
-    sharerNameForCard = userNameRaw; // নামটি গ্লোবাল ভেরিয়েবলে সংরক্ষণ করুন
+    sharerNameForCard = userNameRaw;
 
     if (backgroundMusic && backgroundMusic.paused) {
         if (!musicPlayAttemptedOnInteraction) {
@@ -628,13 +646,12 @@ async function generateAndShareLink() {
         showManualLink(newLink);
         showStatusMessage('statusNoAutoShare', 'info', 4000);
     }
-    userNameInput.value = ''; // ইনপুট ফিল্ড খালি করুন
-    generateButton.disabled = true; // শেয়ার বাটন ডিজেবল করুন
+    userNameInput.value = '';
+    generateButton.disabled = true;
 
-    // নতুন ই-কার্ড বাটন দেখানোর কোড
     if (generateCardButton) {
         generateCardButton.style.display = 'block';
-        applyTranslations(); // Ensure the button text is translated if language changes before it's shown
+        applyTranslations();
     }
 }
 
@@ -670,15 +687,107 @@ function copyLink() {
     }
 }
 
-// ই-কার্ড জেনারেট করার ফাংশন (প্রাথমিক)
-function generateECard() {
+// ই-কার্ড জেনারেট করার ফাংশন
+async function generateECard() {
     if (!sharerNameForCard) {
         showStatusMessage('statusEnterName', 'error');
         return;
     }
-    alert(`ই-কার্ড তৈরি করার ফিচার শীঘ্রই আসছে! \nশুভেচ্ছান্তে: ${sharerNameForCard}`);
-    // পরবর্তী ধাপে এখানে ক্যানভাস ব্যবহার করে কার্ড তৈরির লজিক যুক্ত করা হবে
+
+    showStatusMessage('statusGeneratingCard', 'info', 10000); // সময় বাড়িয়ে দিলাম
+
+    try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const posterImage = new Image();
+        const videoPosterUrl = eidVideoEl.poster;
+
+        if (!videoPosterUrl) {
+            console.error("Video poster URL not found for e-card generation!");
+            showStatusMessage('statusCardImageError', 'error');
+            return;
+        }
+        posterImage.crossOrigin = "anonymous"; // CORS এর জন্য
+
+        posterImage.onload = () => {
+            canvas.width = posterImage.naturalWidth;
+            canvas.height = posterImage.naturalHeight;
+            ctx.drawImage(posterImage, 0, 0);
+
+            // টেক্সট স্টাইল ও পজিশনিং
+            const greetingText = getTranslation('greetingMessage'); // "ঈদ মোবারক!"
+            const fromNameText = getTranslation('cardFromText', { name: sharerNameForCard }); // "শুভেচ্ছান্তে: {name}"
+
+            let greetingFontSize = Math.floor(canvas.height * 0.08);
+            let nameFontSize = Math.floor(canvas.height * 0.06);
+            let siteNameFontSize = Math.floor(canvas.height * 0.03);
+
+            // ফন্ট স্ট্রিং তৈরি
+            let primaryFontFamily = "'Noto Sans Bengali', 'Noto Sans', Arial, sans-serif";
+            if (currentLang === 'en') {
+                primaryFontFamily = "'Roboto', 'Noto Sans', Arial, sans-serif";
+            } else if (currentLang === 'ar') {
+                primaryFontFamily = "'Noto Sans Arabic', 'Noto Sans', Arial, sans-serif";
+            }
+
+
+            // "ঈদ মোবারক" টেক্সট
+            ctx.fillStyle = '#FFFFFF'; // সাদা রঙ
+            ctx.textAlign = 'center';
+            ctx.font = `bold ${greetingFontSize}px ${primaryFontFamily}`;
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+            ctx.shadowBlur = 7;
+            ctx.shadowOffsetX = 3;
+            ctx.shadowOffsetY = 3;
+            const greetingYPos = canvas.height * 0.25; // অবস্থান অ্যাডজাস্ট করতে পারেন
+            ctx.fillText(greetingText, canvas.width / 2, greetingYPos);
+
+            // নামের টেক্সট
+            ctx.font = `${nameFontSize}px ${primaryFontFamily}`;
+            // শ্যাডো আগের সেটিংসেই থাকবে, যদি না পরিবর্তন করা হয়
+            const nameYPos = greetingYPos + greetingFontSize + Math.floor(canvas.height * 0.04); // একটু বেশি গ্যাপ
+            ctx.fillText(fromNameText, canvas.width / 2, nameYPos);
+            
+            // শ্যাডো রিসেট (যদি পরের টেক্সটে শ্যাডো না চান)
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+
+            // ঐচ্ছিক: ওয়েবসাইটের নাম
+            ctx.font = `italic ${siteNameFontSize}px ${primaryFontFamily.split(',')[1] || 'Arial'}`; // একটু ভিন্ন ফন্ট
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            const siteName = window.location.hostname;
+            ctx.fillText(`Shared via: ${siteName}`, canvas.width / 2, canvas.height * 0.95);
+
+            // ডাউনলোড
+            const dataURL = canvas.toDataURL('image/png');
+            const downloadLink = document.createElement('a');
+            downloadLink.href = dataURL;
+            const sanitizedName = sharerNameForCard.replace(/[^a-z0-9א-תآ-ی]/gi, '_').toLowerCase(); // আরবি ও হিব্রু অক্ষরও সাপোর্ট করার চেষ্টা
+            downloadLink.download = `eid_card_${sanitizedName || 'greeting'}.png`;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+
+            showStatusMessage('statusCardGenerated', 'success');
+        };
+
+        posterImage.onerror = (e) => {
+            console.error("Error loading poster image for e-card:", e);
+            showStatusMessage('statusCardImageError', 'error');
+        };
+        
+        console.log("Attempting to load image from:", videoPosterUrl); // Debugging line
+        posterImage.src = videoPosterUrl;
+
+    } catch (error) {
+        console.error("Error in generateECard function:", error);
+        showStatusMessage('statusCardErrorGeneric', 'error');
+    }
 }
+
 
 // --- Window Onload Event ---
 window.onload = async function() {
@@ -688,7 +797,7 @@ window.onload = async function() {
     }
 
     await determineLanguageAndLocation();
-    applyTranslations(); // প্রাথমিক অনুবাদ প্রয়োগ
+    applyTranslations();
     await fetchCorrectTime();
     initializeDateTimeDisplay();
     updateGreetingMessageWithEid();
@@ -739,11 +848,9 @@ window.onload = async function() {
         generateButton.disabled = true;
         userNameInput.addEventListener('input', function() {
             generateButton.disabled = userNameInput.value.trim() === "";
-            // যদি নাম লেখার সময় শেয়ার বাটন এনাবল হয়, তাহলে কার্ড বাটন হাইড করে দিন
             if (generateCardButton && generateCardButton.style.display !== 'none') {
                 generateCardButton.style.display = 'none';
             }
-            // যদি নাম মুছে ফেলা হয় এবং লিঙ্ক কন্টেইনার দৃশ্যমান থাকে, সেটাও হাইড করুন
             const linkContainer = document.getElementById('generatedLinkContainer');
             if(linkContainer && linkContainer.style.display !== 'none' && userNameInput.value.trim() === ""){
                 linkContainer.style.display = 'none';
@@ -751,7 +858,6 @@ window.onload = async function() {
         });
     }
 
-    // নতুন: generateCardButton এর জন্য ইভেন্ট লিসেনার
     if (generateCardButton) {
         generateCardButton.addEventListener('click', generateECard);
     }
