@@ -1,5 +1,4 @@
 // ads.js
-
 // ফাংশন যা নির্দিষ্ট ID যুক্ত এলিমেন্টে অ্যাডের HTML বসাবে (সাধারণ ব্যানার অ্যাডের জন্য)
 function placeBannerAd(placeholderId, adHtml) {
   const placeholder = document.getElementById(placeholderId);
@@ -9,7 +8,6 @@ function placeBannerAd(placeholderId, adHtml) {
     console.error('Banner ad placeholder with ID "' + placeholderId + '" not found.');
   }
 }
-
 // বিশেষ ফাংশン যা স্ক্রিপ্ট ট্যাগ সহ HTML বসাবে এবং স্ক্রিপ্ট লোড করবে (জটিল ব্যানার অ্যাডের জন্য)
 function placeDynamicBannerAd(placeholderId, adHtmlString) {
     const placeholder = document.getElementById(placeholderId);
@@ -17,17 +15,14 @@ function placeDynamicBannerAd(placeholderId, adHtmlString) {
         // প্লেসহোল্ডারের আগের কন্টেন্ট মুছে ফেলা হচ্ছে
         while (placeholder.firstChild) {
             placeholder.removeChild(placeholder.firstChild);
-        }
-        
+        }        
         // নতুন HTML কন্টেন্ট যোগ করা হচ্ছে
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = adHtmlString;
-
         // HTML কন্টেন্ট প্লেসহোল্ডারে যোগ করা
         while (tempDiv.firstChild) {
             placeholder.appendChild(tempDiv.firstChild);
         }
-
         // প্লেসহোল্ডারের ভেতরের সব <script> ট্যাগ খুঁজে বের করা এবং সেগুলোকে এক্সিকিউট করা
         Array.from(placeholder.getElementsByTagName("script")).forEach(oldScript => {
             const newScript = document.createElement("script");
@@ -52,10 +47,7 @@ function placeDynamicBannerAd(placeholderId, adHtmlString) {
         console.error('Dynamic banner ad placeholder with ID "' + placeholderId + '" not found.');
     }
 }
-
-
 // --- ব্যানার অ্যাডগুলোর HTML স্ট্রিং ---
-
 // ১. Adsterra ব্যানার অ্যাড (স্থান ১)
 const adsterraAd1Html = `
   <script type="text/javascript">
@@ -69,7 +61,6 @@ const adsterraAd1Html = `
   <\/script> 
   <script type="text/javascript" src="//genuinelyunacceptableweep.com/083daa680b95934e474dba6b9a43263b/invoke.js"><\/script>
 `;
-
 // ২. Mondiad রেফারেল ব্যানার
 const mondiadReferralAdHtml = `
   <div style="text-align: center; margin-bottom: 15px; position: relative; z-index: 4;">
@@ -78,12 +69,10 @@ const mondiadReferralAdHtml = `
     </a>
   </div>
 `;
-
 // ৩. Advertica.com ব্যানার অ্যাড (স্থান ২)
 const adverticaAdHtml = `
   <ins style="width: 468px;height:60px" data-width="468" data-height="60" class="ga52fbdf917" data-domain="//data369.click" data-affquery="/1f0c5c8df4e2fb73a05d/a52fbdf917/?placementName=default"><script src="//data369.click/js/responsive.js" async><\/script></ins>
 `;
-
 // ৪. Aviso.bz অ্যাড
 const avisoAdHtml = `
   <div style="text-align: center; margin-top: 15px; margin-bottom: 10px;">
@@ -92,9 +81,7 @@ const avisoAdHtml = `
     </a>
   </div>
 `;
-
 // --- অন্যান্য থার্ড-পার্টি স্ক্রিপ্ট লোড করার ফাংশন ---
-
 // Popcash অ্যাড লোড করার ফাংশন
 function loadPopcashAd() {
   try {
@@ -117,7 +104,6 @@ function loadPopcashAd() {
     console.error("Error loading Popcash ad:", e);
   }
 }
-
 // Adcash Autotag লোড করার ফাংশন
 function loadAdcashAutotag() {
   // নিশ্চিত করা হচ্ছে যে aclib (Adcash লাইব্রেরি) লোড হয়েছে
@@ -149,17 +135,14 @@ function loadAdcashAutotag() {
     setTimeout(attemptLoad, interval); // প্রথম চেষ্টা শুরু
   }
 }
-
 // DOM লোড হওয়ার পর সব অ্যাড এবং স্ক্রিপ্ট লোড করা হবে
 document.addEventListener('DOMContentLoaded', function() {
   // console.log("DOM fully loaded. Initiating ads from ads.js");
-
   // ব্যানার অ্যাডগুলো বসানো হচ্ছে
   placeDynamicBannerAd('adsterraAd1Placeholder', adsterraAd1Html);
   placeBannerAd('mondiadReferralAdPlaceholder', mondiadReferralAdHtml);
   placeDynamicBannerAd('adverticaAdPlaceholder', adverticaAdHtml);
   placeBannerAd('avisoAdPlaceholder', avisoAdHtml);
-
   // অন্যান্য থার্ড-পার্টি স্ক্রিপ্ট লোড করা হচ্ছে
   loadPopcashAd();
   loadAdcashAutotag(); 
