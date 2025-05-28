@@ -7,9 +7,7 @@ let fireworks = [];
 let particles = [];
 const fireworkLaunchProbability = 0.025;
 const maxFireworksAtOnce = 5;
-
 function random(min, max) { return Math.random() * (max - min) + min; }
-
 function Firework(startX, startY, targetX, targetY) {
     this.x = startX;
     this.y = startY;
@@ -29,7 +27,6 @@ function Firework(startX, startY, targetX, targetY) {
     this.color = `hsl(${this.hue}, 100%, ${this.brightness}%)`;
     this.lineWidth = random(1, 3);
 }
-
 Firework.prototype.update = function(index) {
     this.trail.push({ x: this.x, y: this.y, alpha: 1, lineWidth: this.lineWidth });
     if (this.trail.length > 10) {
@@ -47,7 +44,6 @@ Firework.prototype.update = function(index) {
         this.y += vy;
     }
 };
-
 Firework.prototype.draw = function() {
     ctx.beginPath();
     if (this.trail.length > 0) {
@@ -71,7 +67,6 @@ Firework.prototype.draw = function() {
         ctx.fill();
     }
 };
-
 function Particle(x, y, hue) {
     this.x = x;
     this.y = y;
@@ -85,7 +80,6 @@ function Particle(x, y, hue) {
     this.decay = random(0.015, 0.035);
     this.size = random(1, 4);
 }
-
 Particle.prototype.update = function(index) {
     this.speed *= this.friction;
     this.x += Math.cos(this.angle) * this.speed;
@@ -95,7 +89,6 @@ Particle.prototype.update = function(index) {
         particles.splice(index, 1);
     }
 };
-
 Particle.prototype.draw = function() {
     ctx.save();
     ctx.globalAlpha = this.alpha;
@@ -105,14 +98,12 @@ Particle.prototype.draw = function() {
     ctx.fill();
     ctx.restore();
 };
-
 function createParticles(x, y, hue) {
     let particleCount = 100 + Math.floor(random(0, 50));
     while (particleCount--) {
         particles.push(new Particle(x, y, hue));
     }
 }
-
 function launchFirework() {
     if (fireworks.length < maxFireworksAtOnce && Math.random() < fireworkLaunchProbability) {
         const startX = random(canvas.width * 0.2, canvas.width * 0.8);
@@ -122,7 +113,6 @@ function launchFirework() {
         fireworks.push(new Firework(startX, startY, targetX, targetY));
     }
 }
-
 function startFireworks() {
     for (let i = 0; i < 3 + Math.floor(random(0,3)); i++) {
         setTimeout(() => {
@@ -134,7 +124,6 @@ function startFireworks() {
         }, i * (200 + random(0, 200)));
     }
 }
-
 function animateFireworks() {
     requestAnimationFrame(animateFireworks);
     ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
@@ -149,7 +138,6 @@ function animateFireworks() {
         particle.draw();
     });
 }
-
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
