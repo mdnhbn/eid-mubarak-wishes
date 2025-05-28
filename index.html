@@ -12,18 +12,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="responsive.css">
     <!-- Mondiad Interstitial অ্যাড কোড (index.html <head> এ থাকবে) -->
-    <script async src="https://ss.mrmnd.com/interstitial.js" data-mndlstid="383d9a14-d36a-4448-a916-56324cc4bch2"></script>
-    
+    <script async src="https://ss.mrmnd.com/interstitial.js" data-mndlstid="383d9a14-d36a-4448-a916-56324cc4bch2"></script>    
     <!-- Adcash লাইব্রেরি লোডিং স্ক্রিপ্ট (index.html <head> এ থাকবে) -->
-    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
-    
+    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>    
 </head>
 <body lang="bn" data-theme="dark">
     <canvas id="fireworksCanvas"></canvas>
     <audio id="backgroundMusic" src="eidmubarak.mp3" loop preload="metadata"></audio>
-
     <div class="controls-top-right">
         <div class="control-group">
             <label for="languageSelector" data-lang-key="languageLabel">ভাষা:</label>
@@ -45,11 +42,9 @@
             </button>
         </div>
     </div>
-
     <!-- অ্যাড প্লেসহোল্ডারগুলো -->
     <div id="adsterraAd1Placeholder" style="text-align: center; margin-bottom: 15px; position: relative; z-index: 5;"></div>
     <div id="mondiadReferralAdPlaceholder"></div>
-
     <div class="container">
         <div id="greetingMessage" class="greeting-message"></div>
         <video id="eidVideo" src="eidmubarak.mp4" poster="poster_image.jpg" autoplay loop muted playsinline preload="metadata">
@@ -85,7 +80,6 @@
             </div>
         </div>
     </div>
-
     <footer id="mainFooter">
         <p data-lang-key="eidWishesFooter">সবাইকে ঈদের আন্তরিক শুভেচ্ছা!</p>
         <div id="dateTimeDisplay">
@@ -98,20 +92,16 @@
         </div>
         <div id="avisoAdPlaceholder"></div> <!-- Aviso অ্যাডের প্লেসহোল্ডার -->
     </footer>
-
     <!-- আপনার সাইটের প্রধান স্ক্রিপ্টগুলো -->
     <script src="hijri-date.js" defer></script>
     <script src="fireworks.js" defer></script>
-    <script src="script.js" defer></script>
-    
+    <script src="script.js" defer></script>    
     <!-- Vercel Analytics স্ক্রিপ্ট -->
     <script>
       window.va = window.va || function () { (window.va.q = window.va.q || []).push(arguments); };
     </script>
     <script src="/_vercel/insights/script.js" defer></script>
-
     <!-- আপনার তৈরি করা ads.js ফাইল (সবচেয়ে শেষে লোড করা ভালো) -->
     <script src="ads.js" defer></script>
-
 </body>
 </html>
