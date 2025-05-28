@@ -1,0 +1,33 @@
+/* Responsive Media Queries */
+@media (max-width: 600px) {
+    .controls-top-right {
+        top: 10px; right: 10px; flex-direction: column;
+        align-items: flex-end; gap: 8px; padding: 6px;
+    }
+    body[lang="ar"] .controls-top-right { right: auto; left: 10px; align-items: flex-start; }
+    .control-group { gap: 5px; }
+    .controls-top-right select, .controls-top-right button { padding: 4px 6px; font-size: 0.8em; }
+    .controls-top-right button svg { width: 16px; height: 16px; }
+}
+@media (max-width: 480px) {
+    .container { padding: 20px 15px; margin-top: 2vh; margin-bottom: 2vh; }
+    #eidVideo { max-height: 220px; margin-bottom: 15px; }
+    .greeting-message { font-size: 1.7em; margin-bottom: 15px; }
+    label { font-size: 1em; }
+    input[type="text"] { padding: 10px; font-size: 0.95em; }
+    button#generateButton { padding: 10px 15px; font-size: 0.95em; max-width: 250px; }
+    button#generateButton svg { width: 18px; height: 18px; }
+    #statusMessage { font-size: 0.85em; }
+    #sharableLink, button#copyButton { font-size: 0.9em; }
+    #mainFooter { font-size: 0.8em; }
+    .dateTimeEntry { font-size: 0.85em; }
+    .social-button { padding: 7px 12px; font-size: 0.85em; }
+    .social-button svg { width: 16px; height: 16px; }
+
+    button#generateCardButton { padding: 8px 12px; font-size: 0.9em; max-width: 250px; } /* Responsive Card Button */
+}
+@media (max-width: 360px) {
+    .greeting-message { font-size: 1.5em; }
+    #eidVideo { max-height: 180px; }
+    button#generateCardButton { font-size: 0.85em; } /* Smaller screen Card Button */
+}
