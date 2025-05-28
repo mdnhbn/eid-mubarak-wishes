@@ -1,27 +1,26 @@
 <!DOCTYPE html>
-<html lang="bn"> <!-- ডিফল্ট ভাষা, এটি JavaScript দ্বারা পরিবর্তিত হবে -->
+<html lang="bn">
 <head>
     <meta name="mnd-ver" content="lnxs9m6ryu37yqbopjtq" />
     <meta name="ppck-ver" content="c8853afdc35696dcd59afc7014c3ce7c" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ঈদ মোবারক!</title> <!-- এটিও পরিবর্তিত হবে -->
+    <title>ঈদ মোবারক!</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet"> <!-- সাধারণ Noto Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 
-    <!-- Mondiad Interstitial অ্যাড কোড শুরু -->
+    <!-- Mondiad Interstitial অ্যাড কোড (index.html <head> এ থাকবে) -->
     <script async src="https://ss.mrmnd.com/interstitial.js" data-mndlstid="383d9a14-d36a-4448-a916-56324cc4bch2"></script>
-    <!-- Mondiad Interstitial অ্যাড কোড শেষ -->
-
-    <!-- Adcash লাইব্রেরি লোডিং স্ক্রিপ্ট (Step 1) -->
+    
+    <!-- Adcash লাইব্রেরি লোডিং স্ক্রিপ্ট (index.html <head> এ থাকবে) -->
     <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
     
 </head>
-<body lang="bn" data-theme="dark"> <!-- data-theme অ্যাট্রিবিউট ডিফল্ট ডার্ক -->
+<body lang="bn" data-theme="dark">
     <canvas id="fireworksCanvas"></canvas>
     <audio id="backgroundMusic" src="eidmubarak.mp3" loop preload="metadata"></audio>
 
@@ -47,28 +46,9 @@
         </div>
     </div>
 
-    <!-- Adsterra ব্যানার অ্যাড - স্থান ১ (কন্টেইনারের উপরে) -->
-    <div style="text-align: center; margin-bottom: 15px; position: relative; z-index: 5;">
-        <script type="text/javascript">
-            atOptions = {
-                'key' : '083daa680b95934e474dba6b9a43263b',
-                'format' : 'iframe',
-                'height' : 60,
-                'width' : 468,
-                'params' : {}
-            };
-        </script>
-        <script type="text/javascript" src="//genuinelyunacceptableweep.com/083daa680b95934e474dba6b9a43263b/invoke.js"></script>
-    </div>
-    <!-- Adsterra ব্যানার অ্যাড - স্থান ১ শেষ -->
-
-    <!-- নতুন Mondiad রেফারেল ব্যানার শুরু -->
-    <div style="text-align: center; margin-bottom: 15px; position: relative; z-index: 4;">
-        <a href="https://mondiad.com?refid=24765" target="_blank" rel="noopener noreferrer" title="Mondiad.com">
-          <img src="https://publisher.mondiad.com/img/promo/728x90/17.gif" alt="Mondiad.com" style="max-width: 100%; height: auto; border: 0;">
-        </a>
-    </div>
-    <!-- নতুন Mondiad রেফারেল ব্যানার শেষ -->    
+    <!-- অ্যাড প্লেসহোল্ডারগুলো -->
+    <div id="adsterraAd1Placeholder" style="text-align: center; margin-bottom: 15px; position: relative; z-index: 5;"></div>
+    <div id="mondiadReferralAdPlaceholder"></div>
 
     <div class="container">
         <div id="greetingMessage" class="greeting-message"></div>
@@ -86,18 +66,12 @@
                 <span data-lang-key="generateCardButtonText">ই-কার্ড তৈরি ও ডাউনলোড করুন</span>
             </button>
             <div id="statusMessage"></div>
-
-            <!-- Advertica.com ব্যানার অ্যাড - স্থান ২ (ইনপুট গ্রুপের নিচে) -->
-<div style="text-align: center; margin-top: 20px;">
-    <ins style="width: 468px;height:60px" data-width="468" data-height="60" class="ga52fbdf917" data-domain="//data369.click" data-affquery="/1f0c5c8df4e2fb73a05d/a52fbdf917/?placementName=default"><script src="//data369.click/js/responsive.js" async></script></ins>
-</div>
-<!-- Advertica.com ব্যানার অ্যাড - স্থান ২ শেষ --
+            <div id="adverticaAdPlaceholder" style="text-align: center; margin-top: 20px;"></div>
         </div>
         <div id="generatedLinkContainer">
             <p data-lang-key="shareLinkManualText">এই লিঙ্কটি বন্ধুদের সাথে শেয়ার করুন (যদি অটো-শেয়ার কাজ না করে):</p>
             <input type="text" id="sharableLink" readonly>
             <button id="copyButton" onclick="copyLink()" data-lang-key="copyButtonText">কপি করুন</button>
-
             <div class="social-share-buttons">
                 <p data-lang-key="shareViaText">অন্যান্য মাধ্যমে শেয়ার করুন:</p>
                 <button id="shareFacebook" class="social-button facebook" aria-label="Share on Facebook">
@@ -110,7 +84,7 @@
                 </button>
             </div>
         </div>
-    </div> <!-- .container এর ক্লোজিং div -->
+    </div>
 
     <footer id="mainFooter">
         <p data-lang-key="eidWishesFooter">সবাইকে ঈদের আন্তরিক শুভেচ্ছা!</p>
@@ -122,43 +96,22 @@
                 <span id="currentHijriDate" data-lang-key="hijriDateLoading">ইসলামী তারিখ পরীক্ষা করা হচ্ছে...</span>
             </div>
         </div>
-
-        <!-- Aviso.bz Ad (A-468-2.gif) START - মার্ক করা জায়গায় -->
-        <div style="text-align: center; margin-top: 15px; margin-bottom: 10px;">
-            <a href="https://aviso.bz/?r=fiamrhack" target="_blank"><img src="https://aviso.bz/statica/pictures/A-468-2.gif" style="width:468px; height:60px;" alt="aviso | advertising service"></a>
-        </div>
-        <!-- Aviso.bz Ad (A-468-2.gif) END -->
-        
+        <div id="avisoAdPlaceholder"></div> <!-- Aviso অ্যাডের প্লেসহোল্ডার -->
     </footer>
 
+    <!-- আপনার সাইটের প্রধান স্ক্রিপ্টগুলো -->
     <script src="hijri-date.js" defer></script>
     <script src="fireworks.js" defer></script>
     <script src="script.js" defer></script>
-
-    <!-- Popcash স্ট্যান্ডার্ড অ্যাড কোড শুরু -->
-    <script type="text/javascript">
-       var uid = '205147';
-       var wid = '740634';
-       var pop_fback = 'up';
-       var pop_tag = document.createElement('script');pop_tag.src='//cdn.popcash.net/show.js';document.body.appendChild(pop_tag);
-       pop_tag.onerror = function() {pop_tag = document.createElement('script');pop_tag.src='//cdn2.popcash.net/show.js';document.body.appendChild(pop_tag)};
-    </script>
-    <!-- Popcash স্ট্যান্ডার্ড অ্যাড কোড শেষ -->
-
-    <!-- Adcash Autotag অ্যাড কোড শুরু -->
-    <script type="text/javascript">
-        aclib.runAutoTag({
-            zoneId: '3f2oyvh14',
-        });
-    </script>
-    <!-- Adcash Autotag অ্যাড কোড শেষ -->
-
-            <!-- Vercel Analytics Scripts START -->
+    
+    <!-- Vercel Analytics স্ক্রিপ্ট -->
     <script>
       window.va = window.va || function () { (window.va.q = window.va.q || []).push(arguments); };
     </script>
     <script src="/_vercel/insights/script.js" defer></script>
-    <!-- Vercel Analytics Scripts END -->
+
+    <!-- আপনার তৈরি করা ads.js ফাইল (সবচেয়ে শেষে লোড করা ভালো) -->
+    <script src="ads.js" defer></script>
 
 </body>
 </html>
